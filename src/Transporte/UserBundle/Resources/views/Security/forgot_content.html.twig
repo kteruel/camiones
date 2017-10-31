@@ -1,0 +1,43 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div id="forgot-box" class="forgot-box widget-box no-border">
+    <div class="widget-body">
+        <div class="widget-main">
+            <h4 class="header red lighter bigger">
+                <i class="icon-key"></i>
+                {{ 'resetting.box_title' | trans }}
+            </h4>
+
+            <div class="space-6"></div>
+            <p>
+                {{ 'resetting.form.label' | trans }}
+            </p>
+
+            <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+                <fieldset>
+                    <label class="block clearfix">
+                        <span class="block input-icon input-icon-right">
+                            <input type="text" id="username" class="form-control" name="username" placeholder="{{ 'resetting.form.placeholder' | trans }}" required="required"/>
+                            <i class="icon-envelope"></i>
+                        </span>
+                    </label>
+
+                    <div class="clearfix">
+                        <button type="submit" class="width-35 pull-right btn btn-sm btn-danger">
+                            <i class="icon-lightbulb"></i>
+                            {{ 'resetting.form.submit' | trans }}
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div><!-- /widget-main -->
+
+        <div class="toolbar center">
+            <a href="#" onclick="show_box('login-box');
+               return false;" class="back-to-login-link">
+               {{ 'resetting.form.back' | trans }}
+               <i class="icon-arrow-right"></i>
+           </a>
+        </div>
+    </div><!-- /widget-body -->
+</div><!-- /forgot-box -->

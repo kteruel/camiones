@@ -1,0 +1,14 @@
+<ul>
+    {% for m in menu %}
+        {% set menu_path = m.arguments is defined ? path(m.path, m.arguments) : m.path is defined ? path(m.path) : "#" %}
+        <li {% if menu_path == current_path %}class="active"{% endif %}>
+            <a href="{{ (m.submenu is defined)? '#' : menu_path }}" title="{{ m.name }}">
+                <i class="fa fa-lg fa-fw fa-{{ (m.icon is defined)? m.icon: 'arrow-circle-right' }}"></i>
+                <span class="menu-item-parent">{{ m.name }}</span>
+            </a>
+            {% if m.submenu is defined %}
+                {% include ":default:_menu.html.twig" with { 'menu' : m.submenu } %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

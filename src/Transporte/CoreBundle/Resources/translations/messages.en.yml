@@ -1,0 +1,6 @@
+user:
+  widget_name: User
+  edit:
+    page_header: Edit User
+    back: Back to the list
+    submit: Edit

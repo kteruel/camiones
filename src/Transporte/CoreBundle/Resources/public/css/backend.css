@@ -1,0 +1,28 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 01/10/2016, 15:49:38
+    Author     : oper
+*/
+
+.table-show > tbody > tr > td{
+    padding-left: 10px;
+}
+
+.transferencia-anulada{
+    color: red;
+}
+
+.profile-link-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 5;
+}
+
+.note-editor.note-frame .note-editing-area {
+    cursor: text;
+}

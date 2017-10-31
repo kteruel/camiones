@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="{{ locale }}">
+<head>
+
+	<meta charset="utf-8">
+	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<title>Home</title>
+
+	<meta name="description" content="PSD to HTML5+CSS3 conversion.">
+	<meta name="keywords" content="PSD, HTML5, CSS3">
+	<meta name="author" content="Vivaco">
+
+        {% block stylesheets %}
+            {% include ":frontend:stylesheets.html.twig" %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+        {% block javascripts %}
+            {% include ":frontend:javascripts.html.twig" %}
+        {% endblock %}
+    </body>
+</html>

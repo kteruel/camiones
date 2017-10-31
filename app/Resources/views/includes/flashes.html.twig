@@ -1,0 +1,20 @@
+{% set flashBags = app.session.flashBag.all %}
+{% if flashBags|length > 0 %}
+    {% for key,  messages in flashBags %}
+        {% for message in messages %}
+            <div class="alert alert-{{ key }}{% if key == "error" %} alert-danger{% endif %} fade in">
+                <button class="close" data-dismiss="alert">
+                    ×
+                </button>
+                {% if key == 'warning' or key == 'info' %}
+                    <i class="fa-fw fa fa-{{ key }}"></i>
+                {% elseif key == 'error' %}
+                    <i class="fa-fw fa fa-times"></i>
+                {% elseif key == 'success' %}
+                    <i class="fa-fw fa fa-check"></i>
+                {% endif %}
+                {{ message|raw }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,17 @@
+{% trans_default_domain 'CoreBundle' %}
+
+<!-- SHORTCUT AREA : With large tiles (activated via clicking user name tag)
+Note: These tiles are completely responsive,
+you can add as many as you like
+-->
+<div id="shortcut">
+    <ul>
+        <li>
+            <a href="{{ path('fos_user_profile_show') }}" class="jarvismetro-tile big-cubes bg-color-pinkDark {% if current_path == path('fos_user_profile_show') %}selected{% endif %}"> <span class="iconbox"> <i class="fa fa-user fa-4x"></i> <span>{{ 'shortcut.myprofile' | trans }}</span> </span> </a>
+        </li>
+        <li>
+            <a href="{{ path('fos_user_security_logout') }}" class="jarvismetro-tile big-cubes bg-color-blueDark"> <span class="iconbox"> <i class="fa fa-sign-out fa-4x"></i> <span>{{ 'shortcut.logout' | trans }}</span> </span> </a>
+        </li>
+    </ul>
+</div>
+<!-- END SHORTCUT AREA -->

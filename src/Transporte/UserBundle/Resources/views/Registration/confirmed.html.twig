@@ -1,0 +1,17 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_container %}
+    <div class="smart-form">
+        <header>{{ 'register.confirmed.title'|trans }}</header>
+        <fieldset>
+            <p>{{ 'register.confirmed.message'|trans({'%username%': user.username}) }}</p>
+        </fieldset>
+        {% if targetUrl %}
+        <footer>
+            <a class="btn btn-primary" href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a>
+        </footer>
+        {% endif %}
+    </div>
+{% endblock %}

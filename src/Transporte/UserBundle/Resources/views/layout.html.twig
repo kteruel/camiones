@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {% include "::stylesheets.html.twig" %}
+{% endblock %}
+
+{% block body %}
+
+    <!-- HEADER -->
+    <header id="header">
+        <div id="logo-group">
+
+            <!-- PLACE YOUR LOGO HERE -->
+            <span id="logo">
+                <a href="{{ url_web }}" target="_blank">
+                    <img src="{{ asset('bundles/core/images/logo.png') }}" height="35" alt="Transporte" title="Transporte" />
+                </a>
+            </span>
+        </div>
+    </header>
+    <!-- END HEADER -->
+
+    {% block fos_user_content %}
+        {% if error is defined and error %}
+            <div class="alert alert-danger fade in">
+                <button data-dismiss="alert" class="close">×</button>
+                <i class="fa-fw fa fa-times"></i>
+                <strong>Error!</strong> {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <div id="content" class="container">
+            <div class="row">
+                <div class="col-md-3 col-lg-4"></div>
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+                    <div class="well no-padding">
+                        {% block fos_user_container %}
+                        {% endblock %}
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-4"></div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {{ include('CoreBundle:Default:footer.html.twig', {'fullWidth': true}) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {% include "::javascripts.html.twig" %}
+{% endblock %}

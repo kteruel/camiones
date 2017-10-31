@@ -1,0 +1,90 @@
+{% block extends %}
+{{ "{% extends 'CoreBundle:Default:backend.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% trans_default_domain '" ~ bundle ~ "' %}" }}
+
+{{ "{% block pageHeader %}{{ '" ~ bundle|slice(0,bundle|length-6)|lower ~ "." ~ entity_singularized|lower ~ ".page_header'|trans }}{% endblock %}" }}
+
+{{ "{% block iconPageHeader %}{% endblock %}" }}
+
+{{ "{% block widgetName %}{{ '" ~ bundle|slice(0,bundle|length-6)|lower ~ "." ~ entity_singularized|lower ~ ".index.widget_name'|trans }} {% endblock %}" }}
+
+{{ "{% block widgetIcon %}table{% endblock %}" }}
+
+{{ "{% block widgetBody %}" }}
+    <table id="dataTable" class="table table-striped table-bordered" width="100%">
+        <thead>
+            <tr>
+            {%- for field, metadata in fields %}
+
+                <th>{{ field|capitalize }}</th>
+
+            {%- endfor %}
+                <th>{{ "{{ 'table.header.actions' | trans({},'CoreBundle') }}" }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_pluralized ~ ' %}' }}
+            <tr>
+
+        {%- for field, metadata in fields %}
+            {%- if loop.first and ('show' in actions) %}
+
+                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}">{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+            {%- elseif metadata.type in ['datetime'] %}
+
+                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+            {%- elseif metadata.type in ['date'] %}
+
+                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d\') }}{% endif %}' }}</td>
+
+            {%- elseif metadata.type in ['time'] %}
+
+                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'H:i:s\') }}{% endif %}' }}</td>
+
+            {%- elseif metadata.type in ['array'] %}
+
+                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
+
+            {%- elseif metadata.type in ['boolean'] %}
+
+                <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ "{{ 'table.labels.yes' | trans({},'CoreBundle') }}" }}{% else %}{{ "{{ 'table.labels.no' | trans({},'CoreBundle') }}" }}{% endif %}' }}</td>
+
+            {%- else %}
+
+                <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+            {%- endif %}
+
+        {%- endfor %}
+                <td>
+                    {{ "{% include 'CoreBundle:Default:table_actions.html.twig' with "}}
+                        {{"{"}}
+                            {{" 'edit_path':path('" ~ route_name_prefix ~ "_edit', { 'id' : " ~ entity_singularized ~ "." ~ identifier ~ "} ), "}}
+                            {{" 'show_path':path('" ~ route_name_prefix ~ "_show', { 'id' : " ~ entity_singularized ~ "." ~ identifier ~ "} ) "}}
+                        {{"}"}}
+                    {{"%}"}}
+                </td>
+            </tr>
+        {{ '{% endfor %}' }}
+        </tbody>
+    </table>
+
+{{ "{% endblock %}" }}
+{% endblock body %}
+
+{{ "{% block javascripts %}" }}
+    {{ "{{ parent() }}" }}
+    {{ "{% include '::dataTables.html.twig' %}" }}
+    {{ "<script>" }}
+        {{ "$(document).ready(function(){" }}
+            {{ "new DataTableWidget({" }}
+                {{ "containerId: '#dataTable'" }}
+            {{ "});" }}
+        {{ "});" }}
+    {{ "</script>" }}
+{{ "{% endblock %}" }}

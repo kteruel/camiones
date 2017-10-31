@@ -1,0 +1,16 @@
+<span style="display:none">{% if yesOptionSelected %}Si{% else %}No{% endif %}</span>
+<div class="onoffswitch-container">
+    <span class="onoffswitch">
+        <input type="checkbox" class="onoffswitch-checkbox" id="switch-{{ id }}"
+            {% if yesOptionSelected %}checked="checked"{% endif %}
+            data-type="select"
+            data-name="{{ dataName }}"
+            data-pk="{{ id }}"
+            data-value="{% if yesOptionSelected %}1{% else %}0{% endif %}"
+            data-original-title="{{ originalTitle }}">
+        <label class="onoffswitch-label" for="switch-{{ id }}">
+            <span class="onoffswitch-inner" data-swchon-text="Si" data-swchoff-text="No"></span>
+            <span class="onoffswitch-switch"></span>
+        </label>
+    </span>
+</div>

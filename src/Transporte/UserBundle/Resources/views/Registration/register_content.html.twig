@@ -1,0 +1,16 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% form_theme form "FOSUserBundle:Form:form_div_layout.html.twig" %}
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'smart-form client-form'}}) }}
+    <header>{{ 'register.title'|trans }}</header>
+    {% include ":includes:flashes.html.twig" %}
+    <fieldset>
+        {{ form_row(form) }}
+    </fieldset>
+    <footer>
+        <button class="btn btn-primary" type="submit" id="_submit" name="_submit" value="{{ 'registration.submit'|trans }}">
+            {{ 'registration.submit'|trans }}
+        </button>
+    </footer>
+{{ form_end(form) }}

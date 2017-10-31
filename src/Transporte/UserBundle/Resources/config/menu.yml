@@ -1,0 +1,24 @@
+user:
+    order: 98
+    icon: 'user'
+    name: 'Usuarios'
+    permissions: [ROLE_SUPER_ADMIN]
+    submenu:
+        list:
+            name: 'Listar'
+            path: 'user_index'
+        create:
+            name: 'Crear'
+            path: 'user_new'
+perfiles:
+    order: 99
+    icon: 'group'
+    name: 'Perfiles'
+    permissions: [ROLE_SUPER_ADMIN]
+    submenu:
+        listar:
+            name: 'Listar'
+            path: 'fos_user_group_list'
+        crear:
+            name: 'Crear'
+            path: 'fos_user_group_new'

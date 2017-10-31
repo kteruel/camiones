@@ -1,0 +1,11 @@
+{% if errors is defined and errors|length > 0 %}
+    <div class="alert alert-error alert-danger">
+        <a class="close" data-dismiss="alert" href="#">x</a>
+        No se han podido realizar los siguientes cambios.
+        <ul>
+    {% for error in errors %}
+            <li>{{ error.message|raw }}</li>
+    {% endfor %}
+        </ul>
+    </div>
+{% endif %}

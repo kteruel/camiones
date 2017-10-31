@@ -1,0 +1,9 @@
+<a href="#" class="bootbox-confirm" entity_id="{{id}}" 
+{% if entity.eliminado %}
+   eliminado="1" alt="restaurar" title="restaurar"
+   >{% include ":includes:_restoreIcon.html.twig" %}
+{% else %}
+    eliminado="0" alt="eliminar" title="eliminar"
+    >{% include ":includes:_delIcon.html.twig" %}
+{% endif %}
+</a>

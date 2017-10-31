@@ -1,0 +1,64 @@
+{% block extends %}
+{{ "{% extends 'CoreBundle:Default:backend.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% trans_default_domain '" ~ bundle ~ "' %}" }}
+
+{{ "{% block pageHeader %}{{ '" ~ bundle|slice(0,bundle|length-6)|lower ~ "." ~ entity_singularized|lower ~ ".page_header'|trans }}{% endblock %}" }}
+
+{{ "{% block iconPageHeader %}{% endblock %}" }}
+
+{{ "{% block widgetName %}{{ '" ~ bundle|slice(0,bundle|length-6)|lower ~ "." ~ entity_singularized|lower ~ ".show.widget_name'|trans }} {% endblock %}" }}
+
+{{ "{% block widgetIcon %}eye{% endblock %}" }}
+
+{{ "{% block widgetBody %}" }}
+    <header><h1>{{ "{{ '" ~ bundle|slice(0,bundle|length-6)|lower ~ "." ~ entity_singularized|lower ~ ".show.header'|trans }}" }}</h1></header>
+
+    <fieldset>
+        <table class="table table-striped table-bordered" width="100%">
+            <tbody>
+            {%- for field, metadata in fields %}
+
+                <tr>
+                    <th>{{ field|capitalize }}</th>
+
+                {%- if metadata.type in ['datetime'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+                {%- elseif metadata.type in ['date'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d\') }}{% endif %}' }}</td>
+
+                {%- elseif metadata.type in ['time'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|date(\'H:i:s\') }}{% endif %}' }}</td>
+
+                {%- elseif metadata.type in ['array'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
+
+                {%- elseif metadata.type in ['boolean'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
+
+                {%- else %}
+
+                    <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+                {%- endif %}
+
+                </tr>
+
+            {%- endfor %}
+
+            </tbody>
+        </table>
+    </fieldset>
+
+    {{"{{ include('CoreBundle:Default:form_actions.html.twig', { 'path_list' : path('" ~ entity_singularized|lower ~ "_index'), 'hide_submit' : true }) }}"}}
+
+{{ "{% endblock %}" }}
+{% endblock body %}

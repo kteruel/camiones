@@ -1,0 +1,54 @@
+{% extends "CoreBundle:Default:backend.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block pageHeader %}{{ 'user.user.page_header'|trans }}{% endblock %}
+
+{% block iconPageHeader %}user{% endblock %}
+
+{% block widgetName %}{{ 'user.user.show.widget_name'|trans }} {% endblock %}
+
+{% block widgetIcon %}eye{% endblock %}
+
+{% block widgetBody %}
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <tr>
+                <th>{{ 'user.user.label.username' | trans }}</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'user.user.label.email' | trans }}</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Perfiles</th>
+                <td>
+                    <ul>
+                        {% for group in user.groups %}
+                            <li>{{ group }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    {{ include('CoreBundle:Default:form_actions.html.twig', {
+        'path_list' : path('user_index'),
+        'path_edit' : path('user_edit', { 'id' : user.id }),
+        'hide_submit' : true })
+    }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function(){
+            new DeleteWidget({
+                'objectName' : 'Usuario'
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,3 @@
+var UserWidget = CollectionWidget.extend({
+
+});

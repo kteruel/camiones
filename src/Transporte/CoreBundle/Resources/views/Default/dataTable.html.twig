@@ -1,0 +1,55 @@
+<script src="{{ asset('bundles/core/smart/js/plugin/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('bundles/core/smart/js/plugin/datatables/dataTables.colVis.min.js') }}"></script>
+<script src="{{ asset('bundles/core/smart/js/plugin/datatables/dataTables.tableTools.min.js') }}"></script>
+<script src="{{ asset('bundles/core/smart/js/plugin/datatables/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('bundles/core/smart/js/plugin/datatable-responsive/datatables.responsive.min.js') }}"></script>
+<script>
+$(document).ready(function() {
+    var responsiveHelper_dataTable = undefined;
+
+    var breakpointDefinition = {
+        tablet : 1024,
+        phone : 480
+    };
+    var otable = $("#dataTable").DataTable({
+        //"bFilter": false,
+        //"bInfo": false,
+        //"bLengthChange": false
+        //"bAutoWidth": false,
+        //"bPaginate": false,
+        //"bStateSave": true // saves sort state using localStorage
+        "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>"+
+                "t"+
+                "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+        "autoWidth" : true,
+        "oLanguage": {
+            "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+        },
+        "preDrawCallback" : function() {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelper_dataTable) {
+                responsiveHelper_dataTable = new ResponsiveDatatablesHelper($('#dataTable'), breakpointDefinition);
+            }
+        },
+        "rowCallback" : function(nRow) {
+            responsiveHelper_dataTable.createExpandIcon(nRow);
+        },
+        "drawCallback" : function(oSettings) {
+            responsiveHelper_dataTable.respond();
+        }
+
+    });
+
+    // custom toolbar
+
+    // Apply the filter
+    $("#dataTable thead th input[type=text]").on( 'keyup change', function () {
+
+        otable
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
+
+    } );
+});
+</script>

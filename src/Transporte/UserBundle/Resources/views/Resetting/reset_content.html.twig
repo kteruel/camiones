@@ -1,0 +1,30 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form action="{{ path('fos_user_resetting_reset', {'token': token }) }}" method="post" class="smart-form client-form" novalidate="novalidate">
+    <header>Reestablecer contraseña</header>
+    <fieldset>
+        {% include ":includes:flashes.html.twig" %}
+        <section>
+            <label class="label" for="fos_user_resetting_form_plainPassword_first">{{ 'form.new_password'|trans }}</label>
+            <label class="input"> <i class="icon-append fa fa-lock"></i>
+                {{ form_widget(form.plainPassword.first, {'attr': {'placeholder':"form.new_password"|trans}} ) }}
+                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{ 'form.new_password'|trans }}</b>
+            </label>
+        </section>
+        <section>
+            <label class="label" for="fos_user_resetting_form_plainPassword_second">{{ 'form.new_password_confirmation'|trans }}</label>
+            <label class="input"> <i class="icon-append fa fa-lock"></i>
+                {{ form_widget(form.plainPassword.second, {'attr': {'placeholder':"form.new_password_confirmation"|trans}} ) }}
+                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> {{ 'form.new_password_confirmation'|trans }}</b>
+            </label>
+        </section>
+        {% include ":includes:form_errors.html.twig" %}
+        {{ form_rest(form) }}
+    </fieldset>
+    <footer>
+            <button type="submit" class="width-65 pull-right btn btn-sm btn-info">
+                <i class="icon-lightbulb"></i>
+                {{ 'resetting.reset.submit'|trans }}
+            </button>
+    </footer>
+</form>

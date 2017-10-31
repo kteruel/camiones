@@ -1,0 +1,28 @@
+<!-- Left panel : Navigation area -->
+<!-- Note: This width of the aside area can be adjusted through LESS variables -->
+<aside id="left-panel">
+
+	<!-- User info -->
+	<div class="login-info">
+		<span> <!-- User image size is adjusted inside CSS, it should stay as it -->
+
+			<a href="javascript:void(0);" id="show-shortcut" data-action="toggleShortcut">
+				<img src="{% if app.user.webRelativePathPhoto %}{{ asset(app.user.webRelativePathPhoto) }}{% else %}{{ asset('bundles/core/images/male.png') }}{% endif %}" alt="{{ app.user }}" class="online" />
+				<span>
+					{{ app.user }}
+				</span>
+				<i class="fa fa-angle-down"></i>
+			</a>
+
+		</span>
+	</div>
+	<!-- end user info -->
+
+	{{ render(controller('CoreBundle:Default:renderMenu', {'current_path' : current_path })) }}
+
+	<span class="minifyme" data-action="minifyMenu">
+		<i class="fa fa-arrow-circle-left hit"></i>
+	</span>
+
+</aside>
+<!-- END NAVIGATION -->

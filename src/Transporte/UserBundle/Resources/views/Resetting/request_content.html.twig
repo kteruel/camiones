@@ -1,0 +1,23 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form action="{{ path('fos_user_resetting_send_email') }}" method="post" class="smart-form client-form" id="login-form"  novalidate="novalidate">
+    <header>Recuperar contraseña</header>
+
+    <fieldset>
+        {% include ":includes:flashes.html.twig" %}
+        <section>
+            <label class="label" for="username">{{ 'resetting.request.username'|trans }}</label>
+            <label class="input"> <i class="icon-append fa fa-user"></i>
+                <input type="text" placeholder="{{ 'resetting.request.username'|trans }}" id="username" name="username" required="required" />
+                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> {{ 'resetting.request.username'|trans }}</b>
+            </label>
+        </section>
+
+    </fieldset>
+    <footer>
+        <button class="btn btn-primary" type="submit" id="_submit" name="_submit" value="{{ 'resetting.request.submit'|trans }}">
+            {{ 'resetting.request.submit'|trans }}
+        </button>
+        <a href="{{ path('homepage') }}" class="btn btn-default">Volver</a>
+    </footer>
+</form>

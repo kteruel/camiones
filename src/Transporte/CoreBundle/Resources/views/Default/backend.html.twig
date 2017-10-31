@@ -1,0 +1,190 @@
+{% extends "::base.html.twig" %}
+
+{% set current_path = app.request.getBaseUrl ~ app.request.getPathInfo %}
+
+{% block stylesheets %}
+		{% include "::stylesheets.html.twig" %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/core/css/backend.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/core/css/my_smart.css') }}">
+
+        <script type="text/javascript">
+		window.transporte = {
+			currentPath : "{{ current_path }}"
+		};
+	</script>
+{% endblock %}
+
+{% block body %}
+
+	{{ include('CoreBundle:Default:header.html.twig') }}
+
+	{{ include('CoreBundle:Default:leftPanel.html.twig') }}
+
+	<!-- MAIN PANEL -->
+	<div id="main" role="main">
+		<!-- RIBBON -->
+		{{ include('CoreBundle:Default:ribbon.html.twig') }}
+		<!-- END RIBBON -->
+		<!-- MAIN CONTENT -->
+		<div id="content">
+		{% block content %}
+			<!-- PAGE HEADER -->
+			<!-- row -->
+			<div class="row">
+
+				<!-- col -->
+				<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+					<h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-{% block iconPageHeader %}{% endblock %}"></i> {% block pageHeader %}{% endblock %} </h1>
+				</div>
+				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+				{% block rightHeader %}
+				{% endblock %}
+				</div>
+				<!-- end col -->
+	            {% block statictics %}
+	            {% endblock %}
+
+			</div>
+			<!-- end row -->
+
+			{% include ":includes:flashes.html.twig" %}
+
+			{% block widgetWell %}{% endblock %}
+
+			<!-- END PAGE HEADER -->
+
+            {% block inner_content %}
+			<!-- widget grid -->
+			<section id="widget-grid" class="">
+
+				<!-- START ROW -->
+
+				<div class="row">
+
+					<!-- NEW COL START -->
+					<article class="col-sm-12 col-md-12 col-lg-12">
+
+						<!-- Widget ID (each widget will need unique ID)-->
+						<div class="jarviswidget" id="wid-id-1" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false" data-widget-sortable="false" data-widget-collapsed="false" data-widget-fullscreenbutton="false" data-widget-togglebutton="false">
+							<!-- widget options:
+								usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+								data-widget-colorbutton="false"
+								data-widget-editbutton="false"
+								data-widget-togglebutton="false"
+								data-widget-deletebutton="false"
+								data-widget-fullscreenbutton="false"
+								data-widget-custombutton="false"
+								data-widget-collapsed="true"
+								data-widget-sortable="false"
+
+							-->
+							{% block widgetGrid %}
+								<header>
+									<span class="widget-icon"> <i class="fa fa-{% block widgetIcon %}{% endblock %}"></i> </span>
+									<h2>{% block widgetName %}{% endblock %}</h2>
+								</header>
+
+								<!-- widget div-->
+								<div>
+
+									<!-- widget edit box -->
+									<div class="jarviswidget-editbox">
+										<!-- This area used as dropdown edit box -->
+
+									</div>
+									<!-- end widget edit box -->
+
+									<!-- widget content -->
+									<div class="widget-body">
+										{% block widgetBody %}
+										{% endblock %}
+									</div>
+									<!-- end widget content -->
+
+								</div>
+								<!-- end widget div -->
+							{% endblock %}
+
+						</div>
+						<!-- end widget -->
+
+					</article>
+					<!-- END COL -->
+
+				</div>
+
+				<!-- END ROW -->
+
+			</section>
+			<!-- end widget grid -->
+            {% endblock %}
+		{% endblock %}
+		</div>
+		<!-- END MAIN CONTENT -->
+	</div>
+
+	{{ include('CoreBundle:Default:footer.html.twig') }}
+
+	{% block endOfBody %}
+		{{ include('CoreBundle:Default:shortcut.html.twig') }}
+	{% endblock %}
+{% endblock body %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{% include "::javascripts.html.twig" %}
+
+	<!-- PLUGINS -->
+	{% block plugins %}
+		<script src="{{ asset('bundles/core/smart/js/plugin/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
+	{% endblock %}
+
+	<!-- MY SCRIPTS -->
+	<script type="text/javascript" src="{{ asset('bundles/core/js/class.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/core/js/widgets.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/core/js/my.app.config.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/core/js/my_scripts.js') }}"></script>
+	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	<script type="text/javascript" src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/core/smart/js/plugin/clockpicker/clockpicker.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/core/smart/js/plugin/summernote/summernote.min.js') }}"></script>
+
+	<script type="text/javascript" src="{{ asset('bundles/core/js/datepicker.es.js') }}"></script>
+
+	<script type="text/javascript">
+
+	// DO NOT REMOVE : GLOBAL FUNCTIONS!
+	var TWIG = {};
+	TWIG.isGrantedSuperAdmin = "{{ is_granted('ROLE_SUPER_ADMIN') }}" === "1";
+
+	$(document).ready(function() {
+
+		// Fix for select menu and draw breadcrumb
+		$("nav li.active").parent().parent().addClass('active');
+		drawBreadCrumb();
+
+		pageSetUp();
+		transportePageSetUp();
+	})
+
+	</script>
+
+	<!-- Your GOOGLE ANALYTICS CODE Below -->
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+			_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+
+{% endblock javascripts %}

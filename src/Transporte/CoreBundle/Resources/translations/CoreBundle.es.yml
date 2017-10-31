@@ -1,0 +1,29 @@
+button:
+  submit: Guardar
+  edit: Editar
+  back_list: Volver al listado
+table:
+  labels:
+    "yes": Si
+    "no": No
+  header:
+    actions: Acciones
+shortcut:
+  myprofile: Mi Perfil
+  logout: Cerrar sesion
+core:
+  back: Volver
+  email: E-Mail
+  buttons:
+    edit:
+        do: Editar
+        back: Volver al listado
+    submit: Enviar
+  actions:
+    create: Crear
+    view: Ver
+    show: Ver
+    edit: Editar
+    remove: Eliminar
+  controller:
+    access_denied: Acceso denegado para acceder a esta página

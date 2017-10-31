@@ -1,0 +1,33 @@
+{% trans_default_domain 'CoreBundle' %}
+
+<footer>
+    {% if other_actions is defined %}
+        {% for action in other_actions %}
+            {% if action.path is defined and action.text is defined %}
+                <a class="{{ action.classes|default('btn btn-primary') }}" href="{{ action.path }}">
+                    {% if action.icon is defined %}<i class="{{ action.icon }}"></i>{% endif %}
+                    {{ action.text }}
+                </a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if hide_submit is not defined %}
+        <button class="btn btn-primary" type="submit">
+            <i class="fa fa-save"></i>
+            {{ 'button.submit'|trans }}
+        </button>
+    {% endif %}
+    <a href="{{ path_list }}" class="btn btn-default">
+        {% if back_list.text is not defined %}{{ 'button.back_list'|trans }}{% else %}{{ back_list.text }}{% endif %}
+    </a>
+    {% if path_edit is defined %}
+        <a href="{{ path_edit }}" class="btn btn-primary">
+            {{ 'button.edit'|trans }}
+        </a>
+    {% endif %}
+    {% if delete_form is defined %}
+        {{ form_start(delete_form, {'attr' : {'class' : 'pull-right', 'id' : 'form-delete' }}) }}
+            <input class="btn btn-danger btn-delete" type="submit" value="Eliminar">
+        {{ form_end(delete_form) }}
+    {% endif %}
+</footer>

@@ -1,0 +1,5 @@
+<li class='dd-item'>{{ padre }}</li>
+{% set i = i + 1 %}
+{% if padres[i] is defined %}
+<ul class="dd-list">{% include ':includes:_showPadre.html.twig' with {'padre' : padres[i] } %}</ul>
+{% endif %}

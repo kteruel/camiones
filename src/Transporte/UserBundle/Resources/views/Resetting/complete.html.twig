@@ -1,0 +1,29 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_container %}
+
+    <div class="smart-form">
+        <header>{{ 'resetting.box_title' | trans }}</header>
+        <fieldset>
+            <div class="alert alert-success fade in">
+                <button class="close" data-dismiss="alert">
+                    ×
+                </button>
+                <i class="fa-fw fa fa-check"></i>
+                {{ 'resetting.complete'|trans|raw }}
+            </div>
+        </fieldset>
+        {% if showButtons %}
+            <footer>
+                <a class="btn btn-default" href="{{ path('homepage') }}" onclick="show_box('login-box');
+                    return false;" class="back-to-login-link">
+                    {{ 'resetting.form.back' | trans }}
+                    <i class="icon-arrow-right"></i>
+                </a>
+            </footer>
+        {% endif %}
+    </div>
+
+{% endblock %}

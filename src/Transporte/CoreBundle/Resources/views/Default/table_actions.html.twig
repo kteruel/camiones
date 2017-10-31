@@ -1,0 +1,13 @@
+{% if show_path is defined %}
+    <a href="{{ show_path }}" class="btn btn-xs btn-default" rel="tooltip" data-original-title="{{ 'core.actions.show' | trans({}, 'CoreBundle') }}">{% include ":includes:_showIcon.html.twig" %}</a>
+{% endif %}
+{% if edit_path is defined %}
+    <a href="{{ edit_path }}" class="btn btn-xs btn-default" rel="tooltip" data-original-title="{{ 'core.actions.edit' | trans({}, 'CoreBundle') }}">{% include ":includes:_editIcon.html.twig" %}</a>
+{% endif %}
+{% if other_actions is defined %}
+    {% for action in other_actions %}
+        {% if action.condition is not defined or action.condition %}
+            <a {% if action.title is defined %}rel="tooltip" data-original-title="{{ action.title }}"{% endif %} {% if action.attr is defined %}{{ action.attr }}{% endif %} class="btn btn-xs btn-default {% if action.class is defined %}{{ action.class }}{% endif %}" href="{{ action.path }}">{% if action.icon is defined %}<i class="fa fa-{{ action.icon }}"></i>{% endif %}{{ action.name | default("") }}</a>
+        {% endif %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,28 @@
+{% block extends %}
+{{ "{% extends 'CoreBundle:Default:backend.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+{{ "{% trans_default_domain '" ~ bundle ~ "' %}" }}
+
+{{ "{% form_theme edit_form 'CoreBundle:Form:smart_form.html.twig' %}" }}
+
+{{ "{% block pageHeader %}{{ '" ~ bundle|slice(0,bundle|length-6)|lower ~ "." ~ entity_singularized|lower ~ ".page_header'|trans }}{% endblock %}" }}
+
+{{ "{% block iconPageHeader %}{% endblock %}" }}
+
+{{ "{% block widgetName %}{{ '" ~ bundle|slice(0,bundle|length-6)|lower ~ "." ~ entity_singularized|lower ~ ".edit.widget_name'|trans }} {% endblock %}" }}
+
+{{ "{% block widgetIcon %}edit{% endblock %}" }}
+
+{{ "{% block widgetBody %}" }}
+
+    {{ '{{ form_start(edit_form) }}' }}
+        <fieldset>
+            {{ '{{ form_widget(edit_form) }}' }}
+        </fieldset>
+        {{ "{% include 'CoreBundle:Default:form_actions.html.twig' with { 'path_list' : path('" ~ entity_singularized|lower ~ "_index') } %}"}}
+    {{ '{{ form_end(edit_form) }}' }}
+
+{{ "{% endblock %}" }}
+{% endblock body %}

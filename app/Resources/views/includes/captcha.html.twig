@@ -1,0 +1,23 @@
+<div style="height: auto">
+    {% include ":includes:flashes_captcha.html.twig" %}
+    {#{% if app.session.hasFlash('captcha') %}
+        <p class="info">{{ app.session.getFlash('captcha') }}</p>
+    {% endif %}#}
+    <img id="captcha" src="/bundles/securimage/securimage_show.php" alt="Imagen CAPTCHA" />
+    <label for="captcha">Ingresa los caracteres que aparecen arriba:</label>
+    <input type="text" id="captcha" name="captcha_code" size="10" maxlength="6" />
+    <a href="#" onclick="document.getElementById('captcha').src = '/bundles/securimage/securimage_show.php?' + Math.random(); return false"><img src="/bundles/securimage/images/refresh.png"></a>
+    <div style="clear: both"></div>
+</div>
+
+{#
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/challenge?k=6Le0sdgSAAAAAGVe4RYurbZhdMcL5P32QflJnSSO"></script>
+<noscript>
+   <iframe src="http://www.google.com/recaptcha/api/noscript?k=6Le0sdgSAAAAAGVe4RYurbZhdMcL5P32QflJnSSO"
+       height="300" width="500" frameborder="0"></iframe><br>
+   <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+   </textarea>
+      <input type="hidden" name="recaptcha_response_field"
+       value="manual_challenge">
+</noscript>
+#}

@@ -1,0 +1,15 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="smart-form">
+  <header>{{ 'resetting.box_title' | trans }}</header>
+  <fieldset>
+    <p>{{ 'resetting.check_email_note'|trans({'%tokenLifetime%': tokenLifetime})|raw }}</p>
+  </fieldset>
+  <footer>
+    <a class="btn btn-default" href="{{ path('homepage') }}" onclick="show_box('login-box');
+        return false;" class="back-to-login-link">
+        {{ 'resetting.form.back' | trans }}
+        <i class="icon-arrow-right"></i>
+    </a>
+  </footer>
+</div>

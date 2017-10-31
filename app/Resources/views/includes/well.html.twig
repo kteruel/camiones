@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class="well">
+            <!--<button class="close" data-dismiss="alert">
+                    ×
+            </button>-->
+            {% if title is defined %}
+                <h1 class="semi-bold">{{ title }}</h1>
+            {% endif %}
+            {% if description is defined %}
+                <p>
+                    {{ description|raw }}
+                </p>
+            {% endif %}
+            {% if descriptionTwo is defined %}
+            <p>
+                {{ descriptionTwo|raw }}
+            </p>
+            {% endif %}
+        </div>
+    </div>
+</div>

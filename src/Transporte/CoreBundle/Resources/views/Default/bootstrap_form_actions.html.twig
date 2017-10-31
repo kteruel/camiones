@@ -1,0 +1,32 @@
+{% trans_default_domain 'CoreBundle' %}
+
+<div class="form-actions">
+    <div class="row">
+        <div class="col-md-12">
+            {% if other_actions is defined %}
+                {% for action in other_actions %}
+                    {% if action.path is defined and action.text is defined %}
+                        <a class="{{ action.classes|default('btn btn-primary') }}" href="{{ action.path }}">
+                            {% if action.icon is defined %}<i class="{{ action.icon }}"></i>{% endif %}
+                            {{ action.text }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if path_edit is defined %}
+                <a href="{{ path_edit }}" class="btn btn-primary">
+                    {{ 'button.edit'|trans }}
+                </a>
+            {% endif %}
+            <a href="{{ path_list }}" class="btn btn-default">
+                {{ 'button.back_list'|trans }}
+            </a>
+            {% if hide_submit is not defined %}
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-save"></i>
+                    {{ 'button.submit'|trans }}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>

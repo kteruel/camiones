@@ -1,0 +1,10 @@
+{% set icon = type == 'warning'? 'warning' : type == 'success' ? 'check' : type == 'info' ? 'info' : 'times' %}
+{% set strong = type == 'warning'? 'Warning' : type == 'success' ? 'Success' : type == 'info' ? 'Info!' : 'Error!' %}
+
+<div class="alert alert-{{ type }} fade in {% if hidden is defined and hidden %}hidden{% endif %}" {% if id is defined %}id="{{ id }}"{% endif %}>
+    <i class="fa-fw fa fa-{{ icon }}"></i>
+    <strong>{{ strong }}</strong> {{ message }}
+    <button class="close" data-dismiss="alert">
+        ×
+    </button>
+</div>

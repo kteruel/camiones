@@ -1,0 +1,12 @@
+{% set tipo_mensajes = app.session.flashBag.all %}
+{% if tipo_mensajes|length > 0 %}
+    {% for key,  messages in tipo_mensajes %}
+        {% for  message in messages %}
+        {% if key == "captcha" %}
+        <p class="info">
+                {{ message |raw}}
+        </p>
+        {% endif %}
+        {% endfor %}
+    {% endfor %}
+{% endif %}

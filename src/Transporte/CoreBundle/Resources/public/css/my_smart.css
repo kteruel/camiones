@@ -1,0 +1,10 @@
+#changePhoto {
+    width: auto;
+    margin-left: 15%;
+}
+
+@media (max-width: 768px) {
+    #changePhoto {
+        margin-left: 0;
+    }
+}
