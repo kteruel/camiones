@@ -49,7 +49,6 @@ twig:
         http_web: "%http_web%"
         link_web: "%link_web%"
         url_web: "%http_web%://%link_web%"
-        api_google_key: "%api_google_key%"
 
 services:
     twig.extension.date:
@@ -57,75 +56,6 @@ services:
         arguments: ["@translator"]
         tags:
             - { name: twig.extension }
-
-# Doctrine Configuration
-doctrine:
-    dbal:
-        default_connection: default
-        connections:
-            default:
-                driver:   pdo_pgsql
-                host:     "%database_host%"
-                port:     "%database_port%"
-                dbname:   "%database_name%"
-                user:     "%database_user%"
-                password: "%database_password%"
-                charset:  UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #     path:     "%database_path%"
-
-    orm:
-        default_entity_manager: default
-        entity_managers:
-            default:
-                connection: default
-                mappings:
-                    CoreBundle:  ~
-                    UserBundle:  ~
-
-# Swiftmailer Configuration
-swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
-
-fos_user:
-    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
-    firewall_name: main
-    user_class: Transporte\UserBundle\Entity\User
-    profile:
-        form:
-            type: Transporte\UserBundle\Form\ProfileFormType
-    from_email:
-        address:        "%from_email%"
-        sender_name:    "%app_title%"
-    group:
-        group_class: Transporte\UserBundle\Entity\Group
-    registration:
-        confirmation:
-            template:   FOSUserBundle:Registration:email.txt.twig
-            from_email:
-                address:        "%from_email%"
-                sender_name:    "%app_title%"
-    service:
-        mailer: fos_user.mailer.twig_swift
-    resetting:
-        form:
-            type: Transporte\UserBundle\Form\Type\ResettingFormType
-    service:
-        user_manager: pugx_user_manager
-
-doctrine_migrations:
-    dir_name: "%kernel.root_dir%/DoctrineMigrations"
-    namespace: Application\Migrations
-    table_name: migration_versions
-    name: Application Migrations
 
 # Nelmio CORS Configuration
 nelmio_cors:
@@ -154,13 +84,6 @@ fos_rest:
         view_response_listener: 'force'
         formats:
             json: true
-
-jms_serializer:
-    metadata:
-        directories:
-            FOSUB:
-                namespace_prefix: "FOS\\UserBundle"
-                path: "%kernel.root_dir%/../src/Transporte/UserBundle/Resources/config/serializer"
 
 liip_imagine:
     filter_sets:

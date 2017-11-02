@@ -4,8 +4,8 @@ namespace Transporte\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -14,7 +14,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->redirect($this->generateUrl('fos_user_profile_show'));
+        return $this->render("UserBundle:Default:index.html.twig");
     }
 
     /**
@@ -31,5 +31,4 @@ class DefaultController extends Controller
             'menu' => $menuFactory->buildMenu()
         ]);
     }
-
 }

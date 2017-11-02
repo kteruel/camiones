@@ -4,6 +4,18 @@ parameters:
 #    parameter_name: value
 
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  # makes classes in src/AppBundle available to be used as services
+  Transporte\UserBundle\:
+      resource: '../../src/Transporte/UserBundle/*'
+      # you can exclude directories or files
+      # but if a service is unused, it's removed anyway
+      exclude: '../../src/Transporte/UserBundle/{Entity,Repository,Controller,Tests}'
+
   app.file.twig.extension:
     class: Transporte\CoreBundle\Twig\Extension\FileExtension
     tags:
@@ -15,15 +27,9 @@ services:
   menu.factory:
     class: Transporte\CoreBundle\Factory\MenuFactory
     arguments: ['@security.authorization_checker']
-  datatable.serverside.service:
-    class: Transporte\CoreBundle\Service\DataTableServerSideService
-    arguments: ["@doctrine.orm.entity_manager"]
   flashbag_service:
     class: Transporte\CoreBundle\Service\FlashBagService
     arguments: ['@session']
-  email_service:
-    class: Transporte\CoreBundle\Service\EmailService
-    arguments: ['@mailer']
   encrypt_service:
     class: Transporte\CoreBundle\Service\EncryptService
   validator_service:
@@ -31,16 +37,3 @@ services:
     arguments: ['@validator']
   file_service:
     class: Transporte\CoreBundle\Service\FileService
-  file_uploader:
-    class: Transporte\CoreBundle\Service\FileUploader
-    arguments: ['%files_directory%', '@liip_imagine.data.manager', '@liip_imagine.filter.manager']
-  document_listener:
-      class: Transporte\CoreBundle\EventListener\DocumentUploadListener
-      arguments: ['@file_uploader', '@security.token_storage', '@flashbag_service', "@doctrine.orm.entity_manager"]
-      tags:
-          - { name: doctrine.event_listener, event: prePersist }
-          - { name: doctrine.event_listener, event: postPersist }
-          - { name: doctrine.event_listener, event: preUpdate }
-  configuration_service:
-    class: Transporte\CoreBundle\Service\ConfigurationService
-    arguments: ["@doctrine.orm.entity_manager", "@security.token_storage"]

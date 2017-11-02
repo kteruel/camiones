@@ -1,18 +1,2 @@
 services:
-  user.password_resetting:
-    class: Transporte\UserBundle\EventListener\PasswordResettingListener
-    arguments: ['@router', '@flashbag_service']
-    tags:
-        - { name: kernel.event_subscriber }
-  user.form.profile:
-    class: Transporte\UserBundle\Form\ProfileFormType
-    tags:
-        - { name: form.type, alias: user_form_profile_form }
-  user.form.resetting:
-    class: Transporte\UserBundle\Form\Type\ResettingFormType
-    arguments: [%fos_user.model.user.class%]
-    tags:
-        - { name: form.type, alias: user_form_resetting_form }
-  user_service:
-    class: Transporte\UserBundle\Service\UserService
-    arguments: ["@doctrine.orm.entity_manager", "@security.token_storage", "@security.authorization_checker", "@file_uploader"]
+    # ...

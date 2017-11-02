@@ -1,0 +1,51 @@
+security:
+    signin: Formulario de acceso
+    login:
+        title: Formulario de acceso
+        box_title: Ingrese usuario y contraseña
+        forgot_password: Olvide mi contraseña
+        registrer: Registrarme
+        username: 'Nombre de usuario'
+        password: Contraseña
+        remember_me: Recordar
+        submit: Entrar
+register:
+    title: Formulario de Registro
+    confirmed:
+        title: Felicitaciones!
+        message: 'Bienvenido %username%, tu cuenta está ahora confirmada.'
+resetting:
+    complete: Su contraseña se ha actualizado correctamente
+    check_email_note: |
+        Un correo electronico ha sido enviado. Contiene un enlace debe hacer clic para restablecer su contraseña.<br/>
+        Nota: Sólo se puede solicitar una nueva contraseña dentro de %tokenLifetime% horas.<br/>
+        <br/>
+        Si no recibe un correo electrónico, comprueba tu carpeta de correo no deseado o inténtelo de nuevo.
+    box_title: Recuperar Contraseña
+    reset:
+        label: Ingrese su nueva contraseña
+    request:
+        username: 'Nombre de usuario / E-Mail'
+    form:
+        label: Ingrese su e-mail para recuperar su contraseña
+        placeholder: Email
+        back: Volver a la página de logueo
+        submit: Enviar
+change_password:
+    submit: 'Cambiar contraseña'
+    flash:
+        success: 'La contraseña se ha cambiado con éxito.'
+layout:
+    logout: Salir
+    login: Entrar
+    register: Registrar
+    logged_in_as: 'Identificado como %username%'
+form:
+    group_name: 'Nombre de grupo'
+    username: 'Nombre de usuario'
+    email: Email
+    current_password: 'Contraseña actual'
+    password: Contraseña
+    password_confirmation: 'Repita la contraseña'
+    new_password: 'Nueva contraseña'
+    new_password_confirmation: 'Repita la contraseña'
