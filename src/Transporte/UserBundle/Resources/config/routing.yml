@@ -1,0 +1,24 @@
+project.repository.api:
+  class: Transporte\UserBundle\Repository\Api\BaseRepository
+  arguments:
+    - %kernel.root_dir%
+    -
+    -
+    -
+
+project.token.user_provider:
+  class: Transporte\UserBundle\Security\TokenUserProvider
+  arguments:
+    - "@logger"
+
+project.token.authenticator:
+  class: Transporte\UserBundle\Security\TokenAuthenticator
+  arguments:
+    - "@logger"
+    - "@project.repository.api"
+
+login_check:
+    pattern: /secured/login_check
+
+logout:
+    path: /logout
