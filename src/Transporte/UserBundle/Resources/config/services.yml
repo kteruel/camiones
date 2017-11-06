@@ -1,2 +1,23 @@
 services:
-    # ...
+  project.listener.jwt_created:
+    class: Transporte\UserBundle\Security\JWTCreatedListener
+    tags:
+      - { name : kernel.event_listener, event : lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+  project.repository.api:
+    class: Transporte\UserBundle\Repository\ApiUserRepository
+    arguments:
+      - "@logger"
+      - "@curl.service"
+      - "@security.token_storage"
+
+  project.token.user_provider:
+    class: Transporte\UserBundle\Security\TokenUserProvider
+    arguments:
+      - "@logger"
+
+  project.token.authenticator:
+    class: Transporte\UserBundle\Security\TokenAuthenticator
+    arguments:
+      - "@logger"
+      - "@project.repository.api"

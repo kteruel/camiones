@@ -3,16 +3,10 @@
 namespace Transporte\UserBundle\Security;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
-use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * Class JWTCreatedListener
  * @package Transporte\UserBundle\Security
- *
- * @DI\Service("project.listener.jwt_created")
- * @DI\Tag("kernel.event_listener", attributes = {
- *   "event" = "lexik_jwt_authentication.on_jwt_created", "method": "onJWTCreated"
- * })
  *
  */
 class JWTCreatedListener

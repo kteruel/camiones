@@ -1,8 +1,9 @@
 <?php
 
-namespace Transporte\UserBundle\Repository\Api;
+namespace Transporte\UserBundle\Repository;
 
 use Transporte\UserBundle\Security\ApiUser;
+use Transporte\CoreBundle\Service\CurlService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Psr\Log\LoggerInterface;
@@ -12,19 +13,19 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Security;
 
 /**
- * Class BaseRepository.
+ * Class ApiUserRepository.
  */
-abstract class BaseRepository
+class ApiUserRepository
 {
-    /**
-     * @var ClientRegistry
-     */
-    protected $client;
-
     /**
      * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * @var CurlService
+     */
+    protected $curlService;
 
     /**
      * @var TokenStorageInterface
@@ -34,19 +35,26 @@ abstract class BaseRepository
     /**
      * BaseRepository constructor.
      * @param LoggerInterface $logger
-     * @param ClientRegistry $client
+     * @param CurlService $curlService
      * @param TokenStorageInterface $securityTokenStorage
      *
-     * @DI\InjectParams({
-     *    "client" = @DI\Inject("project.registry.client"),
-     *    "securityTokenStorage" = @DI\Inject("security.token_storage"),
-     * })
      */
-    public function __construct(LoggerInterface $logger, ClientRegistry $client, TokenStorageInterface $securityTokenStorage)
+    public function __construct(LoggerInterface $logger, CurlService $curlService, TokenStorageInterface $securityTokenStorage)
     {
         $this->logger = $logger;
-        $this->client = $client;
+        $this->curlService = $curlService;
         $this->securityTokenStorage = $securityTokenStorage;
+    }
+
+    public function loginCheck($data)
+    {
+        try {
+            $this->logger->debug('API call', ['data', $data]);
+            return $this->curlService->post('http://terminales.puertobuenosaires.gob.ar:8090/login', $data);
+        } catch (RequestException $ex) {
+            $response = $ex->getResponse();
+            throw new HttpException($response->getStatusCode(), $ex->getMessage().'-'.$response->getReasonPhrase());
+        }
     }
 
     /**

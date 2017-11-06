@@ -29,34 +29,13 @@ class TokenUserProvider implements UserProviderInterface
         $this->logger = $logger;
     }
 
-    public function getUsernameForApiKey($apiKey)
+    public function getUsernameForApiKey($username)
     {
         try {
-
-            $tokenParts = explode('.', $apiKey);
-            if (self::JWT_TOKEN_PARTS_COUNT !== count($tokenParts)) {
-                throw new AuthenticationException('TOKEN Wrong Auth Token format');
-            }
-
-            $payload = json_decode(base64_decode($tokenParts[1]), true);
-            if (!isset($payload['username'])) {
-                throw new AuthenticationException('TOKEN No Username found in the Auth Token');
-            }
-
-            if (!isset($payload['exp'])) {
-                throw new AuthenticationException('TOKEN No expiration timestamp found in the Auth Token');
-            }
-
-            $roles = isset($payload['roles']) ? $payload['roles'] : [];
-
-            $exp = $payload['exp'];
-            if ($exp + (int) self::TOKEN_REFRESH_DELAY <= time()) {
-                throw new AuthenticationException('TOKEN Expired');
-            }
-
+            // TODO: Ver si se puede pedir un API que a partir de un token se obtiene el username
             return [
-                $payload['username'],
-                $roles
+                $username,
+                ['ROLE_USER']
             ];
 
         } catch (\Exception $ex) {
@@ -73,14 +52,13 @@ class TokenUserProvider implements UserProviderInterface
 
     public function refreshUser(UserInterface $user)
     {
-
         if (!$user instanceof ApiUser) {
             throw new UnsupportedUserException(
                 sprintf('Instances of "%s" are not supported.', get_class($user))
             );
         }
 
-        list($username, $roles) = $this->getUsernameForApiKey($user->getToken());
+        list($username, $roles) = $this->getUsernameForApiKey($user->getUsername());
 
         return new ApiUser($username,  null, '', $roles, $user->getToken());
     }

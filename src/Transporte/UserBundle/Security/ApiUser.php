@@ -23,6 +23,11 @@ class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterfac
         $this->token = $token;
     }
 
+    public function __toString()
+    {
+        return $this->username;
+    }
+
     public function getRoles()
     {
         return $this->roles;

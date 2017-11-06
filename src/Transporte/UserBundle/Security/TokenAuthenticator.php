@@ -2,7 +2,7 @@
 
 namespace Transporte\UserBundle\Security;
 
-use Transporte\UserBundle\Repository\RepositoryInterface;
+use Transporte\UserBundle\Repository\ApiUserRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterf
 class TokenAuthenticator implements SimpleFormAuthenticatorInterface
 {
     /**
-     * @var RepositoryInterface
+     * @var ApiUserRepository
      */
     protected $repository;
 
@@ -32,9 +32,9 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
     /**
      * TokenAuthenticator constructor.
      *
-     * @param RepositoryInterface $repository
+     * @param ApiUserRepository $repository
      */
-    public function __construct(LoggerInterface $logger,  RepositoryInterface $repository)
+    public function __construct(LoggerInterface $logger,  ApiUserRepository $repository)
     {
         $this->logger = $logger;
         $this->repository = $repository;
@@ -44,11 +44,10 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
     {
         try {
             $user = $token->getUser();
-            $userProvider->getUsernameForApiKey($user->getToken());
         } catch (\Exception $e) {
             // CAUTION: this message will be returned to the client
             // (so don't put any un-trusted messages / error strings here)
-            throw new CustomUserMessageAuthenticationException('Invalid username or password');
+            throw new CustomUserMessageAuthenticationException('Usuario o Contraseña invalida');
         }
 
         return new UsernamePasswordToken(
@@ -74,29 +73,42 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
             }
 
             $data = [
-                'form_params' => [
-                    '_username' => $username,
-                    '_password' => $password,
-                ],
+                'email' => $username,
+                'password' => $password,
             ];
 
             try {
-                // Call here your server to get a JWT Token from username and password.
-                // I Use an API Repository based on Guzzle.
-                $clientResponse = $this->repository->loginCheck($data);
-                $token = json_decode($clientResponse->getBody(), true);
+                $apiUser = $this->repository->loginCheck($data);
+                if (!isset($apiUser['data'])) {
+                    if (isset($apiUser['message'])) {
+                        throw new AuthenticationException($apiUser['message']);
+                    } else {
+                        throw new AuthenticationException('Bad Credentials');
+                    }
+                }
 
+                $apiDataUser = $apiUser['data'];
+
+                if (!isset($apiDataUser['token'])) {
+                    throw new AuthenticationException('API No Auth Token returned');
+                }
+
+                $token = $apiDataUser['token'];
                 if (!isset($token['token'])) {
                     throw new AuthenticationException('API No Auth Token returned');
                 }
+
                 $apiKey = $token['token'];
 
                 if (!$apiKey) {
                     throw new AuthenticationException('API No Key found');
                 }
 
-                list($username, $roles) = $this->getUsernameForApiKey($apiKey);
-
+                if (!isset($apiDataUser['user'])) {
+                    throw new AuthenticationException('API No Auth Username returned');
+                }
+                $username = $apiDataUser['user'];
+                $roles = ['ROLE_USER'];
                 $user = new ApiUser($username, $password, '', $roles, $apiKey);
 
                 return new UsernamePasswordToken(
@@ -115,7 +127,7 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
             }
         } catch (AuthenticationException $ex) {
             $this->logger->error($ex->getMessage());
-            throw new CustomUserMessageAuthenticationException('Invalid username or password');
+            throw new CustomUserMessageAuthenticationException('Usuario o Contraseña invalida');
         }
     }
 }
