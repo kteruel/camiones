@@ -23,7 +23,9 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
 
-             new Liip\ImagineBundle\LiipImagineBundle(),
+            new Liip\ImagineBundle\LiipImagineBundle(),
+
+            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

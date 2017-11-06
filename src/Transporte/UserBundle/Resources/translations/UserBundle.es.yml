@@ -5,7 +5,7 @@ security:
         box_title: Ingrese usuario y contraseña
         forgot_password: Olvide mi contraseña
         registrer: Registrarme
-        username: 'Nombre de usuario'
+        username: 'Email'
         password: Contraseña
         remember_me: Recordar
         submit: Entrar

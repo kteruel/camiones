@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/login", name="my_login")
+     * @Route("/login", name="login")
      */
     public function loginAction(Request $request)
     {
