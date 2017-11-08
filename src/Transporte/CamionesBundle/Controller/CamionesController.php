@@ -22,9 +22,17 @@ class CamionesController extends Controller
             $this->get('flashbag_service')->setFlash('success', 'Los cambios se han guardado correctamente');
         }
 
-        return $this->render('CamionesBundle:Form:ingreso.html.twig', [
+        return $this->render('CamionesBundle:Camiones:ingreso.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/playa", name="camiones_playa")
+     */
+    public function playaAction(Request $request)
+    {
+        return $this->render('CamionesBundle:Camiones:playa.html.twig');
     }
 
     /**
@@ -41,7 +49,7 @@ class CamionesController extends Controller
             $this->get('flashbag_service')->setFlash('success', 'Los cambios se han guardado correctamente');
         }
 
-        return $this->render('CamionesBundle:Form:salida.html.twig', [
+        return $this->render('CamionesBundle:Camiones:salida.html.twig', [
             'form' => $form->createView()
         ]);
     }

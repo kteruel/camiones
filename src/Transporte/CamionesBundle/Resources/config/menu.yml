@@ -3,8 +3,13 @@ camiones_ingreso:
   icon: 'arrow-right'
   name: 'Ingreso de Camiones'
   path: 'camiones_ingreso'
-camiones_salida:
+camiones_playa:
   order: 2
+  icon: 'list-ul'
+  name: 'Administración de playa'
+  path: camiones_playa
+camiones_salida:
+  order: 3
   icon: 'arrow-left'
   name: 'Salida de Camiones'
   path: 'camiones_salida'

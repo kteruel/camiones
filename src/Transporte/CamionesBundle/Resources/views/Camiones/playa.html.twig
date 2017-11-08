@@ -1,0 +1,41 @@
+{% extends 'CoreBundle:Default:backend.html.twig' %}
+
+{% block pageHeader %}Administración de playa{% endblock %}
+
+{% block iconPageHeader %}list-ul{% endblock %}
+
+{% block widgetName %}Administración de playa{% endblock %}
+
+{% block widgetIcon %}truck{% endblock %}
+
+{% block widgetBody %}
+
+    <table id="dataTable" class="table table-striped table-bordered" width="100%">
+
+        <thead>
+            <tr>
+                <th>Patente</th>
+                <th>Terminal</th>
+                <th>Operatoria</th>
+                <th>Hora Turno</th>
+                <th>Orden de arribo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody id="tbody-camiones">
+        </tbody>
+
+    </table>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include '::dataTables.html.twig' %}
+    <script>
+        $(document).ready(function(){
+            new DataTableWidget();
+        });
+    </script>
+{% endblock %}
