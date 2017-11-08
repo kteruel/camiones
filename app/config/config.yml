@@ -14,6 +14,7 @@ parameters:
     app_description: Transporte
     files_directory: '%kernel.root_dir%/../web/uploads'
     from_email: noreply@transporte.com
+    api_url: http://terminales.puertobuenosaires.gob.ar:8090
 
 framework:
     #esi:             ~
@@ -50,6 +51,7 @@ twig:
         http_web: "%http_web%"
         link_web: "%link_web%"
         url_web: "%http_web%://%link_web%"
+        api_url: "%api_url%"
 
 services:
     twig.extension.date:

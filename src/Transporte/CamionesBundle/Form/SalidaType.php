@@ -14,9 +14,6 @@ class SalidaType extends AbstractType
     {
         $builder
             ->add('tractor_patente', TextType::class, [ 'label' => 'Patente (Tractor)'])
-            ->add('chofer_dni', TextType::class, [ 'label' => 'Chofer (DNI)'])
-            ->add('playo_patente', TextType::class, [ 'label' => 'Patente (Playo)'])
-            ->add('contenedor', TextType::class, [ 'label' => 'Contenedor'])
         ;
     }
 

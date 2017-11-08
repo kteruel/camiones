@@ -34,20 +34,22 @@ class ApiUserRepository
      * @param LoggerInterface $logger
      * @param CurlService $curlService
      * @param TokenStorageInterface $securityTokenStorage
+     * @param string $apiURL
      *
      */
-    public function __construct(LoggerInterface $logger, CurlService $curlService, TokenStorageInterface $securityTokenStorage)
+    public function __construct(LoggerInterface $logger, CurlService $curlService, TokenStorageInterface $securityTokenStorage, $apiURL)
     {
         $this->logger = $logger;
         $this->curlService = $curlService;
         $this->securityTokenStorage = $securityTokenStorage;
+        $this->apiURL = $apiURL;
     }
 
     public function loginCheck($data)
     {
         try {
             $this->logger->debug('API call', ['data', $data]);
-            return $this->curlService->post('http://terminales.puertobuenosaires.gob.ar:8090/login', $data);
+            return $this->curlService->post($this->apiURL . '/login', $data);
         } catch (\Exception $ex) {
             $response = $ex->getResponse();
             throw new HttpException($response->getStatusCode(), $ex->getMessage().'-'.$response->getReasonPhrase());

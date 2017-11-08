@@ -5,6 +5,7 @@ services:
       - "@logger"
       - "@curl.service"
       - "@security.token_storage"
+      - "%api_url%"
 
   project.token.user_provider:
     class: Transporte\UserBundle\Security\TokenUserProvider
