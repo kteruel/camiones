@@ -18,6 +18,14 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/test", name="test")
+     */
+    public function testAction(Request $request)
+    {
+        return $this->render('CoreBundle:Default:test.html.twig');
+    }
+
+    /**
      * Render Menu and submenu from configuration bundles
      * The name of menu and submenu is required
      * If a menu has submenus you not have to have a direct path to direct the page

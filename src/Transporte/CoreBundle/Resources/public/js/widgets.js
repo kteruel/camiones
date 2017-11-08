@@ -1,4 +1,15 @@
 var BaseWidget = Class.extend({
+    zeroString(number, length) {
+        var string = '' + number;
+        while (string.length < length) {
+            string = '0' + string;
+        }
+
+        return string;
+    },
+    dateFormat: function(date) {
+        return this.zeroString(date.getDate(), 2) + "/" + this.zeroString((date.getMonth() + 1), 2) + "/" + date.getFullYear()
+    },
     alertError: function(title, content) {
         $.smallBox({
             title : title,
@@ -414,5 +425,96 @@ var GeoLocalizationWidget = SimpleMapWidget.extend({
             $("#" + self.inputLatitudId).val(place.geometry.location.lat());
             $("#" + self.inputLongitudId).val(place.geometry.location.lng());
         });
+    }
+});
+
+var TableServerSide = BaseWidget.extend({
+    pageInit: 0,
+    pageLength: 10,
+    pageOptions: [5, 10, 25, 50],
+    dataURL: '',
+    totalDataCountId: "#totalDataCountId",
+    tbodyId: "#tbodyId",
+    paginationId: "#pagination",
+    visiblePages: 5,
+    tCodeColumns: [],
+    setHeader: function(xhr) {
+        xhr.setRequestHeader('token', window.transporte.token);
+    },
+    getTd: function(data, code) {
+        var self = this;
+        var isDate = false;
+        if (code.substr(0,5) === 'date:') {
+            code = code.substr(5);
+            var isDate = true;
+        }
+        if (data.hasOwnProperty(code)) {
+            if (isDate) {
+                var d = new Date(data[code]);
+                return $("<td data-date='"+data[code]+"'>" + self.dateFormat(d) + "</td>");
+            } else {
+                return $("<td>" + data[code] + "</td>");
+            }
+        }
+
+        return null;
+    },
+    getAndRenderData: function() {
+        var self = this;
+        var url = window.transporte.apiURL + self.dataURL + "/" + self.pageInit + "/" + self.pageLength;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            success: function( dataResponse ) {
+                if (dataResponse.status == "OK") {
+                    $(self.tbodyId).empty();
+                    if (dataResponse.hasOwnProperty('totalCount')) {
+                        if ($(self.paginationId).is(':empty')) {
+                            self.addPagination(dataResponse.totalCount);
+                        }
+                    }
+                    for (d in dataResponse.data) {
+                        if (dataResponse.data.hasOwnProperty(d)) {
+                            var data = dataResponse.data[d];
+                            var $tr = $("<tr><tr>");
+                            for (c in self.tCodeColumns) {
+                                if (self.tCodeColumns.hasOwnProperty(c)) {
+                                    var code = self.tCodeColumns[c];
+                                    var $td = self.getTd(data, code);
+                                    if ($td) {
+                                        $tr.append($td);
+                                    }
+                                }
+                            }
+                            $(self.tbodyId).append($tr);
+                        }
+                    }
+                }
+            },
+        });
+    },
+    addPagination: function(totalCount) {
+        var self = this;
+        $(self.paginationId).empty();
+        var totalPages = totalCount / self.pageLength;
+        $(self.paginationId).twbsPagination({
+            totalPages: totalPages,
+            visiblePages: self.visiblePages,
+            onPageClick: function (event, page) {
+                self.pageInit = (page - 1) * self.pageLength;
+                self.getAndRenderData();
+            },
+            first: '<<',
+            prev: '<',
+            next: '>',
+            last: '>>'
+        });
+    },
+    init: function(args) {
+        this._super(args);
+
+        this.getAndRenderData();
     }
 });

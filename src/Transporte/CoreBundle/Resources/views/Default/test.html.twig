@@ -1,0 +1,50 @@
+{% extends 'CoreBundle:Default:backend.html.twig' %}
+
+{% block pageHeader %}Test API{% endblock %}
+
+{% block iconPageHeader %}list-ul{% endblock %}
+
+{% block widgetName %}Test API{% endblock %}
+
+{% block widgetIcon %}truck{% endblock %}
+
+{% block widgetBody %}
+
+    <table class="table table-striped table-bordered" width="100%">
+
+        <thead>
+            <tr>
+                <th>Operatoria</th>
+                <th>Fecha Alta</th>
+                <th>disponibles_t1</th>
+                <th>Fecha Inicio</th>
+                <th>Buque</th>
+                <th>Contenedor</th>
+                <th>Fecha Fin</th>
+                <th>Viaje</th>
+                <th>Terminal</th>
+            </tr>
+        </thead>
+
+        <tbody id="tbodyId">
+        </tbody>
+
+    </table>
+    <ul id="pagination" class="pagination-sm"></ul>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#{% include '::dataTables.html.twig' %}#}
+    <script>
+        $(document).ready(function() {
+            /*new DataTableWidget(); */
+            var terminal = 'BACTSSA';
+            new TableServerSide({
+                dataURL : "/appointments/" + terminal,
+                tCodeColumns: ['mov', 'date:alta', 'disponibles_t1', 'date:inicio', 'buque', 'contenedor', 'date:fin', 'viaje', 'terminal']
+            });
+        });
+    </script>
+{% endblock %}
