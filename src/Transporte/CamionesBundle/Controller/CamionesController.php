@@ -6,12 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class DefaultController extends Controller
+class CamionesController extends Controller
 {
     /**
      * @Route("/ingreso", name="camiones_ingreso")
      */
-    public function camionesAction(Request $request)
+    public function ingresoAction(Request $request)
     {
         $form = $this->createForm('Transporte\CamionesBundle\Form\IngresoType');
 
@@ -23,6 +23,25 @@ class DefaultController extends Controller
         }
 
         return $this->render('CamionesBundle:Form:ingreso.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/salida", name="camiones_salida")
+     */
+    public function salidaAction(Request $request)
+    {
+        $form = $this->createForm('Transporte\CamionesBundle\Form\SalidaType');
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // API para guardar los cambios
+            $this->get('flashbag_service')->setFlash('success', 'Los cambios se han guardado correctamente');
+        }
+
+        return $this->render('CamionesBundle:Form:salida.html.twig', [
             'form' => $form->createView()
         ]);
     }

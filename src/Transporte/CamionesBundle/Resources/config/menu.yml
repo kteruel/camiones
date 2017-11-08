@@ -1,4 +1,10 @@
 camiones_ingreso:
+  order: 1
   icon: 'arrow-right'
   name: 'Ingreso de Camiones'
   path: 'camiones_ingreso'
+camiones_salida:
+  order: 2
+  icon: 'arrow-left'
+  name: 'Salida de Camiones'
+  path: 'camiones_salida'

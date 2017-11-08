@@ -13,8 +13,8 @@
     {% endif %}
     {% if hide_submit is not defined %}
         <button class="btn btn-primary" type="submit">
-            <i class="fa fa-save"></i>
-            {{ 'button.submit'|trans }}
+            <i class="fa fa-{% if submit_icon is defined %}{{ submit_icon }}{% else %}save{% endif %}"></i>
+            {% if submit_text is defined %}{{ submit_text }}{% else %}{{ 'button.submit'|trans }}{% endif %}
         </button>
     {% endif %}
     {% if path_list is defined %}
