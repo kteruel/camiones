@@ -2,10 +2,7 @@
 
 namespace Transporte\UserBundle\Repository;
 
-use Transporte\UserBundle\Security\ApiUser;
 use Transporte\CoreBundle\Service\CurlService;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -51,51 +48,9 @@ class ApiUserRepository
         try {
             $this->logger->debug('API call', ['data', $data]);
             return $this->curlService->post('http://terminales.puertobuenosaires.gob.ar:8090/login', $data);
-        } catch (RequestException $ex) {
+        } catch (\Exception $ex) {
             $response = $ex->getResponse();
             throw new HttpException($response->getStatusCode(), $ex->getMessage().'-'.$response->getReasonPhrase());
         }
-    }
-
-    /**
-     * @param $url
-     * @param bool $public
-     * @return mixed
-     */
-    protected function getData($url, $public = true)
-    {
-        try {
-            $this->logger->debug('API call with Guzzle', ['url', $url]);
-            $client = $this->client->get();
-
-            $options = [];
-
-            $token = $this->getUserToken();
-            if (null !== $token) {
-                $options = array_merge_recursive(
-                    $options,  [
-                    'headers' => [
-                        'Authorization' => sprintf('Bearer %s', $token),
-                    ],
-                ]);
-
-                $url .= sprintf('?bearer=%s', $token);
-            }
-
-            return $client->get($url, $options);
-        } catch (RequestException $ex) {
-            $response = $ex->getResponse();
-            throw new HttpException($response->getStatusCode(), $ex->getMessage().'-'.$response->getReasonPhrase());
-        }
-    }
-
-    protected function getUserToken()
-    {
-        $user = $this->securityTokenStorage->getToken()->getUser();
-        if (is_object($user) && $user instanceof ApiUser) {
-            return $user->getToken();
-        }
-
-        return null;
     }
 }

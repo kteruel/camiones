@@ -11,6 +11,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+            anonymous: true
         main:
             pattern: ^/
             provider: token
