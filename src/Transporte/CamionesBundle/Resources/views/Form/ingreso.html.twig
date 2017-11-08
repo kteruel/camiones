@@ -1,0 +1,60 @@
+{% extends 'CoreBundle:Default:backend.html.twig' %}
+
+{% form_theme form 'CoreBundle:Form:bootstrap_3_layout.html.twig' %}
+
+{% block pageHeader %}Ingreso de camiones{% endblock %}
+
+{% block iconPageHeader %}arrow-right{% endblock %}
+
+{% block widgetName %}Ingreso de camiones{% endblock %}
+
+{% block widgetIcon %}truck{% endblock %}
+
+{% block widgetBody %}
+
+    {{ form_start(form) }}
+        <fieldset>
+            <div class="form-group">
+                {{ form_label(form.tractor_patente) }}
+                <div class="col-md-10">
+                    <div class="input-group">
+                        {{ form_widget(form.tractor_patente, {'attr' : {'class' : 'form-control'} }) }}
+                        <div class="input-group-btn">
+                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);">Consultar Patente</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.chofer_dni) }}
+                <div class="col-md-10">
+                    <div class="input-group">
+                        {{ form_widget(form.chofer_dni, {'attr' : {'class' : 'form-control'} }) }}
+                        <div class="input-group-btn">
+                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);">Consultar Chofer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.playo_patente) }}
+                <div class="col-md-10">
+                    <div class="input-group">
+                        {{ form_widget(form.playo_patente, {'attr' : {'class' : 'form-control'} }) }}
+                        <div class="input-group-btn">
+                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);">Consultar Playo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.contenedor) }}
+                <div class="col-md-10">
+                    {{ form_widget(form.contenedor, {'attr' : {'class' : 'form-control'} }) }}
+                </div>
+            </div>
+        </fieldset>
+        {% include 'CoreBundle:Default:form_actions.html.twig' %}
+    {{ form_end(form) }}
+
+{% endblock %}

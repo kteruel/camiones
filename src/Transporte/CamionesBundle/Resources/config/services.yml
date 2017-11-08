@@ -1,0 +1,3 @@
+services:
+  camiones.form.ingreso:
+    class: Transporte\CamionesBundle\Form\IngresoType

@@ -17,9 +17,11 @@
             {{ 'button.submit'|trans }}
         </button>
     {% endif %}
-    <a href="{{ path_list }}" class="btn btn-default">
-        {% if back_list.text is not defined %}{{ 'button.back_list'|trans }}{% else %}{{ back_list.text }}{% endif %}
-    </a>
+    {% if path_list is defined %}
+        <a href="{{ path_list }}" class="btn btn-default">
+            {% if back_list.text is not defined %}{{ 'button.back_list'|trans }}{% else %}{{ back_list.text }}{% endif %}
+        </a>
+    {% endif %}
     {% if path_edit is defined %}
         <a href="{{ path_edit }}" class="btn btn-primary">
             {{ 'button.edit'|trans }}

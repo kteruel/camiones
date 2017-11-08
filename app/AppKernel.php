@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Liip\ImagineBundle\LiipImagineBundle(),
 
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+            new Transporte\CamionesBundle\CamionesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

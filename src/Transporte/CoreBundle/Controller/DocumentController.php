@@ -32,5 +32,4 @@ class DocumentController extends Controller
         $response->setContent($content);
         return $response;
     }
-
 }

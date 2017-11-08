@@ -46,15 +46,6 @@ class DefaultController extends Controller
             ? $this->get('security.csrf.token_manager')->getToken('authenticate')->getValue()
             : null;
 
-        if ($request->getMethod() == "POST") {
-            $params = $request->request->all();
-
-            $token = new UsernamePasswordToken('user', null, 'main', array('ROLE_USER'));
-            $this->get('security.token_storage')->setToken($token);
-
-            return $this->redirectToRoute('homepage');
-        }
-
         return $this->renderLogin(array(
             'last_username' => $lastUsername,
             'error' => $error,

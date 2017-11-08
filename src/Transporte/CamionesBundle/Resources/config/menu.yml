@@ -1,0 +1,4 @@
+camiones_ingreso:
+  icon: 'arrow-right'
+  name: 'Ingreso de Camiones'
+  path: 'camiones_ingreso'
