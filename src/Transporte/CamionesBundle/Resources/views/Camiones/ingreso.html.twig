@@ -14,24 +14,7 @@
 
     {{ form_start(form, {'attr': {'id': 'ingreso-form'}}) }}
         <fieldset>
-            <legend>Datos del Tractor</legend>
-            <div class="form-group" id="form-group-tractor">
-                {{ form_label(form.tractor_patente) }}
-                <div class="col-md-10">
-                    <div class="input-group">
-                        {{ form_widget(form.tractor_patente, {'attr' : {'class' : 'form-control'} }) }}
-                        <div class="input-group-btn">
-                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_tractor">Consultar Tractor</a>
-                        </div>
-                    </div>
-                    <p class="note"><strong>Nota:</strong> Puede usar como ejemplo: DDS971</p>
-                    <span style="display:none" id="tractor-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró Tractor</span>
-                    <span style="display:none" id="tractor-error" class="help-block turno-error"></span>
-                </div>
-            </div>
-            <div style="display:none" id="tractor-data">
-                {% include "CamionesBundle:Camiones:tractor_data.html.twig" %}
-            </div>
+            {% include "CamionesBundle:Camiones:tractor_form.html.twig" %}
             <legend>Datos del Chofer</legend>
             <div class="form-group" id="form-group-chofer">
                 {{ form_label(form.chofer_dni) }}
@@ -91,47 +74,16 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles/camiones/js/my_functions.js') }}"></script>
     <script>
     $(function() {
-        $("input").keydown(function(e) {
-            if(e.keyCode == 13) {
-                e.preventDefault();
-                return false;
-            }
-        });
+        dontUseEnterInForm();
         $("#refresh").click(function(e) {
             e.preventDefault();
             location.reload();
         });
 
-        /** TRACTOR */
-        $("#transporte_camionesbundle_ingreso_tractor_patente").keyup(function(e) {
-            $(this).val($(this).val().toUpperCase());
-            if(e.keyCode == 13) {
-                $("#buscar_tractor").click();
-            }
-        });
-        $("#buscar_tractor").click(function(e) {
-            e.preventDefault();
-            $.ajax({
-                method: 'POST',
-                url: "{{ path('buscar_tractor') }}",
-                data: { tractor_patente: $("#transporte_camionesbundle_ingreso_tractor_patente").val() }
-            }).done(function(response) {
-                if (response.status == 'ok') {
-                    var tractor = response.data;
-                    $("#tractor-titular-input").val(tractor.titular);
-                    $("#tractor-documento-input").val(tractor.documento);
-                    $("#tractor-marca-input").val(tractor.marca);
-                    $("#tractor-tipo-input").val(tractor.tipo);
-                    $("#tractor-data").show();
-                    $("#tractor-not-found").hide();
-                } else {
-                    $("#tractor-data").hide();
-                    $("#tractor-not-found").show();
-                }
-            });
-        });
+        addTractorFormListener("#transporte_camionesbundle_ingreso_tractor_patente", "{{ path('buscar_tractor') }}");
 
         /** CHOFER */
         $("#transporte_camionesbundle_ingreso_chofer_dni").keydown(function(e) {
@@ -256,7 +208,6 @@
                 }
             });
         });
-
     });
     </script>
 {% endblock %}

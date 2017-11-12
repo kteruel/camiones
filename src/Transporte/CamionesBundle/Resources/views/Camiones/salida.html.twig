@@ -12,23 +12,24 @@
 
 {% block widgetBody %}
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'id': 'salida-form'}}) }}
         <fieldset>
-            <div class="form-group">
-                {{ form_label(form.tractor_patente) }}
-                <div class="col-md-10">
-                    <div class="input-group">
-                        {{ form_widget(form.tractor_patente, {'attr' : {'class' : 'form-control'} }) }}
-                        <div class="input-group-btn">
-                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);">Consultar Patente</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include "CamionesBundle:Camiones:tractor_form.html.twig" %}
         </fieldset>
 
-        {% include 'CoreBundle:Default:bootstrap_form_actions.html.twig' with {'submit_text' : 'Informar Terminal', 'submit_icon' : 'bell-o'} %}
+        {% include 'CoreBundle:Default:bootstrap_form_actions.html.twig' with {'submit_text' : 'Aviso Terminal', 'submit_icon' : 'bell-o'} %}
 
     {{ form_end(form) }}
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/camiones/js/my_functions.js') }}"></script>
+    <script>
+    $(function() {
+        dontUseEnterInForm();
+        addTractorFormListener("#transporte_camionesbundle_salida_tractor_patente", "{{ path('buscar_tractor') }}");
+    });
+    </script>
 {% endblock %}

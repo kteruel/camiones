@@ -13,7 +13,7 @@ class SalidaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tractor_patente', TextType::class, [ 'label' => 'Patente (Tractor)'])
+            ->add('tractor_patente', TextType::class, [ 'label' => 'Patente'])
         ;
     }
 
