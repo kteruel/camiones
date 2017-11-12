@@ -12,10 +12,10 @@
 
 {% block widgetBody %}
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'id': 'ingreso-form'}}) }}
         <fieldset>
             <legend>Datos del Tractor</legend>
-            <div class="form-group">
+            <div class="form-group" id="form-group-tractor">
                 {{ form_label(form.tractor_patente) }}
                 <div class="col-md-10">
                     <div class="input-group">
@@ -26,13 +26,14 @@
                     </div>
                     <p class="note"><strong>Nota:</strong> Puede usar como ejemplo: DDS971</p>
                     <span style="display:none" id="tractor-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró Tractor</span>
+                    <span style="display:none" id="tractor-error" class="help-block turno-error"></span>
                 </div>
             </div>
             <div style="display:none" id="tractor-data">
                 {% include "CamionesBundle:Camiones:tractor_data.html.twig" %}
             </div>
             <legend>Datos del Chofer</legend>
-            <div class="form-group">
+            <div class="form-group" id="form-group-chofer">
                 {{ form_label(form.chofer_dni) }}
                 <div class="col-md-10">
                     <div class="input-group">
@@ -49,7 +50,7 @@
                 {% include "CamionesBundle:Camiones:chofer_data.html.twig" %}
             </div>
             <legend>Datos del Playo</legend>
-            <div class="form-group">
+            <div class="form-group" id="form-group-playo">
                 {{ form_label(form.playo_patente) }}
                 <div class="col-md-10">
                     <div class="input-group">
@@ -66,15 +67,23 @@
                 {% include "CamionesBundle:Camiones:playo_data.html.twig" %}
             </div>
             <legend>Turnos</legend>
-            <div class="form-group">
+            <div class="form-group" id="form-group-contenedor">
                 {{ form_label(form.contenedor) }}
                 <div class="col-md-10">
                     {{ form_widget(form.contenedor, {'attr' : {'class' : 'form-control'} }) }}
+                    <span style="display:none" id="contenedor-error" class="help-block turno-error"></span>
                 </div>
             </div>
         </fieldset>
 
-        {% include 'CoreBundle:Default:bootstrap_form_actions.html.twig' with {'submit_text' : 'Informar Terminal', 'submit_icon' : 'bell-o'} %}
+        {% include 'CoreBundle:Default:bootstrap_form_actions.html.twig' with {
+                    'submit_text' : 'Informar Terminal', 'submit_icon' : 'bell-o',
+                    'other_actions' : [
+                        { 'path' : 'javascript:void(0);', 'text' : 'Consultar Turno', 'id' : 'buscar_turno', 'classes' : 'btn btn-success' },
+                        { 'path' : 'javascript:void(0);', 'text' : 'Nuevo Ingreso', 'id' : 'refresh', 'classes' : 'btn btn-default' }
+                    ]
+                }
+        %}
 
     {{ form_end(form) }}
 
@@ -89,6 +98,10 @@
                 e.preventDefault();
                 return false;
             }
+        });
+        $("#refresh").click(function(e) {
+            e.preventDefault();
+            location.reload();
         });
 
         /** TRACTOR */
@@ -193,6 +206,57 @@
                 }
             });
         });
+
+        /** TURNOS */
+        $("#buscar_turno").click(function(e) {
+            e.preventDefault();
+            var patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
+            var contenedor = $("#transporte_camionesbundle_ingreso_contenedor").val();
+            if (patente === "" && contenedor === "") {
+                $(".turno-error").html("Debe ingresar un dato para Consultar el Turno.").show();
+                $("#form-group-tractor").addClass('has-error');
+                $("#form-group-contenedor").addClass('has-error');
+                return false;
+            }
+
+            $(".turno-error").hide();
+            $("#form-group-tractor").removeClass('has-error');
+            $("#form-group-contenedor").removeClass('has-error');
+
+            var data = {};
+            if (patente !== "") {
+                $.extend(data, { tractor_patente : patente });
+            }
+            if (contenedor !== "") {
+                $.extend(data, { contenedor : contenedor });
+            }
+
+            $.ajax({
+                method: 'POST',
+                url: "{{ path('buscar_turno') }}",
+                data: data
+            }).done(function(response) {
+                if (response.status == 'ok') {
+                    var turno = response.data;
+                    $.smallBox({
+                        title : "Turno atrasado",
+                        content : "Aviso de llegada tarde. Turno: " + turno.fecha,
+                        color : "#a90329",
+                        iconSmall : "fa fa-warning bounce animated",
+                        timeout : 4000
+                    });
+                } else {
+                    $.smallBox({
+                        title : "Consulta de Turno",
+                        content : "No se encontró el Turno.",
+                        color : "#c26565",
+                        iconSmall : "fa fa-warning bounce animated",
+                        timeout : 4000
+                    });
+                }
+            });
+        });
+
     });
     </script>
 {% endblock %}

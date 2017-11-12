@@ -122,4 +122,83 @@ class AjaxMockController extends Controller
             'status' => 'not_found'
         ]);
     }
+
+    /**
+     * @Route("/buscar_turno", name="buscar_turno")
+     * @Method("POST")
+     */
+    public function buscarTurnoAction(Request $request)
+    {
+        $data = $request->request->all();
+
+        $parameters = [];
+        if (isset($data['tractor_patente'])) {
+            $parameters[] = [
+                'key' => 'patente',
+                'value' => $data['tractor_patente']
+            ];
+        }
+
+        if (isset($data['contenedor'])) {
+            $parameters[] = [
+                'key' => 'contenedor',
+                'value' => $data['contenedor']
+            ];
+        }
+
+        $turnos = $this->buscarTurno($parameters);
+
+        if (count($turnos) == 1) {
+            return new JsonResponse([
+                'status' => 'ok',
+                'data' => $turnos[0]
+            ]);
+        } else {
+            return new JsonResponse([
+                'status' => 'not_found'
+            ]);
+        }
+
+        return new JsonResponse([
+            'status' => 'not_found'
+        ]);
+    }
+
+    private function buscarTurno($parameters)
+    {
+        $turnos = [
+            [
+                'patente' => 'DDS971',
+                'contenedor' => '123456',
+                'fecha' => '12/11/2017 15:30'
+            ],
+            [
+                'patente' => 'DDS971',
+                'contenedor' => '888888',
+                'fecha' => '12/11/2017 20:00'
+            ],
+            [
+                'patente' => 'ABC123',
+                'contenedor' => '9854785',
+                'fecha' => '12/11/2017 16:30'
+            ],
+            [
+                'patente' => 'POK548',
+                'contenedor' => '541256',
+                'fecha' => '12/11/2017 16:00'
+            ]
+        ];
+
+        foreach ($parameters as $parameter) {
+            $turnos_tmp = [];
+            foreach ($turnos as $turno) {
+                if ($turno[$parameter['key']] == $parameter['value']) {
+                    $turnos_tmp[] = $turno;
+                }
+            }
+            $turnos = $turnos_tmp;
+        }
+
+        return $turnos;
+    }
 }

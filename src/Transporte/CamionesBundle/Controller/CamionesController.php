@@ -20,6 +20,8 @@ class CamionesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // API para guardar los cambios
             $this->get('flashbag_service')->setFlash('success', 'Los cambios se han guardado correctamente');
+
+            return $this->redirectToRoute('camiones_ingreso');
         }
 
         return $this->render('CamionesBundle:Camiones:ingreso.html.twig', [
@@ -47,6 +49,7 @@ class CamionesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // API para guardar los cambios
             $this->get('flashbag_service')->setFlash('success', 'Los cambios se han guardado correctamente');
+            return $this->redirectToRoute('camiones_salida');
         }
 
         return $this->render('CamionesBundle:Camiones:salida.html.twig', [

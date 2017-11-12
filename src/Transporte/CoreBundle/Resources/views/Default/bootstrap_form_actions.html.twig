@@ -6,7 +6,7 @@
             {% if other_actions is defined %}
                 {% for action in other_actions %}
                     {% if action.path is defined and action.text is defined %}
-                        <a class="{{ action.classes|default('btn btn-primary') }}" href="{{ action.path }}">
+                        <a class="{{ action.classes|default('btn btn-primary') }}" href="{{ action.path }}" {% if action.id is defined %}id="{{ action.id }}"{% endif %}>
                             {% if action.icon is defined %}<i class="{{ action.icon }}"></i>{% endif %}
                             {{ action.text }}
                         </a>
