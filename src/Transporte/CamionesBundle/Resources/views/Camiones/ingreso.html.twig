@@ -14,39 +14,58 @@
 
     {{ form_start(form) }}
         <fieldset>
+            <legend>Datos del Tractor</legend>
             <div class="form-group">
                 {{ form_label(form.tractor_patente) }}
                 <div class="col-md-10">
                     <div class="input-group">
                         {{ form_widget(form.tractor_patente, {'attr' : {'class' : 'form-control'} }) }}
                         <div class="input-group-btn">
-                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);">Consultar Patente</a>
+                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_tractor">Consultar Tractor</a>
                         </div>
                     </div>
+                    <p class="note"><strong>Nota:</strong> Puede usar como ejemplo: DDS971</p>
+                    <span style="display:none" id="tractor-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró Tractor</span>
                 </div>
             </div>
+            <div style="display:none" id="tractor-data">
+                {% include "CamionesBundle:Camiones:tractor_data.html.twig" %}
+            </div>
+            <legend>Datos del Chofer</legend>
             <div class="form-group">
                 {{ form_label(form.chofer_dni) }}
                 <div class="col-md-10">
                     <div class="input-group">
                         {{ form_widget(form.chofer_dni, {'attr' : {'class' : 'form-control'} }) }}
                         <div class="input-group-btn">
-                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);">Consultar Chofer</a>
+                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_chofer">Consultar Chofer</a>
                         </div>
                     </div>
+                    <p class="note"><strong>Nota:</strong> Ingrese solo números. Puede usar como ejemplo: 34430831</p>
+                    <span style="display:none" id="chofer-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró el Chofer</span>
                 </div>
             </div>
+            <div style="display:none" id="chofer-data">
+                {% include "CamionesBundle:Camiones:chofer_data.html.twig" %}
+            </div>
+            <legend>Datos del Playo</legend>
             <div class="form-group">
                 {{ form_label(form.playo_patente) }}
                 <div class="col-md-10">
                     <div class="input-group">
                         {{ form_widget(form.playo_patente, {'attr' : {'class' : 'form-control'} }) }}
                         <div class="input-group-btn">
-                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);">Consultar Playo</a>
+                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_playo">Consultar Playo</a>
                         </div>
                     </div>
+                    <p class="note"><strong>Nota:</strong> Puede usar como ejemplo: OOZ555</p>
+                    <span style="display:none" id="playo-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró el Playo</span>
                 </div>
             </div>
+            <div style="display:none" id="playo-data">
+                {% include "CamionesBundle:Camiones:playo_data.html.twig" %}
+            </div>
+            <legend>Turnos</legend>
             <div class="form-group">
                 {{ form_label(form.contenedor) }}
                 <div class="col-md-10">
@@ -55,8 +74,125 @@
             </div>
         </fieldset>
 
-        {% include 'CoreBundle:Default:form_actions.html.twig' with {'submit_text' : 'Informar Terminal', 'submit_icon' : 'bell-o'} %}
+        {% include 'CoreBundle:Default:bootstrap_form_actions.html.twig' with {'submit_text' : 'Informar Terminal', 'submit_icon' : 'bell-o'} %}
 
     {{ form_end(form) }}
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    $(function() {
+        $("input").keydown(function(e) {
+            if(e.keyCode == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        /** TRACTOR */
+        $("#transporte_camionesbundle_ingreso_tractor_patente").keyup(function(e) {
+            $(this).val($(this).val().toUpperCase());
+            if(e.keyCode == 13) {
+                $("#buscar_tractor").click();
+            }
+        });
+        $("#buscar_tractor").click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: "{{ path('buscar_tractor') }}",
+                data: { tractor_patente: $("#transporte_camionesbundle_ingreso_tractor_patente").val() }
+            }).done(function(response) {
+                if (response.status == 'ok') {
+                    var tractor = response.data;
+                    $("#tractor-titular-input").val(tractor.titular);
+                    $("#tractor-documento-input").val(tractor.documento);
+                    $("#tractor-marca-input").val(tractor.marca);
+                    $("#tractor-tipo-input").val(tractor.tipo);
+                    $("#tractor-data").show();
+                    $("#tractor-not-found").hide();
+                } else {
+                    $("#tractor-data").hide();
+                    $("#tractor-not-found").show();
+                }
+            });
+        });
+
+        /** CHOFER */
+        $("#transporte_camionesbundle_ingreso_chofer_dni").keydown(function(e) {
+            // Allow: backspace, delete, tab, escape and enter
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+                 // Allow: Ctrl/cmd+A
+                (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: Ctrl/cmd+C
+                (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: Ctrl/cmd+X
+                (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                     // let it happen, don't do anything
+                     return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+        $("#transporte_camionesbundle_ingreso_chofer_dni").keyup(function(e) {
+            if(e.keyCode == 13) {
+                $("#buscar_chofer").click();
+            }
+        });
+        $("#buscar_chofer").click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: "{{ path('buscar_chofer') }}",
+                data: { chofer_dni: $("#transporte_camionesbundle_ingreso_chofer_dni").val() }
+            }).done(function(response) {
+                if (response.status == 'ok') {
+                    var chofer = response.data;
+                    $("#chofer-nombre-input").val(chofer.nombre);
+                    $("#chofer-apellido-input").val(chofer.apellido);
+                    $("#chofer-nacimiento-input").val(chofer.nacimiento);
+                    $("#chofer-nacionalidad-input").val(chofer.nacionalidad);
+                    $("#chofer-data").show();
+                    $("#chofer-not-found").hide();
+                } else {
+                    $("#chofer-data").hide();
+                    $("#chofer-not-found").show();
+                }
+            });
+        });
+
+        /** PLAYO */
+        $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
+            $(this).val($(this).val().toUpperCase());
+            if(e.keyCode == 13) {
+                $("#buscar_playo").click();
+            }
+        });
+        $("#buscar_playo").click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: "{{ path('buscar_playo') }}",
+                data: { playo_patente: $("#transporte_camionesbundle_ingreso_playo_patente").val() }
+            }).done(function(response) {
+                if (response.status == 'ok') {
+                    var playo = response.data;
+                    $("#playo-data1-input").val(playo.data1);
+                    $("#playo-data2-input").val(playo.data2);
+                    $("#playo-data").show();
+                    $("#playo-not-found").hide();
+                } else {
+                    $("#playo-data").hide();
+                    $("#playo-not-found").show();
+                }
+            });
+        });
+    });
+    </script>
 {% endblock %}

@@ -18,13 +18,15 @@
                     {{ 'button.edit'|trans }}
                 </a>
             {% endif %}
-            <a href="{{ path_list }}" class="btn btn-default">
-                {{ 'button.back_list'|trans }}
-            </a>
+            {% if path_list is defined %}
+                <a href="{{ path_list }}" class="btn btn-default">
+                    {% if back_list.text is not defined %}{{ 'button.back_list'|trans }}{% else %}{{ back_list.text }}{% endif %}
+                </a>
+            {% endif %}
             {% if hide_submit is not defined %}
                 <button class="btn btn-primary" type="submit">
-                    <i class="fa fa-save"></i>
-                    {{ 'button.submit'|trans }}
+                    <i class="fa fa-{% if submit_icon is defined %}{{ submit_icon }}{% else %}save{% endif %}"></i>
+                    {% if submit_text is defined %}{{ submit_text }}{% else %}{{ 'button.submit'|trans }}{% endif %}
                 </button>
             {% endif %}
         </div>
