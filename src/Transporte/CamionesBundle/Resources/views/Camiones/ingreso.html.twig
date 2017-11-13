@@ -76,138 +76,138 @@
     {{ parent() }}
     <script src="{{ asset('bundles/camiones/js/my_functions.js') }}"></script>
     <script>
-    $(function() {
-        dontUseEnterInForm();
-        $("#refresh").click(function(e) {
-            e.preventDefault();
-            location.reload();
-        });
-
-        addTractorFormListener("#transporte_camionesbundle_ingreso_tractor_patente", "{{ path('buscar_tractor') }}");
-
-        /** CHOFER */
-        $("#transporte_camionesbundle_ingreso_chofer_dni").keydown(function(e) {
-            // Allow: backspace, delete, tab, escape and enter
-            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-                 // Allow: Ctrl/cmd+A
-                (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                 // Allow: Ctrl/cmd+C
-                (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
-                 // Allow: Ctrl/cmd+X
-                (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
-                 // Allow: home, end, left, right
-                (e.keyCode >= 35 && e.keyCode <= 39)) {
-                     // let it happen, don't do anything
-                     return;
-            }
-            // Ensure that it is a number and stop the keypress
-            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        $(function() {
+            dontUseEnterInForm();
+            $("#refresh").click(function(e) {
                 e.preventDefault();
-            }
-        });
-        $("#transporte_camionesbundle_ingreso_chofer_dni").keyup(function(e) {
-            if(e.keyCode == 13) {
-                $("#buscar_chofer").click();
-            }
-        });
-        $("#buscar_chofer").click(function(e) {
-            e.preventDefault();
-            $.ajax({
-                method: 'POST',
-                url: "{{ path('buscar_chofer') }}",
-                data: { chofer_dni: $("#transporte_camionesbundle_ingreso_chofer_dni").val() }
-            }).done(function(response) {
-                if (response.status == 'ok') {
-                    var chofer = response.data;
-                    $("#chofer-nombre-input").val(chofer.nombre);
-                    $("#chofer-apellido-input").val(chofer.apellido);
-                    $("#chofer-nacimiento-input").val(chofer.nacimiento);
-                    $("#chofer-nacionalidad-input").val(chofer.nacionalidad);
-                    $("#chofer-data").show();
-                    $("#chofer-not-found").hide();
-                } else {
-                    $("#chofer-data").hide();
-                    $("#chofer-not-found").show();
+                location.reload();
+            });
+
+            addTractorFormListener("#transporte_camionesbundle_ingreso_tractor_patente", "{{ path('buscar_tractor') }}");
+
+            /** CHOFER */
+            $("#transporte_camionesbundle_ingreso_chofer_dni").keydown(function(e) {
+                // Allow: backspace, delete, tab, escape and enter
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+                     // Allow: Ctrl/cmd+A
+                    (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                     // Allow: Ctrl/cmd+C
+                    (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                     // Allow: Ctrl/cmd+X
+                    (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                     // Allow: home, end, left, right
+                    (e.keyCode >= 35 && e.keyCode <= 39)) {
+                         // let it happen, don't do anything
+                         return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
                 }
             });
-        });
-
-        /** PLAYO */
-        $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
-            $(this).val($(this).val().toUpperCase());
-            if(e.keyCode == 13) {
-                $("#buscar_playo").click();
-            }
-        });
-        $("#buscar_playo").click(function(e) {
-            e.preventDefault();
-            $.ajax({
-                method: 'POST',
-                url: "{{ path('buscar_playo') }}",
-                data: { playo_patente: $("#transporte_camionesbundle_ingreso_playo_patente").val() }
-            }).done(function(response) {
-                if (response.status == 'ok') {
-                    var playo = response.data;
-                    $("#playo-data1-input").val(playo.data1);
-                    $("#playo-data2-input").val(playo.data2);
-                    $("#playo-data").show();
-                    $("#playo-not-found").hide();
-                } else {
-                    $("#playo-data").hide();
-                    $("#playo-not-found").show();
+            $("#transporte_camionesbundle_ingreso_chofer_dni").keyup(function(e) {
+                if(e.keyCode == 13) {
+                    $("#buscar_chofer").click();
                 }
             });
-        });
+            $("#buscar_chofer").click(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ path('buscar_chofer') }}",
+                    data: { chofer_dni: $("#transporte_camionesbundle_ingreso_chofer_dni").val() }
+                }).done(function(response) {
+                    if (response.status == 'ok') {
+                        var chofer = response.data;
+                        $("#chofer-nombre-input").val(chofer.nombre);
+                        $("#chofer-apellido-input").val(chofer.apellido);
+                        $("#chofer-nacimiento-input").val(chofer.nacimiento);
+                        $("#chofer-nacionalidad-input").val(chofer.nacionalidad);
+                        $("#chofer-data").show();
+                        $("#chofer-not-found").hide();
+                    } else {
+                        $("#chofer-data").hide();
+                        $("#chofer-not-found").show();
+                    }
+                });
+            });
 
-        /** TURNOS */
-        $("#buscar_turno").click(function(e) {
-            e.preventDefault();
-            var patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
-            var contenedor = $("#transporte_camionesbundle_ingreso_contenedor").val();
-            if (patente === "" && contenedor === "") {
-                $(".turno-error").html("Debe ingresar un dato para Consultar el Turno.").show();
-                $("#form-group-tractor").addClass('has-error');
-                $("#form-group-contenedor").addClass('has-error');
-                return false;
-            }
-
-            $(".turno-error").hide();
-            $("#form-group-tractor").removeClass('has-error');
-            $("#form-group-contenedor").removeClass('has-error');
-
-            var data = {};
-            if (patente !== "") {
-                $.extend(data, { tractor_patente : patente });
-            }
-            if (contenedor !== "") {
-                $.extend(data, { contenedor : contenedor });
-            }
-
-            $.ajax({
-                method: 'POST',
-                url: "{{ path('buscar_turno') }}",
-                data: data
-            }).done(function(response) {
-                if (response.status == 'ok') {
-                    var turno = response.data;
-                    $.smallBox({
-                        title : "Turno atrasado",
-                        content : "Aviso de llegada tarde. Turno: " + turno.fecha,
-                        color : "#a90329",
-                        iconSmall : "fa fa-warning bounce animated",
-                        timeout : 4000
-                    });
-                } else {
-                    $.smallBox({
-                        title : "Consulta de Turno",
-                        content : "No se encontró el Turno.",
-                        color : "#c26565",
-                        iconSmall : "fa fa-warning bounce animated",
-                        timeout : 4000
-                    });
+            /** PLAYO */
+            $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
+                $(this).val($(this).val().toUpperCase());
+                if(e.keyCode == 13) {
+                    $("#buscar_playo").click();
                 }
             });
+            $("#buscar_playo").click(function(e) {
+                e.preventDefault();
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ path('buscar_playo') }}",
+                    data: { playo_patente: $("#transporte_camionesbundle_ingreso_playo_patente").val() }
+                }).done(function(response) {
+                    if (response.status == 'ok') {
+                        var playo = response.data;
+                        $("#playo-data1-input").val(playo.data1);
+                        $("#playo-data2-input").val(playo.data2);
+                        $("#playo-data").show();
+                        $("#playo-not-found").hide();
+                    } else {
+                        $("#playo-data").hide();
+                        $("#playo-not-found").show();
+                    }
+                });
+            });
+
+            /** TURNOS */
+            $("#buscar_turno").click(function(e) {
+                e.preventDefault();
+                var patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
+                var contenedor = $("#transporte_camionesbundle_ingreso_contenedor").val();
+                if (patente === "" && contenedor === "") {
+                    $(".turno-error").html("Debe ingresar un dato para Consultar el Turno.").show();
+                    $("#form-group-tractor").addClass('has-error');
+                    $("#form-group-contenedor").addClass('has-error');
+                    return false;
+                }
+
+                $(".turno-error").hide();
+                $("#form-group-tractor").removeClass('has-error');
+                $("#form-group-contenedor").removeClass('has-error');
+
+                var data = {};
+                if (patente !== "") {
+                    $.extend(data, { tractor_patente : patente });
+                }
+                if (contenedor !== "") {
+                    $.extend(data, { contenedor : contenedor });
+                }
+
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ path('buscar_turno') }}",
+                    data: data
+                }).done(function(response) {
+                    if (response.status == 'ok') {
+                        var turno = response.data;
+                        $.smallBox({
+                            title : "Turno atrasado",
+                            content : "Aviso de llegada tarde. Turno: " + turno.fecha,
+                            color : "#a90329",
+                            iconSmall : "fa fa-warning bounce animated",
+                            timeout : 4000
+                        });
+                    } else {
+                        $.smallBox({
+                            title : "Consulta de Turno",
+                            content : "No se encontró el Turno.",
+                            color : "#c26565",
+                            iconSmall : "fa fa-warning bounce animated",
+                            timeout : 4000
+                        });
+                    }
+                });
+            });
         });
-    });
     </script>
 {% endblock %}

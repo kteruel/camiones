@@ -151,12 +151,22 @@ var DataTableWidget = BaseWidget.extend({
                 widget.responsiveHelper_dt_basic.respond();
             }
         };
-        widget.oTable = $(widget.containerId).dataTable(
+
+        widget.oTable = $(widget.containerId).DataTable(
             $.extend(
                 widget.dataTableOptions,
                 functions
             )
         );
+
+        // Apply the filter
+        $(widget.containerId + " thead th input[type=text]").on( 'keyup change', function () {
+
+            widget.oTable
+                .column( $(this).parent().index()+':visible' )
+                .search( this.value )
+                .draw();
+        } );
     },
 
     reload: function() {

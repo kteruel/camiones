@@ -14,9 +14,32 @@
 
         <thead>
             <tr>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" class="form-control" placeholder="Buscar Patente">
+                </th>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" class="form-control" placeholder="Buscar Terminal">
+                </th>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" class="form-control" placeholder="Buscar Operatoria">
+                </th>
+                <th class="hasinput icon-addon">
+                    <input id="dateselect_filter" type="text" placeholder="Buscar Fecha Turno" class="form-control datepicker" data-dateformat="dd/mm/yy">
+                    <label for="dateselect_filter" class="glyphicon glyphicon-calendar no-margin padding-top-15" rel="tooltip" title="" data-original-title="Buscar Fecha"></label>
+                </th>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" placeholder="Buscar Hora Turno" class="form-control clockpicker" data-autoclose="true">
+                </th>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" class="form-control" placeholder="Buscar Orden de Arribo">
+                </th>
+                <th></th>
+            </tr>
+            <tr>
                 <th>Patente</th>
                 <th>Terminal</th>
                 <th>Operatoria</th>
+                <th>Fecha Turno</th>
                 <th>Hora Turno</th>
                 <th>Orden de arribo</th>
                 <th>Acciones</th>
@@ -34,8 +57,34 @@
     {{ parent() }}
     {% include '::dataTables.html.twig' %}
     <script>
-        $(document).ready(function(){
-            new DataTableWidget();
+        $(document).ready(function() {
+            $.ajax({
+                url: "{{ path('playa') }}"
+            }).done(function(response) {
+                if (response.status == 'ok') {
+                    var turnos = response.data;
+                    for(t in turnos) {
+                        if (turnos.hasOwnProperty(t)) {
+                            var turno = turnos[t];
+                            var $tr = $("<tr></tr>");
+                            $tr.append($("<td>" + turno.patente + "</td>"));
+                            $tr.append($("<td>" + turno.terminal + "</td>"));
+                            $tr.append($("<td>" + turno.operatoria + "</td>"));
+                            var split = turno.fecha.split(" ");
+                            $tr.append($("<td>" + split[0] + "</td>"));
+                            $tr.append($("<td>" + split[1] + "</td>"));
+                            $tr.append($("<td> - </td>")); // Orden de arribo
+                            var verMasUrl = Routing.generate('ver_turno', {
+                                'patente': turno.patente,
+                                'fecha' : turno.fecha
+                            });
+                            $tr.append($("<td><a href='" + verMasUrl + "' class=\"btn btn-xs btn-default\"><i class=\"fa fa-eye\"></i></a></td>"));
+                            $("#tbody-camiones").append($tr);
+                        }
+                    }
+                }
+                new DataTableWidget();
+            });
         });
     </script>
 {% endblock %}

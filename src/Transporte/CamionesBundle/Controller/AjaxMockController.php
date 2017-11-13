@@ -164,30 +164,88 @@ class AjaxMockController extends Controller
         ]);
     }
 
-    private function buscarTurno($parameters)
+    /**
+     * @Route("/playa", name="playa")
+     * @Method("GET")
+     */
+    public function playaAction()
     {
-        $turnos = [
+        $turnos = $this->getMockTurnos();
+
+        return new JsonResponse([
+            'status' => 'ok',
+            'data' => $turnos
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/ver-turno",
+     *     name="ver_turno",
+     *     options={ "expose" = true }
+     * )
+     * @Method("GET")
+     */
+    public function verTurnoAction(Request $request)
+    {
+        $params = $request->query->all();
+        $turnos = $this->buscarTurno([
+            ['key' => 'patente', 'value' => $params['patente']],
+            ['key' => 'fecha', 'value' => $params['fecha']]
+        ]);
+
+        $turno = count($turnos) == 1 ? $turnos[0] : null;
+
+        return $this->render('CamionesBundle:Camiones:turno.html.twig', [
+            'turno' => $turno
+        ]);
+    }
+
+    private function getMockTurnos()
+    {
+        return [
             [
                 'patente' => 'DDS971',
+                'playo_patente' => 'OOZ555',
+                'documento' => 34430831,
                 'contenedor' => '123456',
+                'terminal' => 'TRP',
+                'operatoria' => 'IMPO',
                 'fecha' => '12/11/2017 15:30'
             ],
             [
                 'patente' => 'DDS971',
+                'playo_patente' => 'ABC213',
+                'documento' => 34430831,
                 'contenedor' => '888888',
+                'terminal' => 'TRP',
+                'operatoria' => 'EXPO',
                 'fecha' => '12/11/2017 20:00'
             ],
             [
                 'patente' => 'ABC123',
+                'playo_patente' => 'UJH684',
+                'documento' => 88888888,
                 'contenedor' => '9854785',
+                'terminal' => 'BACTSSA',
+                'operatoria' => 'IMPO',
                 'fecha' => '12/11/2017 16:30'
             ],
             [
                 'patente' => 'POK548',
+                'playo_patente' => 'JHN658',
+                'documento' => 44444444,
                 'contenedor' => '541256',
+                'terminal' => 'APM',
+                'operatoria' => 'EXPO',
                 'fecha' => '12/11/2017 16:00'
             ]
         ];
+    }
+
+    private function buscarTurno($parameters)
+    {
+        $turnos = $this->getMockTurnos();
 
         foreach ($parameters as $parameter) {
             $turnos_tmp = [];
