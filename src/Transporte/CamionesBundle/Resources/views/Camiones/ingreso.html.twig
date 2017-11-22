@@ -26,7 +26,9 @@
                         </div>
                     </div>
                     <p class="note"><strong>Nota:</strong> Ingrese solo números.</p>
+                    <span style="display:none" id="chofer-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar un Documento</span>
                     <span style="display:none" id="chofer-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró el Chofer</span>
+                    <span style="display:none" id="chofer-cnrt-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontraron datos del Chofer en CNRT</span>
                 </div>
             </div>
             <div style="display:none" id="chofer-data">
@@ -42,8 +44,9 @@
                             <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_playo">Consultar Playo</a>
                         </div>
                     </div>
-                    <p class="note"><strong>Nota:</strong> Puede usar como ejemplo: OOZ555</p>
+                    <span style="display:none" id="playo-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar una Patente</span>
                     <span style="display:none" id="playo-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró el Playo</span>
+                    <p class="note"><strong>Nota:</strong> Puede usar como ejemplo: OOZ555</p>
                 </div>
             </div>
             <div style="display:none" id="playo-data">
@@ -77,6 +80,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/camiones/js/my_functions.js') }}"></script>
+    <script src="{{ asset('bundles/camiones/js/ingreso.js') }}"></script>
     <script src="{{ asset('bundles/core/smart/js/plugin/bootstrapvalidator/bootstrapValidator.min.js') }}"></script>
     <script>
         $(function() {
@@ -88,92 +92,7 @@
 
             addTractorFormListener("#transporte_camionesbundle_ingreso_tractor_patente");
 
-            /** CHOFER */
-            $("#transporte_camionesbundle_ingreso_chofer_dni").keydown(function(e) {
-                // Allow: backspace, delete, tab, escape and enter
-                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-                     // Allow: Ctrl/cmd+A
-                    (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                     // Allow: Ctrl/cmd+C
-                    (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
-                     // Allow: Ctrl/cmd+X
-                    (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
-                     // Allow: home, end, left, right
-                    (e.keyCode >= 35 && e.keyCode <= 39)) {
-                         // let it happen, don't do anything
-                         return;
-                }
-                // Ensure that it is a number and stop the keypress
-                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                    e.preventDefault();
-                }
-            });
-            $("#transporte_camionesbundle_ingreso_chofer_dni").keyup(function(e) {
-                if(e.keyCode == 13) {
-                    $("#buscar_chofer").click();
-                }
-            });
-            $("#buscar_chofer").click(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    method: 'GET',
-                    dataType: 'json',
-                    beforeSend: setHeader,
-                    url: window.transporte.apiURL + "/zap/cnrt/chofer/" + $("#transporte_camionesbundle_ingreso_chofer_dni").val()
-                }).done(function(response) {
-                    if (response.status == 'OK') {
-                        var chofer = response.data;
-                        $("#chofer-nombre-input").val(chofer.nombre);
-                        $("#chofer-apellido-input").val(chofer.apellido);
-                        $("#chofer-dni-input").val(chofer.dni);
-                        $("#chofer-data").show();
-                        $("#chofer-not-found").hide();
-                    }
-                }).fail(function(response) {
-                    $("#chofer-data").hide();
-                    $("#chofer-not-found").show();
-                    /** Mostrar Modal Alta Chofer */
-                    $("#modal-alta-chofer-input-firstname").val("");
-                    $("#modal-alta-chofer-input-lastname").val("");
-                    $("#modal-alta-chofer-input-mobile").val("");
-                    $("#alta-chofer").modal();
-                });
-            });
-
-            /** ALTA CHOFER */
-            $("#guardar-alta-chofer").click(function(e) {
-                e.preventDefault();
-                var firstname = $("#modal-alta-chofer-input-firstname").val();
-                var lastname = $("#modal-alta-chofer-input-lastname").val();
-                var mobile = $("#modal-alta-chofer-input-mobile").val();
-                if (firstname == "") $("#modal-alta-chofer-input-firstname-empty").show(); else $("#modal-alta-chofer-input-firstname-empty").hide();
-                if (lastname == "") $("#modal-alta-chofer-input-lastname-empty").show(); else $("#modal-alta-chofer-input-lastname-empty").hide();
-                if (mobile == "") $("#modal-alta-chofer-input-mobile-empty").show(); else $("#modal-alta-chofer-input-mobile-empty").hide();
-                if (firstname !== "" && lastname !== "" && mobile !== "") {
-                    var data = {
-                        firstname: firstname,
-                        lastname: lastname,
-                        mobile: mobile
-                    };
-                    $.ajax({
-                        method: 'POST',
-                        dataType: 'json',
-                        beforeSend: setHeader,
-                        url: window.transporte.apiURL + "/zap/chofer",
-                        data: data
-                    }).done(function(response) {
-                        if (response.status == 'OK') {
-                            $("#chofer-nombre-input").val(firstname);
-                            $("#chofer-apellido-input").val(lastname);
-                            $("#chofer-mobile-input").val(mobile);
-                            $("#chofer-data").show();
-                            $("#chofer-not-found").hide();
-                        }
-                    }).fail(function(response) {
-                        console.log(response);
-                    });
-                }
-            });
+            addChoferFormListener();
 
             /** PLAYO */
             $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
