@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div class="modal fade" id="alta-chofer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Alta Chofer</h4>
+            </div>
+            <form id="form-alta-chofer" method="post">
+                <div class="modal-body">
+                    <div class="alert alert-info alert-block">
+                        <a class="close" data-dismiss="alert" href="#">×</a>
+                        No se encontró el Chofer. Por favor, completa los datos para darlo de alta.
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="modal-alta-chofer-input-firstname"> Nombre</label>
+                                <input type="text" class="form-control" id="modal-alta-chofer-input-firstname" name="firstname" placeholder="Nombre" />
+                                <span style="display:none" id="modal-alta-chofer-input-firstname-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar el Nombre</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="modal-alta-chofer-input-lastname"> Apellido</label>
+                                <input type="text" class="form-control" id="modal-alta-chofer-input-lastname" name="lastname" placeholder="Apellido" />
+                                <span style="display:none" id="modal-alta-chofer-input-lastname-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar el Apellido</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="modal-alta-chofer-input-mobile"> Teléfono</label>
+                                <input type="number" class="form-control" id="modal-alta-chofer-input-mobile" name="mobile" placeholder="Teléfono" />
+                                <span style="display:none" id="modal-alta-chofer-input-mobile-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar el Teléfono</span>
+                            </div>
+                            <p class="note"><strong>Nota:</strong> Ingrese solo números.</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="button" id="guardar-alta-chofer" class="btn btn-primary">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

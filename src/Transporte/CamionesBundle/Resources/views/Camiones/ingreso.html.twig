@@ -12,7 +12,7 @@
 
 {% block widgetBody %}
 
-    {{ form_start(form, {'attr': {'id': 'ingreso-form'}}) }}
+    {{ form_start(form, {'attr': {'id': 'ingreso-form', 'novalidate' : 'novalidate'}}) }}
         <fieldset>
             {% include "CamionesBundle:Camiones:tractor_form.html.twig" %}
             <legend>Datos del Chofer</legend>
@@ -70,11 +70,14 @@
 
     {{ form_end(form) }}
 
+    {% include "CamionesBundle:Camiones:modal_alta_chofer.html.twig" %}
+
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/camiones/js/my_functions.js') }}"></script>
+    <script src="{{ asset('bundles/core/smart/js/plugin/bootstrapvalidator/bootstrapValidator.min.js') }}"></script>
     <script>
         $(function() {
             dontUseEnterInForm();
@@ -129,7 +132,47 @@
                 }).fail(function(response) {
                     $("#chofer-data").hide();
                     $("#chofer-not-found").show();
+                    /** Mostrar Modal Alta Chofer */
+                    $("#modal-alta-chofer-input-firstname").val("");
+                    $("#modal-alta-chofer-input-lastname").val("");
+                    $("#modal-alta-chofer-input-mobile").val("");
+                    $("#alta-chofer").modal();
                 });
+            });
+
+            /** ALTA CHOFER */
+            $("#guardar-alta-chofer").click(function(e) {
+                e.preventDefault();
+                var firstname = $("#modal-alta-chofer-input-firstname").val();
+                var lastname = $("#modal-alta-chofer-input-lastname").val();
+                var mobile = $("#modal-alta-chofer-input-mobile").val();
+                if (firstname == "") $("#modal-alta-chofer-input-firstname-empty").show(); else $("#modal-alta-chofer-input-firstname-empty").hide();
+                if (lastname == "") $("#modal-alta-chofer-input-lastname-empty").show(); else $("#modal-alta-chofer-input-lastname-empty").hide();
+                if (mobile == "") $("#modal-alta-chofer-input-mobile-empty").show(); else $("#modal-alta-chofer-input-mobile-empty").hide();
+                if (firstname !== "" && lastname !== "" && mobile !== "") {
+                    var data = {
+                        firstname: firstname,
+                        lastname: lastname,
+                        mobile: mobile
+                    };
+                    $.ajax({
+                        method: 'POST',
+                        dataType: 'json',
+                        beforeSend: setHeader,
+                        url: window.transporte.apiURL + "/zap/chofer",
+                        data: data
+                    }).done(function(response) {
+                        if (response.status == 'OK') {
+                            $("#chofer-nombre-input").val(firstname);
+                            $("#chofer-apellido-input").val(lastname);
+                            $("#chofer-mobile-input").val(mobile);
+                            $("#chofer-data").show();
+                            $("#chofer-not-found").hide();
+                        }
+                    }).fail(function(response) {
+                        console.log(response);
+                    });
+                }
             });
 
             /** PLAYO */

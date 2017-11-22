@@ -26,7 +26,7 @@ http://190.221.146.245:8090/zap/turno/patente/{patente}
 
 ### Ejemplo
 
-GET http://190.221.146.245:8090/zap/turno/patente/CAM009
+**GET** http://190.221.146.245:8090/zap/turno/patente/CAM009
 
 ## Api para consulta de CNRT por Tractor por medio de la Patente
 
@@ -51,7 +51,7 @@ http://190.221.146.245:8090/zap/cnrt/patente/{patente_tractor}
 
 ### Ejemplo
 
-GET http://190.221.146.245:8090/zap/cnrt/patente/FVO243
+**GET** http://190.221.146.245:8090/zap/cnrt/patente/FVO243
 
 FVO243 es una patente que está habilitado en CNRT
 
@@ -77,7 +77,7 @@ http://190.221.146.245:8090/zap/cnrt/chofer/4159980
 
 ## Api para consulta de Turno por medio de Número de Contenedor. Devuelve los turnos según el Contenedor
 
-GET http://190.221.146.245:8090/zap/turno/contenedor/
+**GET** http://190.221.146.245:8090/zap/turno/contenedor/
 
 ### Datos del Turno
 
@@ -101,12 +101,26 @@ GET http://190.221.146.245:8090/zap/turno/contenedor/
 
 ### Ejemplo
 
-GET http://190.221.146.245:8090/zap/turno/contenedor/HASU1016369
+**GET** http://190.221.146.245:8090/zap/turno/contenedor/HASU1016369
 
 ## Listado de contenedores con turno activo del dia de hoy ZAP
 
-GET http://190.221.146.245:8090/zap/turnos/contenedores
+**GET** http://190.221.146.245:8090/zap/turnos/contenedores
 
 ## Listado de camiones con turno activo del dia de hoy ZAP
 
-GET http://190.221.146.245:8090/zap/turnos/camiones
+**GET** http://190.221.146.245:8090/zap/turnos/camiones
+
+## Insertar un Chofer
+
+**POST** http://190.221.146.245:8090/zap/chofer
+Content-Type: application/json
+
+Parametros:
+ * lastname
+ * firstname
+ * mobile
+
+## Obtiene un chofer por dni
+
+**GET** http://190.221.146.245:8090/zap/chofer/23250578
