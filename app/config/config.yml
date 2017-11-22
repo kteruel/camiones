@@ -10,8 +10,8 @@ imports:
 parameters:
     web_path: %kernel.root_dir%/../web
     locale: es
-    app_title: Transporte
-    app_description: Transporte
+    app_title: Sistema de Entrada y Salida de Camiones
+    app_description: Ministerior de Transporte
     files_directory: '%kernel.root_dir%/../web/uploads'
     from_email: noreply@transporte.com
     api_url: http://190.221.146.245:8090

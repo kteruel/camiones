@@ -1,3 +1,7 @@
+function setHeader(xhr) {
+    xhr.setRequestHeader('token', window.transporte.token);
+}
+
 function dontUseEnterInForm() {
     $("input").keydown(function(e) {
         if(e.keyCode == 13) {
@@ -7,7 +11,7 @@ function dontUseEnterInForm() {
     });
 }
 
-function addTractorFormListener(tractorInputId, urlBuscarCamion) {
+function addTractorFormListener(tractorInputId) {
     /** TRACTOR */
     $(tractorInputId).keyup(function(e) {
         $(this).val($(this).val().toUpperCase());
@@ -18,22 +22,23 @@ function addTractorFormListener(tractorInputId, urlBuscarCamion) {
     $("#buscar_tractor").click(function(e) {
         e.preventDefault();
         $.ajax({
-            method: 'POST',
-            url: urlBuscarCamion,
-            data: { tractor_patente: $(tractorInputId).val() }
+            method: 'GET',
+            dataType: 'json',
+            beforeSend: setHeader,
+            url: window.transporte.apiURL + "/zap/cnrt/patente/" + $(tractorInputId).val()
         }).done(function(response) {
-            if (response.status == 'ok') {
+            if (response.status == 'OK') {
                 var tractor = response.data;
-                $("#tractor-titular-input").val(tractor.titular);
-                $("#tractor-documento-input").val(tractor.documento);
-                $("#tractor-marca-input").val(tractor.marca);
-                $("#tractor-tipo-input").val(tractor.tipo);
+                $("#tractor-dominio-input").val(tractor.dominio);
+                $("#tractor-anio_modelo-input").val(tractor.anio_modelo);
+                $("#tractor-cantidad_ejes-input").val(tractor.cantidad_ejes);
+                $("#tractor-razon_social-input").val(tractor.razon_social);
                 $("#tractor-data").show();
                 $("#tractor-not-found").hide();
-            } else {
-                $("#tractor-data").hide();
-                $("#tractor-not-found").show();
             }
+        }).fail(function(response) {
+            $("#tractor-data").hide();
+            $("#tractor-not-found").show();
         });
     });
 }

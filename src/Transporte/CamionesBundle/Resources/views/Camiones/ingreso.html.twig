@@ -25,7 +25,7 @@
                             <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_chofer">Consultar Chofer</a>
                         </div>
                     </div>
-                    <p class="note"><strong>Nota:</strong> Ingrese solo números. Puede usar como ejemplo: 34430831</p>
+                    <p class="note"><strong>Nota:</strong> Ingrese solo números.</p>
                     <span style="display:none" id="chofer-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró el Chofer</span>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                 location.reload();
             });
 
-            addTractorFormListener("#transporte_camionesbundle_ingreso_tractor_patente", "{{ path('buscar_tractor') }}");
+            addTractorFormListener("#transporte_camionesbundle_ingreso_tractor_patente");
 
             /** CHOFER */
             $("#transporte_camionesbundle_ingreso_chofer_dni").keydown(function(e) {
@@ -113,22 +113,22 @@
             $("#buscar_chofer").click(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    method: 'POST',
-                    url: "{{ path('buscar_chofer') }}",
-                    data: { chofer_dni: $("#transporte_camionesbundle_ingreso_chofer_dni").val() }
+                    method: 'GET',
+                    dataType: 'json',
+                    beforeSend: setHeader,
+                    url: window.transporte.apiURL + "/zap/cnrt/chofer/" + $("#transporte_camionesbundle_ingreso_chofer_dni").val()
                 }).done(function(response) {
-                    if (response.status == 'ok') {
+                    if (response.status == 'OK') {
                         var chofer = response.data;
                         $("#chofer-nombre-input").val(chofer.nombre);
                         $("#chofer-apellido-input").val(chofer.apellido);
-                        $("#chofer-nacimiento-input").val(chofer.nacimiento);
-                        $("#chofer-nacionalidad-input").val(chofer.nacionalidad);
+                        $("#chofer-dni-input").val(chofer.dni);
                         $("#chofer-data").show();
                         $("#chofer-not-found").hide();
-                    } else {
-                        $("#chofer-data").hide();
-                        $("#chofer-not-found").show();
                     }
+                }).fail(function(response) {
+                    $("#chofer-data").hide();
+                    $("#chofer-not-found").show();
                 });
             });
 

@@ -24,15 +24,15 @@ Parametros:
 
 http://190.221.146.245:8090/zap/turno/patente/{patente}
 
-# Ejemplo
+### Ejemplo
 
 GET http://190.221.146.245:8090/zap/turno/patente/CAM009
 
 ## Api para consulta de CNRT por Tractor por medio de la Patente
 
-http://190.221.146.245:8090/zap/cnrt/patente/
+http://190.221.146.245:8090/zap/cnrt/patente/{patente_tractor}
 
-# Datos del Tractor
+### Datos del Tractor
 
  * Dominio
  * Año modelo
@@ -49,7 +49,7 @@ http://190.221.146.245:8090/zap/cnrt/patente/
  * Tipo Documento
  * Documento
 
-# Ejemplo
+### Ejemplo
 
 GET http://190.221.146.245:8090/zap/cnrt/patente/FVO243
 
@@ -59,7 +59,7 @@ FVO243 es una patente que está habilitado en CNRT
 
 http://190.221.146.245:8090/zap/cnrt/chofer/
 
-# Datos del Chofer
+### Datos del Chofer
 
  * Documento
  * Nombre
@@ -69,7 +69,7 @@ http://190.221.146.245:8090/zap/cnrt/chofer/
  * Categoria
  * Estado
 
-# Ejemplo
+### Ejemplo
 
 http://190.221.146.245:8090/zap/cnrt/chofer/4159980
 
@@ -79,7 +79,7 @@ http://190.221.146.245:8090/zap/cnrt/chofer/4159980
 
 GET http://190.221.146.245:8090/zap/turno/contenedor/
 
-# Datos del Turno
+### Datos del Turno
 
  * Buque
  * Viaje
@@ -99,7 +99,7 @@ GET http://190.221.146.245:8090/zap/turno/contenedor/
      * date
      * status
 
-# Ejemplo
+### Ejemplo
 
 GET http://190.221.146.245:8090/zap/turno/contenedor/HASU1016369
 
