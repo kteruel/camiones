@@ -56,7 +56,8 @@
             <div class="form-group" id="form-group-contenedor">
                 {{ form_label(form.contenedor) }}
                 <div class="col-md-10">
-                    {{ form_widget(form.contenedor, {'attr' : {'class' : 'form-control'} }) }}
+                    {{ form_widget(form.contenedor, {'attr' : {'class' : 'form-control', 'list' : 'contenedores-list'} }) }}
+                    <datalist id="contenedores-list"></datalist>
                     <span style="display:none" id="contenedor-error" class="help-block turno-error"></span>
                 </div>
             </div>
@@ -119,6 +120,24 @@
                         $("#playo-not-found").show();
                     }
                 });
+            });
+
+            /** AUTOCOMPLETE CONTENEDORES */
+            $.ajax({
+                method: 'GET',
+                dataType: 'json',
+                beforeSend: setHeader,
+                url: window.transporte.apiURL + "/zap/turnos/contenedores"
+            }).done(function(response) {
+                if (response.status == 'OK') {
+                    var contenedores = response.data;
+                    for (c in contenedores) {
+                        if (contenedores.hasOwnProperty(c)) {
+                            var contenedor = contenedores[c];
+                            $("#contenedores-list").append($("<option value='" + contenedor + "'>" + contenedor + "</option>"));
+                        }
+                    }
+                }
             });
 
             /** TURNOS */
