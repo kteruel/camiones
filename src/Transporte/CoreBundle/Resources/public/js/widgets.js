@@ -1,4 +1,39 @@
 var BaseWidget = Class.extend({
+    /** Form Functions */
+    dontUseEnterInForm: function() {
+        $("input").keydown(function(e) {
+            if(e.keyCode == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    },
+    keyPressOnlyNumbers: function(inputId) {
+        $(inputId).keydown(function(e) {
+            // Allow: backspace, delete, tab, escape and enter
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+                 // Allow: Ctrl/cmd+A
+                (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: Ctrl/cmd+C
+                (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: Ctrl/cmd+X
+                (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                     // let it happen, don't do anything
+                     return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    },
+    /** Ajax Functions */
+    setHeader: function(xhr) {
+        xhr.setRequestHeader('token', window.transporte.token);
+    },
+    /** Date Functions */
     zeroString(number, length) {
         var string = '' + number;
         while (string.length < length) {
@@ -10,12 +45,20 @@ var BaseWidget = Class.extend({
     dateFormat: function(date) {
         return this.zeroString(date.getDate(), 2) + "/" + this.zeroString((date.getMonth() + 1), 2) + "/" + date.getFullYear()
     },
+    dateTimeFormat: function(date) {
+        return this.zeroString(date.getDate(), 2) + "/" + this.zeroString((date.getMonth() + 1), 2) + "/" + date.getFullYear() +
+               " " + this.zeroString(date.getHours(), 2) + ":" + this.zeroString(date.getMinutes(), 2)
+    },
+    timeFormat: function(date) {
+        return this.zeroString(date.getHours(), 2) + ":" + this.zeroString(date.getMinutes(), 2);
+    },
+    /** Alert Functions */
     alertError: function(title, content) {
         $.smallBox({
             title : title,
             content : content,
             color : "#a90329",
-            iconSmall : "fa fa-warning bounce animated",
+            iconSmall : "fa fa-times bounce animated",
             timeout : 4000
         });
     },
@@ -25,6 +68,24 @@ var BaseWidget = Class.extend({
             content : content,
             color : "#468847",
             iconSmall : "fa fa-success bounce animated",
+            timeout : 4000
+        });
+    },
+    alertWarning: function(title, content) {
+        $.smallBox({
+            title : title,
+            content : content,
+            color : "#efe1b3",
+            iconSmall : "fa fa-warning bounce animated",
+            timeout : 4000
+        });
+    },
+    alertInfo: function(title, content) {
+        $.smallBox({
+            title : title,
+            content : content,
+            color : "#3276b1",
+            iconSmall : "fa fa-info bounce animated",
             timeout : 4000
         });
     },

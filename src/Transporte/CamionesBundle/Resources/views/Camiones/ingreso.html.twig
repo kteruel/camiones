@@ -59,6 +59,7 @@
                     {{ form_widget(form.contenedor, {'attr' : {'class' : 'form-control', 'list' : 'contenedores-list'} }) }}
                     <datalist id="contenedores-list"></datalist>
                     <span style="display:none" id="contenedor-error" class="help-block turno-error"></span>
+                    <span style="display:none" id="contenedor-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar un Contenedor</span>
                 </div>
             </div>
         </fieldset>
@@ -80,20 +81,13 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/camiones/js/my_functions.js') }}"></script>
-    <script src="{{ asset('bundles/camiones/js/ingreso.js') }}"></script>
-    <script src="{{ asset('bundles/core/smart/js/plugin/bootstrapvalidator/bootstrapValidator.min.js') }}"></script>
+    <script src="{{ asset('bundles/camiones/js/widgets.js') }}"></script>
+
     <script>
         $(function() {
-            dontUseEnterInForm();
-            $("#refresh").click(function(e) {
-                e.preventDefault();
-                location.reload();
+            new IngresoWidget({
+                tractorInputId : "#transporte_camionesbundle_ingreso_tractor_patente"
             });
-
-            addTractorFormListener("#transporte_camionesbundle_ingreso_tractor_patente");
-
-            addChoferFormListener();
 
             /** PLAYO */
             $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
@@ -118,74 +112,6 @@
                     } else {
                         $("#playo-data").hide();
                         $("#playo-not-found").show();
-                    }
-                });
-            });
-
-            /** AUTOCOMPLETE CONTENEDORES */
-            $.ajax({
-                method: 'GET',
-                dataType: 'json',
-                beforeSend: setHeader,
-                url: window.transporte.apiURL + "/zap/turnos/contenedores"
-            }).done(function(response) {
-                if (response.status == 'OK') {
-                    var contenedores = response.data;
-                    for (c in contenedores) {
-                        if (contenedores.hasOwnProperty(c)) {
-                            var contenedor = contenedores[c];
-                            $("#contenedores-list").append($("<option value='" + contenedor + "'>" + contenedor + "</option>"));
-                        }
-                    }
-                }
-            });
-
-            /** TURNOS */
-            $("#buscar_turno").click(function(e) {
-                e.preventDefault();
-                var patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
-                var contenedor = $("#transporte_camionesbundle_ingreso_contenedor").val();
-                if (patente === "" && contenedor === "") {
-                    $(".turno-error").html("Debe ingresar un dato para Consultar el Turno.").show();
-                    $("#form-group-tractor").addClass('has-error');
-                    $("#form-group-contenedor").addClass('has-error');
-                    return false;
-                }
-
-                $(".turno-error").hide();
-                $("#form-group-tractor").removeClass('has-error');
-                $("#form-group-contenedor").removeClass('has-error');
-
-                var data = {};
-                if (patente !== "") {
-                    $.extend(data, { tractor_patente : patente });
-                }
-                if (contenedor !== "") {
-                    $.extend(data, { contenedor : contenedor });
-                }
-
-                $.ajax({
-                    method: 'POST',
-                    url: "{{ path('buscar_turno') }}",
-                    data: data
-                }).done(function(response) {
-                    if (response.status == 'ok') {
-                        var turno = response.data;
-                        $.smallBox({
-                            title : "Turno atrasado",
-                            content : "Aviso de llegada tarde. Turno: " + turno.fecha,
-                            color : "#a90329",
-                            iconSmall : "fa fa-warning bounce animated",
-                            timeout : 4000
-                        });
-                    } else {
-                        $.smallBox({
-                            title : "Consulta de Turno",
-                            content : "No se encontró el Turno.",
-                            color : "#c26565",
-                            iconSmall : "fa fa-warning bounce animated",
-                            timeout : 4000
-                        });
                     }
                 });
             });
