@@ -168,19 +168,7 @@ var IngresoWidget = BaseWidget.extend({
                     beforeSend: self.setHeader,
                     url: window.transporte.apiURL + "/zap/chofer/" + dni
                 }).done(function(response) {
-                    if (response.status == 'OK') {
-                        var chofer = response.data;
-                        $("#chofer-nombre-input").val(chofer.firstname);
-                        $("#chofer-apellido-input").val(chofer.lastname);
-                        $("#chofer-mobile-input").val(chofer.mobile);
-                        $("#chofer-dni-input").val(chofer._id);
-                        $("#chofer-data").show();
-                        $("#chofer-not-found").hide();
-                        self.buscarChoferInCNRT(dni);
-                    }
-                }).fail(function(jqXHR) {
-                    var response = jqXHR.responseJSON;
-                    if (response.status == 'OK' && response.data !== null) { // TODO: Eliminar cuando esté corregido la API
+                    if (response.status == 'OK' && response.data !== null) {
                         var chofer = response.data;
                         $("#chofer-nombre-input").val(chofer.firstname);
                         $("#chofer-apellido-input").val(chofer.lastname);
