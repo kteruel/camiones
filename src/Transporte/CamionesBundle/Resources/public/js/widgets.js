@@ -192,6 +192,12 @@ var IngresoWidget = BaseWidget.extend({
 
         self.nuevoChoferButtonListener();
     },
+    addContenedorListener: function() {
+        $("#transporte_camionesbundle_ingreso_contenedor").keyup(function(e) {
+            $(this).val($(this).val().toUpperCase());
+        });
+        this.autoCompleteContenedores();
+    },
     autoCompleteContenedores: function() {
         var self = this;
         $.ajax({
@@ -211,29 +217,80 @@ var IngresoWidget = BaseWidget.extend({
             }
         });
     },
+    turnosResponseEvent: function(turnos) {
+        var self = this;
+        if (turnos.length > 0) {
+            var now = new Date();
+            $("#form-group-turnos").show();
+            for(t in turnos) {
+                if (turnos.hasOwnProperty(t)) {
+                    var turno = turnos[t];
+                    var dateInicio = new Date(turno.inicio);
+                    var dateFin = new Date(turno.fin);
+                    if (self.equalDates(now, dateInicio)) {
+                        $("#turnos-radio").append($("\
+                            <div class='radio'>\
+                                <label>\
+                                    <input type=\"radio\" value=\"" + dateInicio.toISOString() + "-" + dateFin.toISOString() + "\">" +
+                                    self.dateTimeFormat(dateInicio) + " a " + self.dateTimeFormat(dateFin) +
+                                "</label>\
+                            </div>"
+                        ));
+                    }
+                }
+            }
+            if ($("#turnos-radio .radio").length == 1) {
+                $("#turnos-radio .radio input").prop('checked', true);
+            }
+            if ($("#turnos-radio .radio").length == 0) {
+                self.alertError("Consulta de Turno", "No se encontró ningún Turno.")
+            }
+        } else {
+            self.alertError("Consulta de Turno", "No se encontró ningún Turno.")
+        }
+    },
     buscarTurnoListener: function() {
         var self = this;
-        $("#buscar_turno").click(function(e) {
+        $("#buscar_turno_por_tractor").click(function(e) {
             e.preventDefault();
             var tractor_patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
-            var contenedor = $("#transporte_camionesbundle_ingreso_contenedor").val();
-            if (tractor_patente === "" && contenedor === "") {
+            if (tractor_patente === "") {
                 $(".turno-error").html("Debe ingresar un dato para Consultar el Turno.").show();
                 $("#form-group-tractor").addClass('has-error');
-                $("#form-group-contenedor").addClass('has-error');
                 return false;
             }
 
             $(".turno-error").hide();
             $("#form-group-tractor").removeClass('has-error');
+
+            if (tractor_patente !== "") {
+                /** BUSCAR TURNO POR CONTENEDOR */
+                $.ajax({
+                    method: 'GET',
+                    dataType: 'json',
+                    beforeSend: self.setHeader,
+                    url: window.transporte.apiURL + "/zap/turno/patente/" + tractor_patente
+                }).done(function(response) {
+                    if (response.status == 'OK') {
+                        var turnos = response.data;
+                        self.turnosResponseEvent(turnos);
+                    }
+                });
+            }
+        });
+        $("#buscar_turno_por_contenedor").click(function(e) {
+            e.preventDefault();
+            var contenedor = $("#transporte_camionesbundle_ingreso_contenedor").val();
+            if (contenedor === "") {
+                $(".turno-error").html("Debe ingresar un dato para Consultar el Turno.").show();
+                $("#form-group-contenedor").addClass('has-error');
+                return false;
+            }
+
+            $(".turno-error").hide();
             $("#form-group-contenedor").removeClass('has-error');
 
-            var data = {}; // Extiendo el data con Patente de Tractor y Contenedor para API de turno por Patente y Contenedor
-            if (tractor_patente !== "") {
-                $.extend(data, { tractor_patente : tractor_patente });
-            }
             if (contenedor !== "") {
-                $.extend(data, { contenedor : contenedor });
                 /** BUSCAR TURNO POR CONTENEDOR */
                 $.ajax({
                     method: 'GET',
@@ -243,35 +300,7 @@ var IngresoWidget = BaseWidget.extend({
                 }).done(function(response) {
                     if (response.status == 'OK') {
                         var turnos = response.data;
-                        if (turnos.length > 0) {
-                            var now = new Date();
-                            $("#form-group-turnos").show();
-                            for(t in turnos) {
-                                if (turnos.hasOwnProperty(t)) {
-                                    var turno = turnos[t];
-                                    var dateInicio = new Date(turno.inicio);
-                                    var dateFin = new Date(turno.fin);
-                                    if (self.equalDates(now, dateInicio)) {
-                                        $("#turnos-radio").append($("\
-                                            <div class='radio'>\
-                                                <label>\
-                                                    <input type=\"radio\" value=\"" + dateInicio.toISOString() + "-" + dateFin.toISOString() + "\">" +
-                                                    self.dateTimeFormat(dateInicio) + " a " + self.dateTimeFormat(dateFin) +
-                                                "</label>\
-                                            </div>"
-                                        ));
-                                    }
-                                }
-                            }
-                            if ($("#turnos-radio .radio").length == 1) {
-                                $("#turnos-radio .radio input").prop('checked', true);
-                            }
-                            if ($("#turnos-radio .radio").length == 0) {
-                                self.alertWarning("Consulta de Turno", "No se encontró ningún Turno.")
-                            }
-                        } else {
-                            self.alertWarning("Consulta de Turno", "No se encontró ningún Turno.")
-                        }
+                        self.turnosResponseEvent(turnos);
                     }
                 });
             }
@@ -290,7 +319,7 @@ var IngresoWidget = BaseWidget.extend({
 
         this.addPlayoFormListener();
 
-        this.autoCompleteContenedores();
+        this.addContenedorListener();
 
         this.buscarTurnoListener();
     }

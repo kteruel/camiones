@@ -78,7 +78,7 @@ var BaseWidget = Class.extend({
         $.smallBox({
             title : title,
             content : content,
-            color : "#efe1b3",
+            color : "#826430",
             iconSmall : "fa fa-warning bounce animated",
             timeout : 4000
         });
