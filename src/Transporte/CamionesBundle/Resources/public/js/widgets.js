@@ -244,17 +244,33 @@ var IngresoWidget = BaseWidget.extend({
                     if (response.status == 'OK') {
                         var turnos = response.data;
                         if (turnos.length > 0) {
-                            var turno = turnos[0];
                             var now = new Date();
-                            var dateInicio = new Date(turno.inicio);
-                            var dateFin = new Date(turno.fin);
-                            if (now > dateInicio && now < dateFin) {
-                                self.alertSuccess("Llegada al Turno en horario", "Aviso de llegada de turno en horario. ")
-                            } else {
-                                self.alertError("Llegada Tarde", "El Tractor ha ingresado tarde. Turno: De: " + self.dateTimeFormat(dateInicio) + " a " + self.dateTimeFormat(dateFin));
+                            $("#form-group-turnos").show();
+                            for(t in turnos) {
+                                if (turnos.hasOwnProperty(t)) {
+                                    var turno = turnos[t];
+                                    var dateInicio = new Date(turno.inicio);
+                                    var dateFin = new Date(turno.fin);
+                                    if (self.equalDates(now, dateInicio)) {
+                                        $("#turnos-radio").append($("\
+                                            <div class='radio'>\
+                                                <label>\
+                                                    <input type=\"radio\" value=\"" + dateInicio.toISOString() + "-" + dateFin.toISOString() + "\">" +
+                                                    self.dateTimeFormat(dateInicio) + " a " + self.dateTimeFormat(dateFin) +
+                                                "</label>\
+                                            </div>"
+                                        ));
+                                    }
+                                }
+                            }
+                            if ($("#turnos-radio .radio").length == 1) {
+                                $("#turnos-radio .radio input").prop('checked', true);
+                            }
+                            if ($("#turnos-radio .radio").length == 0) {
+                                self.alertWarning("Consulta de Turno", "No se encontró ningún Turno.")
                             }
                         } else {
-                            self.alertWarning("Consulta de Turno", "No se encontró el Turno.")
+                            self.alertWarning("Consulta de Turno", "No se encontró ningún Turno.")
                         }
                     }
                 });

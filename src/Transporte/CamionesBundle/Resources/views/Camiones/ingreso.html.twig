@@ -61,6 +61,12 @@
                     <span style="display:none" id="contenedor-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar un Contenedor</span>
                 </div>
             </div>
+            <div style="display:none" class="form-group" id="form-group-turnos">
+                <label class="col-md-2 control-label">Turnos</label>
+                <div class="col-md-10" id="turnos-radio">
+                    <span style="display:none" id="turno-not-selected" class="help-block"><i class="fa fa-warning"></i> Debe seleccionar un Turno</span>
+                </div>
+            </div>
         </fieldset>
 
         {% include 'CoreBundle:Default:bootstrap_form_actions.html.twig' with {

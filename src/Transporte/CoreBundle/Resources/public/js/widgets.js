@@ -34,6 +34,9 @@ var BaseWidget = Class.extend({
         xhr.setRequestHeader('token', window.transporte.token);
     },
     /** Date Functions */
+    equalDates: function(date1, date2) {
+        return ("" + date1.getFullYear() + date1.getMonth() + date1.getDate()) === ("" + date2.getFullYear() + date2.getMonth() + date2.getDate());
+    },
     zeroString(number, length) {
         var string = '' + number;
         while (string.length < length) {
