@@ -46,7 +46,6 @@
                     </div>
                     <span style="display:none" id="playo-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar una Patente</span>
                     <span style="display:none" id="playo-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró el Playo</span>
-                    <p class="note"><strong>Nota:</strong> Puede usar como ejemplo: OOZ555</p>
                 </div>
             </div>
             <div style="display:none" id="playo-data">
@@ -87,33 +86,6 @@
         $(function() {
             new IngresoWidget({
                 tractorInputId : "#transporte_camionesbundle_ingreso_tractor_patente"
-            });
-
-            /** PLAYO */
-            $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
-                $(this).val($(this).val().toUpperCase());
-                if(e.keyCode == 13) {
-                    $("#buscar_playo").click();
-                }
-            });
-            $("#buscar_playo").click(function(e) {
-                e.preventDefault();
-                $.ajax({
-                    method: 'POST',
-                    url: "{{ path('buscar_playo') }}",
-                    data: { playo_patente: $("#transporte_camionesbundle_ingreso_playo_patente").val() }
-                }).done(function(response) {
-                    if (response.status == 'ok') {
-                        var playo = response.data;
-                        $("#playo-data1-input").val(playo.data1);
-                        $("#playo-data2-input").val(playo.data2);
-                        $("#playo-data").show();
-                        $("#playo-not-found").hide();
-                    } else {
-                        $("#playo-data").hide();
-                        $("#playo-not-found").show();
-                    }
-                });
             });
         });
     </script>

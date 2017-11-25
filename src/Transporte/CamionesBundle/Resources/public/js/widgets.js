@@ -44,6 +44,41 @@ var IngresoWidget = BaseWidget.extend({
             }
         });
     },
+    addPlayoFormListener: function() {
+        var self = this;
+        $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
+            $(this).val($(this).val().toUpperCase());
+            if(e.keyCode == 13) {
+                $("#buscar_playo").click();
+            }
+        });
+        $("#buscar_playo").click(function(e) {
+            e.preventDefault();
+            var patente = $("#transporte_camionesbundle_ingreso_playo_patente").val();
+            if (patente == "") $("#playo-empty").show(); else $("#playo-empty").hide();
+            if (patente !== "") {
+                $.ajax({
+                    method: 'GET',
+                    dataType: 'json',
+                    beforeSend: self.setHeader,
+                    url: window.transporte.apiURL + "/zap/cnrt/patente/playo/" + patente
+                }).done(function(response) {
+                    if (response.status == 'OK') {
+                        var playo = response.data;
+                        $("#playo-dominio-input").val(playo.dominio);
+                        $("#playo-anio_modelo-input").val(playo.anio_modelo);
+                        $("#playo-cantidad_ejes-input").val(playo.cantidad_ejes);
+                        $("#playo-razon_social-input").val(playo.razon_social);
+                        $("#playo-data").show();
+                        $("#playo-not-found").hide();
+                    }
+                }).fail(function(response) {
+                    $("#playo-data").hide();
+                    $("#playo-not-found").show();
+                });
+            }
+        });
+    },
     pressEnterAndSearchChofer: function() {
         $("#transporte_camionesbundle_ingreso_chofer_dni").keyup(function(e) {
             if(e.keyCode == 13) {
@@ -248,6 +283,8 @@ var IngresoWidget = BaseWidget.extend({
         this.addTractorFormListener();
 
         this.addChoferFormListener();
+
+        this.addPlayoFormListener();
 
         this.autoCompleteContenedores();
 
