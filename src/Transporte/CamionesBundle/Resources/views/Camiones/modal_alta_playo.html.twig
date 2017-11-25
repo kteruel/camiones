@@ -1,0 +1,45 @@
+<!-- Modal -->
+<div class="modal fade" id="alta-playo" tabindex="-1" role="dialog" aria-labelledby="alta-playo-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="alta-playo-label">Alta Playo</h4>
+            </div>
+            <form id="form-alta-playo" method="post">
+                <div class="modal-body">
+                    <div class="alert alert-info alert-block">
+                        <a class="close" data-dismiss="alert" href="#">×</a>
+                        No se encontró el Playo. Por favor, completa los datos para darlo de alta.
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="modal-alta-playo-input-axis"> Cantidad de Ejes</label>
+                                <input type="text" class="form-control" id="modal-alta-playo-input-axis" name="axis" placeholder="Cantidad de Ejes" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="modal-alta-playo-input-year"> Año Modelo</label>
+                                <input type="text" class="form-control" id="modal-alta-playo-input-year" name="year" placeholder="Año Modelo" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="button" id="guardar-alta-playo" class="btn btn-primary">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -8,9 +8,10 @@ var IngresoWidget = BaseWidget.extend({
             location.reload();
         });
     },
+
+    /** CAMPO TRACTOR */
     addTractorFormListener: function() {
         var self = this;
-        /** TRACTOR */
         $(self.tractorInputId).keyup(function(e) {
             $(this).val($(this).val().toUpperCase());
             if(e.keyCode == 13) {
@@ -26,24 +27,90 @@ var IngresoWidget = BaseWidget.extend({
                     method: 'GET',
                     dataType: 'json',
                     beforeSend: self.setHeader,
-                    url: window.transporte.apiURL + "/zap/cnrt/patente/" + patente
+                    url: window.transporte.apiURL + "/zap/camion/" + patente
                 }).done(function(response) {
-                    if (response.status == 'OK') {
+                    if (response.status == 'OK' && response.data !== null) {
                         var tractor = response.data;
-                        $("#tractor-dominio-input").val(tractor.dominio);
-                        $("#tractor-anio_modelo-input").val(tractor.anio_modelo);
-                        $("#tractor-cantidad_ejes-input").val(tractor.cantidad_ejes);
-                        $("#tractor-razon_social-input").val(tractor.razon_social);
+                        $("#tractor-dominio-input").val(tractor._id);
+                        $("#tractor-anio_modelo-input-input").val(tractor.year);
+                        $("#tractor-cantidad_ejes-input").val(tractor.axis);
                         $("#tractor-data").show();
                         $("#tractor-not-found").hide();
+                        self.buscarTractorInCNRT(patente);
+                    } else {
+                        $("#tractor-data").hide();
+                        $("#tractor-not-found").show();
+                        /** Mostrar Modal Alta Tractor */
+                        $("#modal-alta-tractor-input-axis").val("");
+                        $("#modal-alta-tractor-input-year").val("");
+                        $("#alta-tractor").modal();
+                    }
+                });
+            }
+        });
+
+        self.nuevoTractorButtonListener();
+    },
+    buscarTractorInCNRT: function(patente) {
+        var self = this;
+        if (patente == "") $("#tractor-empty").show(); else $("#tractor-empty").hide();
+        if (patente !== "") {
+            $.ajax({
+                method: 'GET',
+                dataType: 'json',
+                beforeSend: self.setHeader,
+                url: window.transporte.apiURL + "/zap/cnrt/patente/" + patente
+            }).done(function(response) {
+                if (response.status == 'OK') {
+                    var tractor = response.data;
+                    $("#tractor-dominio-input").val(tractor.dominio);
+                    $("#tractor-anio_modelo-input").val(tractor.anio_modelo);
+                    $("#tractor-cantidad_ejes-input").val(tractor.cantidad_ejes);
+                    $("#tractor-razon_social-input").val(tractor.razon_social);
+                    $("#tractor-cnrt-not-found").hide();
+                }
+            }).fail(function(response) {
+                $("#tractor-cnrt-not-found").show();
+            });
+        }
+    },
+    nuevoTractorButtonListener: function() {
+        var self = this;
+        $("#guardar-alta-tractor").click(function(e) {
+            e.preventDefault();
+            var patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
+            var axis = $("#modal-alta-tractor-input-axis").val();
+            var year = $("#modal-alta-tractor-input-year").val();
+            if (patente !== "") {
+                var data = {
+                    _id : patente,
+                    axis: axis,
+                    year: year
+                };
+                $.ajax({
+                    method: 'POST',
+                    dataType: 'json',
+                    beforeSend: self.setHeader,
+                    url: window.transporte.apiURL + "/zap/camion",
+                    data: data
+                }).done(function(response) {
+                    if (response.status == 'OK') {
+                        $("#tractor-dominio-input").val(patente);
+                        $("#tractor-cantidad_ejes-input").val(axis);
+                        $("#tractor-anio_modelo-input").val(year);
+                        $("#tractor-data").show();
+                        $("#tractor-not-found").hide();
+                        $("#alta-tractor").modal('toggle');
+                        self.buscarTractorInCNRT(patente);
                     }
                 }).fail(function(response) {
-                    $("#tractor-data").hide();
-                    $("#tractor-not-found").show();
+                    console.log(response);
                 });
             }
         });
     },
+    /** FIN CAMPO TRACTOR */
+    /** CAMPO PLAYO */
     addPlayoFormListener: function() {
         var self = this;
         $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
@@ -61,24 +128,90 @@ var IngresoWidget = BaseWidget.extend({
                     method: 'GET',
                     dataType: 'json',
                     beforeSend: self.setHeader,
-                    url: window.transporte.apiURL + "/zap/cnrt/patente/playo/" + patente
+                    url: window.transporte.apiURL + "/zap/playo/" + patente
                 }).done(function(response) {
-                    if (response.status == 'OK') {
+                    if (response.status == 'OK' && response.data !== null) {
                         var playo = response.data;
-                        $("#playo-dominio-input").val(playo.dominio);
-                        $("#playo-anio_modelo-input").val(playo.anio_modelo);
-                        $("#playo-cantidad_ejes-input").val(playo.cantidad_ejes);
-                        $("#playo-razon_social-input").val(playo.razon_social);
+                        $("#playo-dominio-input").val(playo._id);
+                        $("#playo-anio_modelo-input-input").val(playo.year);
+                        $("#playo-cantidad_ejes-input").val(playo.axis);
                         $("#playo-data").show();
                         $("#playo-not-found").hide();
+                        self.buscarPlayoInCNRT(patente);
+                    } else {
+                        $("#playo-data").hide();
+                        $("#playo-not-found").show();
+                        /** Mostrar Modal Alta Playo */
+                        $("#modal-alta-playo-input-axis").val("");
+                        $("#modal-alta-playo-input-year").val("");
+                        $("#alta-playo").modal();
+                    }
+                });
+            }
+        });
+
+        self.nuevoPlayoButtonListener();
+    },
+    buscarPlayoInCNRT: function(patente) {
+        var self = this;
+        if (patente == "") $("#playo-empty").show(); else $("#playo-empty").hide();
+        if (patente !== "") {
+            $.ajax({
+                method: 'GET',
+                dataType: 'json',
+                beforeSend: self.setHeader,
+                url: window.transporte.apiURL + "/zap/cnrt/patente/playo/" + patente
+            }).done(function(response) {
+                if (response.status == 'OK') {
+                    var playo = response.data;
+                    $("#playo-dominio-input").val(playo.dominio);
+                    $("#playo-anio_modelo-input").val(playo.anio_modelo);
+                    $("#playo-cantidad_ejes-input").val(playo.cantidad_ejes);
+                    $("#playo-razon_social-input").val(playo.razon_social);
+                    $("#playo-cnrt-not-found").hide();
+                }
+            }).fail(function(response) {
+                $("#playo-cnrt-not-found").show();
+            });
+        }
+    },
+    nuevoPlayoButtonListener: function() {
+        var self = this;
+        $("#guardar-alta-playo").click(function(e) {
+            e.preventDefault();
+            var patente = $("#transporte_camionesbundle_ingreso_playo_patente").val();
+            var axis = $("#modal-alta-playo-input-axis").val();
+            var year = $("#modal-alta-playo-input-year").val();
+            if (patente !== "") {
+                var data = {
+                    _id : patente,
+                    axis: axis,
+                    year: year
+                };
+                $.ajax({
+                    method: 'POST',
+                    dataType: 'json',
+                    beforeSend: self.setHeader,
+                    url: window.transporte.apiURL + "/zap/playo",
+                    data: data
+                }).done(function(response) {
+                    if (response.status == 'OK') {
+                        $("#playo-dominio-input").val(patente);
+                        $("#playo-cantidad_ejes-input").val(axis);
+                        $("#playo-anio_modelo-input").val(year);
+                        $("#playo-data").show();
+                        $("#playo-not-found").hide();
+                        $("#alta-playo").modal('toggle');
+                        self.buscarPlayoInCNRT(patente);
                     }
                 }).fail(function(response) {
-                    $("#playo-data").hide();
-                    $("#playo-not-found").show();
+                    console.log(response);
                 });
             }
         });
     },
+    /** FIN CAMPO PLAYO */
+    /** CAMPO CHOFER */
     pressEnterAndSearchChofer: function() {
         $("#transporte_camionesbundle_ingreso_chofer_dni").keyup(function(e) {
             if(e.keyCode == 13) {
@@ -192,6 +325,8 @@ var IngresoWidget = BaseWidget.extend({
 
         self.nuevoChoferButtonListener();
     },
+    /** FIN CAMPO CHOFER */
+    /** CAMPO CONTENTEDOR */
     addContenedorListener: function() {
         $("#transporte_camionesbundle_ingreso_contenedor").keyup(function(e) {
             $(this).val($(this).val().toUpperCase());
@@ -217,6 +352,7 @@ var IngresoWidget = BaseWidget.extend({
             }
         });
     },
+    /** FIN CAMPO CONTENTEDOR */
     turnosResponseEvent: function(turnos) {
         var self = this;
         if (turnos.length > 0) {
