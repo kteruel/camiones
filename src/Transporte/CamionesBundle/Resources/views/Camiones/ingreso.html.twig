@@ -61,6 +61,20 @@
                     <span style="display:none" id="contenedor-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar un Contenedor</span>
                 </div>
             </div>
+            <div class="form-group" id="form-group-mov">
+                {{ form_label(form.mov) }}
+                <div class="col-md-10">
+                    {{ form_widget(form.mov) }}
+                    <span style="display:none" id="mov-empty" class="help-block"><i class="fa fa-warning"></i> Debe seleccionar un Tipo de Movimiento</span>
+                </div>
+            </div>
+            <div class="form-group" id="form-group-carga">
+                {{ form_label(form.carga) }}
+                <div class="col-md-10">
+                    {{ form_widget(form.carga) }}
+                    <span style="display:none" id="carga-empty" class="help-block"><i class="fa fa-warning"></i> Debe seleccionar un Tipo de Carga</span>
+                </div>
+            </div>
             <div style="display:none" class="form-group" id="form-group-turnos">
                 <label class="col-md-2 control-label">Turnos</label>
                 <div class="col-md-10" id="turnos-radio">
