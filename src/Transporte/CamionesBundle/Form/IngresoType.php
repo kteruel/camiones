@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class IngresoType extends AbstractType
@@ -24,6 +25,8 @@ class IngresoType extends AbstractType
             ->add('chofer_dni', TextType::class, [ 'label' => 'Documento' ])
             ->add('playo_patente', TextType::class, [ 'label' => 'Patente' ])
             ->add('contenedor', TextType::class, [ 'label' => 'Contenedor' ])
+            ->add('inicio', HiddenType::class) // Turno Inicio
+            ->add('fin', HiddenType::class) // Turno Fin
             ->add('mov', ChoiceType::class, [
                 'label' => 'Movimiento',
                 'choices'  => array_flip($this->tipoMovimiento),

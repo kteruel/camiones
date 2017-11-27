@@ -44,6 +44,9 @@ class CamionesController extends Controller
             'mov' => $formData['mov'],
             'tipo' => 'IN',
             'carga' => $formData['carga'],
+            'contenedor' => $formData['contenedor'],
+            'inicio'     => $formData['inicio'],
+            'fin'     => $formData['fin'],
             'patenteCamion' => $formData['tractor_patente'],
             'gateTimestamp' => $gateTimestamp
         ];
@@ -82,6 +85,11 @@ class CamionesController extends Controller
 
         if ($formData['carga'] == "") {
             $this->get('flashbag_service')->setFlash('error','Debe seleccionar un Tipo de Carga');
+            return false;
+        }
+
+        if ($formData['inicio'] == "") {
+            $this->get('flashbag_service')->setFlash('error','Debe seleccionar un Turno. Para seleccionar un turno debe consultar los turnos disponibles luego de ingresar la información solicitada.');
             return false;
         }
 

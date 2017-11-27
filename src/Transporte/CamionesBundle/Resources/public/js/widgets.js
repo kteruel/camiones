@@ -5,7 +5,7 @@ var IngresoWidget = BaseWidget.extend({
     addRefreshListener: function() {
         $("#refresh").click(function(e) {
             e.preventDefault();
-            location.reload();
+            window.location.href = window.location.href;
         });
     },
 
@@ -357,7 +357,7 @@ var IngresoWidget = BaseWidget.extend({
         var self = this;
         if (turnos.length > 0) {
             var now = new Date();
-            $("#form-group-turnos").show();
+
             for(t in turnos) {
                 if (turnos.hasOwnProperty(t)) {
                     var turno = turnos[t];
@@ -367,7 +367,9 @@ var IngresoWidget = BaseWidget.extend({
                         $("#turnos-radio").append($("\
                             <div class='radio'>\
                                 <label>\
-                                    <input type=\"radio\" value=\"" + dateInicio.toISOString() + "-" + dateFin.toISOString() + "\">" +
+                                    <input type='radio' value='" + dateInicio.toISOString() + "-" + dateFin.toISOString() + "'" +
+                                    "data-inicio='" + turno.inicio + "' data-fin='" + turno.fin + "' data-mov='" + turno.mov + "'" +
+                                    ">" +
                                     self.dateTimeFormat(dateInicio) + " a " + self.dateTimeFormat(dateFin) +
                                 "</label>\
                             </div>"
@@ -375,10 +377,23 @@ var IngresoWidget = BaseWidget.extend({
                     }
                 }
             }
-            if ($("#turnos-radio .radio").length == 1) {
-                $("#turnos-radio .radio input").prop('checked', true);
-            }
-            if ($("#turnos-radio .radio").length == 0) {
+            // Muestro los turnos de hoy
+            if ($("#turnos-radio .radio").length > 0) {
+                $("#form-group-turnos").show();
+                $("#turnos-radio .radio label").click(function(e) {
+                    var $input = $(this).find('input');
+                    var mov = $input.attr('data-mov');
+                    var inicio = $input.attr('data-inicio');
+                    var fin = $input.attr('data-fin');
+                    $("#transporte_camionesbundle_ingreso_mov").val(mov);
+                    $("#transporte_camionesbundle_ingreso_inicio").val(inicio);
+                    $("#transporte_camionesbundle_ingreso_fin").val(fin);
+                });
+                // Selecciono automáticamente el turno si hay uno solo
+                if ($("#turnos-radio .radio").length == 1) {
+                    $("#turnos-radio .radio label").click();
+                }
+            } else { // No encontré turnos
                 self.alertError("Consulta de Turno", "No se encontró ningún Turno.")
             }
         } else {
