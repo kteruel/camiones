@@ -651,6 +651,59 @@ var IngresoWidget = BaseWidget.extend({
     }
 });
 
+var SalidaWidget = IngresoWidget.extend({
+    ajaxBuscarTractorEnHistorico: function(patente) {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            url: window.transporte.apiURL + "/zap/camion/" + patente
+        }).done(function(response) {
+            if (response.status == 'OK' && response.data !== null) {
+                var tractor = response.data;
+                self.mostrarDatosTractor(tractor);
+            } else {
+                $("#tractor-data").hide();
+                $("#tractor-not-found").show();
+            }
+        });
+    },
+    addTractorFormListener: function() {
+        var self = this;
+        $(self.tractorInputId).keyup(function(e) {
+            $(this).val($(this).val().toUpperCase());
+            if(e.keyCode == 13) {
+                $("#buscar_tractor").click();
+            }
+        });
+        $("#buscar_tractor").click(function(e) {
+            e.preventDefault();
+            var patente = $(self.tractorInputId).val();
+            if (patente == "") $("#tractor-empty").show(); else $("#tractor-empty").hide();
+            if (patente !== "") {
+                self.ajaxBuscarTractorEnHistorico(patente);
+                self.buscarTractorInCNRT(patente);
+            }
+        });
+
+        self.autoCompleteTractores();
+    },
+    init: function(args) {
+        var widget = this;
+        for(var a in args) {
+            if (args.hasOwnProperty(a)) {
+                widget[a] = args[a];
+            }
+        }
+
+        this.renderButtonMobile();
+
+        this.dontUseEnterInForm();
+
+        this.addTractorFormListener();
+    }
+});
 
 var TableServerSide = BaseWidget.extend({
     pageInit: 0,

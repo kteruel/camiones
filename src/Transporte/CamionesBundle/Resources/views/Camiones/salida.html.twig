@@ -17,17 +17,26 @@
             {% include "CamionesBundle:Camiones:tractor_form.html.twig" %}
         </fieldset>
 
-        {% include 'CoreBundle:Default:bootstrap_form_actions.html.twig' with {'submit_text' : 'Aviso Terminal', 'submit_icon' : 'bell-o'} %}
+        {% include 'CoreBundle:Default:bootstrap_form_actions.html.twig' with {
+                    'hide_submit' : true,
+                    'other_actions' : [
+                        { 'path' : 'javascript:void(0);', 'text' : 'Informar Terminal', 'id' : 'informar_terminal', 'classes' : 'btn btn-primary', 'icon' : 'bell-o' }
+                    ]
+                }
+        %}
+
     {{ form_end(form) }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/camiones/js/my_functions.js') }}"></script>
+    <script src="{{ asset('bundles/camiones/js/widgets.js') }}"></script>
+
     <script>
-    $(function() {
-        dontUseEnterInForm();
-        addTractorFormListener("#transporte_camionesbundle_salida_tractor_patente");
-    });
+        $(function() {
+            new SalidaWidget({
+                tractorInputId : "#transporte_camionesbundle_salida_tractor_patente"
+            });
+        });
     </script>
 {% endblock %}
