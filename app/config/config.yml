@@ -15,6 +15,7 @@ parameters:
     files_directory: '%kernel.root_dir%/../web/uploads'
     from_email: noreply@transporte.com
     api_url: http://190.221.146.245:8090
+    gate_api_url: http://190.221.146.245:8080/gate
     tipo_movimiento:
         IMPO: "IMPO"
         EXPO: "EXPO"
@@ -59,6 +60,7 @@ twig:
         link_web: "%link_web%"
         url_web: "%http_web%://%link_web%"
         api_url: "%api_url%"
+        gate_api_url: "%gate_api_url%"
         tipo_movimiento: "%tipo_movimiento%"
         tipo_carga: "%tipo_carga%"
 

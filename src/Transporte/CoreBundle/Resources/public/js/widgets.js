@@ -62,7 +62,7 @@ var BaseWidget = Class.extend({
             content : content,
             color : "#a90329",
             iconSmall : "fa fa-times bounce animated",
-            timeout : 4000
+            timeout : 10000
         });
     },
     alertSuccess: function(title, content) {
@@ -71,7 +71,7 @@ var BaseWidget = Class.extend({
             content : content,
             color : "#468847",
             iconSmall : "fa fa-success bounce animated",
-            timeout : 4000
+            timeout : 10000
         });
     },
     alertWarning: function(title, content) {
@@ -80,7 +80,7 @@ var BaseWidget = Class.extend({
             content : content,
             color : "#826430",
             iconSmall : "fa fa-warning bounce animated",
-            timeout : 4000
+            timeout : 10000
         });
     },
     alertInfo: function(title, content) {
@@ -89,7 +89,7 @@ var BaseWidget = Class.extend({
             content : content,
             color : "#3276b1",
             iconSmall : "fa fa-info bounce animated",
-            timeout : 4000
+            timeout : 10000
         });
     },
     init: function(args) {

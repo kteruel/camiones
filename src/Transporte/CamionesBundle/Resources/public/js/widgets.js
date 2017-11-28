@@ -2,10 +2,14 @@
 
 var IngresoWidget = BaseWidget.extend({
     tractorInputId: '',
+    refreshForm: function() {
+        window.location.href = window.location.href;
+    },
     addRefreshListener: function() {
+        var self = this;
         $("#refresh").click(function(e) {
             e.preventDefault();
-            window.location.href = window.location.href;
+            self.refreshForm();
         });
     },
 
@@ -495,8 +499,119 @@ var IngresoWidget = BaseWidget.extend({
             }
         });
     },
+    isFormIngresoValid: function() {
+        var self = this;
+        if ($("#transporte_camionesbundle_ingreso_tractor_patente").val() == "") {
+            self.alertError('Campos obligatorios', 'Debe ingresar la Patente del Tractor');
+            return false;
+        }
+
+        if ($("#transporte_camionesbundle_ingreso_chofer_dni").val() == "") {
+            self.alertError('Campos obligatorios', 'Debe ingresar el Documento del Chofer');
+            return false;
+        }
+
+        if ($("#transporte_camionesbundle_ingreso_playo_patente").val() == "") {
+            self.alertError('Campos obligatorios', 'Debe ingresar la Patente del Playo');
+            return false;
+        }
+
+        if ($("#transporte_camionesbundle_ingreso_contenedor").val() == "") {
+            self.alertError('Campos obligatorios', 'Debe ingresar Contenedor');
+            return false;
+        }
+
+        if ($("#transporte_camionesbundle_ingreso_mov").val() == "") {
+            self.alertError('Campos obligatorios', 'Debe seleccionar un Tipo de Movimiento');
+            return false;
+        }
+
+        if ($("#transporte_camionesbundle_ingreso_carga").val() == "") {
+            self.alertError('Campos obligatorios', 'Debe seleccionar un Tipo de Carga');
+            return false;
+        }
+
+        if ($("#transporte_camionesbundle_ingreso_inicio").val() == "") {
+            self.alertError('Campos obligatorios', 'Debe seleccionar un Turno. Para seleccionar un turno debe consultar los turnos disponibles luego de ingresar la información solicitada.');
+            return false;
+        }
+
+        return true;
+    },
+    ajaxIngresarCamion: function() {
+        var self = this;
+        var tractor_patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
+        var playo_patente = $("#transporte_camionesbundle_ingreso_playo_patente").val();
+        var chofer_dni = $("#transporte_camionesbundle_ingreso_chofer_dni").val();
+        var data = {
+            '_id' : tractor_patente,
+            'trailerId' : playo_patente,
+            'driverId' : chofer_dni
+        };
+        $.ajax({
+            method: 'POST',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            url: window.transporte.apiURL + "/zap/historico",
+            data: data
+        }).done(function(response) {
+            if (response.status == 'OK') {
+                self.alertSuccess('Ingreso de Camión', 'Los datos del Ingreso de Camión se han actualizado correctamente.');
+            }
+        }).fail(function(response) {
+            console.log(response);
+        });
+    },
+    ajaxGateInCamion: function() {
+        var self = this;
+        var now = new Date();
+        var gateTimestamp = now.toISOString();
+        var data = {
+            'mov' : $("#transporte_camionesbundle_ingreso_mov").val(),
+            'tipo' : 'IN',
+            'carga' : $("#transporte_camionesbundle_ingreso_carga").val(),
+            'contenedor' : $("#transporte_camionesbundle_ingreso_contenedor").val(),
+            'inicio'     : $("#transporte_camionesbundle_ingreso_inicio").val(),
+            'fin'     : $("#transporte_camionesbundle_ingreso_fin").val(),
+            'patenteCamion' : $("#transporte_camionesbundle_ingreso_tractor_patente").val(),
+            'gateTimestamp' : gateTimestamp
+        };
+        $.ajax({
+            method: 'POST',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            url: window.transporte.gateApiURL,
+            data: data
+        }).done(function(response) {
+            if (response.status == 'OK') {
+                self.alertSuccess('Gate IN', 'Se registro el Ingreso de Camión Correctamente.');
+            }
+        }).fail(function(response) {
+            console.log(response);
+        });
+    },
+    addInformarTerminalListener: function() {
+        var self = this;
+        $("#informar_terminal").click(function(e) {
+            if (self.isFormIngresoValid()) {
+                self.ajaxIngresarCamion();
+                self.ajaxGateInCamion();
+            }
+        });
+    },
+    renderButtonMobile: function() {
+        var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+        if (isMobile.matches) {
+            $("#buscar_turno_por_tractor").addClass('btn-block btn-sm');
+            $("#buscar_turno_por_contenedor").addClass('btn-block btn-sm');
+            $("#refresh").addClass('btn-block btn-sm');
+            $("#informar_terminal").addClass('btn-block btn-sm');
+        }
+    },
     init: function(args) {
         this._super(args);
+
+        this.renderButtonMobile();
 
         this.dontUseEnterInForm();
 
@@ -511,5 +626,7 @@ var IngresoWidget = BaseWidget.extend({
         this.addContenedorListener();
 
         this.buscarTurnoListener();
+
+        this.addInformarTerminalListener();
     }
 });
