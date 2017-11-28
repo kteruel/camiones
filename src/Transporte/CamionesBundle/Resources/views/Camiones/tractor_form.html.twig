@@ -3,7 +3,8 @@
     {{ form_label(form.tractor_patente) }}
     <div class="col-md-10">
         <div class="input-group">
-            {{ form_widget(form.tractor_patente, {'attr' : {'class' : 'form-control'} }) }}
+            {{ form_widget(form.tractor_patente, {'attr' : {'class' : 'form-control', 'list' : 'tractores-list'} }) }}
+            <datalist id="tractores-list"></datalist>
             <div class="input-group-btn">
                 <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_tractor">Consultar Tractor</a>
             </div>

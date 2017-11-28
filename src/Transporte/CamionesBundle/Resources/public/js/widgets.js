@@ -80,6 +80,7 @@ var IngresoWidget = BaseWidget.extend({
         });
 
         self.nuevoTractorButtonListener();
+        self.autoCompleteTractores();
     },
     buscarTractorInCNRT: function(patente) {
         var self = this;
@@ -136,6 +137,25 @@ var IngresoWidget = BaseWidget.extend({
                 }).fail(function(response) {
                     console.log(response);
                 });
+            }
+        });
+    },
+    autoCompleteTractores: function() {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            url: window.transporte.apiURL + "/zap/turnos/camiones"
+        }).done(function(response) {
+            if (response.status == 'OK') {
+                var tractores = response.data;
+                for (t in tractores) {
+                    if (tractores.hasOwnProperty(t)) {
+                        var tractor_patente = tractores[t];
+                        $("#tractores-list").append($("<option value='" + tractor_patente + "'>" + tractor_patente + "</option>"));
+                    }
+                }
             }
         });
     },
