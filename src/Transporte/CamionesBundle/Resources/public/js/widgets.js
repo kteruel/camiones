@@ -10,6 +10,53 @@ var IngresoWidget = BaseWidget.extend({
     },
 
     /** CAMPO TRACTOR */
+    mostrarDatosTractor: function (tractor) {
+        $("#tractor-dominio-input").val(tractor._id);
+        $("#tractor-anio_modelo-input-input").val(tractor.year);
+        $("#tractor-cantidad_ejes-input").val(tractor.axis);
+        $("#tractor-data").show();
+        $("#tractor-not-found").hide();
+    },
+    ajaxBuscarTractorEnHistorico: function(patente) {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            url: window.transporte.apiURL + "/zap/camion/" + patente
+        }).done(function(response) {
+            if (response.status == 'OK' && response.data !== null) {
+                var tractor = response.data;
+                self.mostrarDatosTractor(tractor);
+            } else {
+                $("#tractor-data").hide();
+                $("#tractor-not-found").show();
+                /** Mostrar Modal Alta Tractor */
+                $("#modal-alta-tractor-input-axis").val("");
+                $("#modal-alta-tractor-input-year").val("");
+                $("#alta-tractor").modal();
+            }
+        });
+    },
+    ajaxBuscarTractorCompletoEnHistorico: function(patente) {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            url: window.transporte.apiURL + "/zap/historico/camion/" + patente
+        }).done(function(response) {
+            if (response.status == 'OK' && response.data !== null) {
+                var data = response.data;
+                var playo = data.trailerId;
+                var chofer = data.driverId;
+                self.mostrarDatosChofer(chofer, true);
+                self.mostrarDatosPlayo(playo, true);
+            } else {
+                self.ajaxBuscarTractorEnHistorico(patente);
+            }
+        });
+    },
     addTractorFormListener: function() {
         var self = this;
         $(self.tractorInputId).keyup(function(e) {
@@ -23,29 +70,8 @@ var IngresoWidget = BaseWidget.extend({
             var patente = $(self.tractorInputId).val();
             if (patente == "") $("#tractor-empty").show(); else $("#tractor-empty").hide();
             if (patente !== "") {
-                $.ajax({
-                    method: 'GET',
-                    dataType: 'json',
-                    beforeSend: self.setHeader,
-                    url: window.transporte.apiURL + "/zap/camion/" + patente
-                }).done(function(response) {
-                    if (response.status == 'OK' && response.data !== null) {
-                        var tractor = response.data;
-                        $("#tractor-dominio-input").val(tractor._id);
-                        $("#tractor-anio_modelo-input-input").val(tractor.year);
-                        $("#tractor-cantidad_ejes-input").val(tractor.axis);
-                        $("#tractor-data").show();
-                        $("#tractor-not-found").hide();
-                        self.buscarTractorInCNRT(patente);
-                    } else {
-                        $("#tractor-data").hide();
-                        $("#tractor-not-found").show();
-                        /** Mostrar Modal Alta Tractor */
-                        $("#modal-alta-tractor-input-axis").val("");
-                        $("#modal-alta-tractor-input-year").val("");
-                        $("#alta-tractor").modal();
-                    }
-                });
+                self.ajaxBuscarTractorCompletoEnHistorico(patente);
+                self.buscarTractorInCNRT(patente);
             }
         });
 
@@ -111,6 +137,16 @@ var IngresoWidget = BaseWidget.extend({
     },
     /** FIN CAMPO TRACTOR */
     /** CAMPO PLAYO */
+    mostrarDatosPlayo: function(playo, completeIdInput) {
+        if (completeIdInput) {
+            $("#transporte_camionesbundle_ingreso_playo_patente").val(playo._id);
+        }
+        $("#playo-dominio-input").val(playo._id);
+        $("#playo-anio_modelo-input-input").val(playo.year);
+        $("#playo-cantidad_ejes-input").val(playo.axis);
+        $("#playo-data").show();
+        $("#playo-not-found").hide();
+    },
     addPlayoFormListener: function() {
         var self = this;
         $("#transporte_camionesbundle_ingreso_playo_patente").keyup(function(e) {
@@ -132,11 +168,7 @@ var IngresoWidget = BaseWidget.extend({
                 }).done(function(response) {
                     if (response.status == 'OK' && response.data !== null) {
                         var playo = response.data;
-                        $("#playo-dominio-input").val(playo._id);
-                        $("#playo-anio_modelo-input-input").val(playo.year);
-                        $("#playo-cantidad_ejes-input").val(playo.axis);
-                        $("#playo-data").show();
-                        $("#playo-not-found").hide();
+                        self.mostrarDatosPlayo(playo, false);
                         self.buscarPlayoInCNRT(patente);
                     } else {
                         $("#playo-data").hide();
@@ -282,6 +314,17 @@ var IngresoWidget = BaseWidget.extend({
             }
         });
     },
+    mostrarDatosChofer: function(chofer, completeIdInput) {
+        if (completeIdInput) {
+            $("#transporte_camionesbundle_ingreso_chofer_dni").val(chofer._id);
+        }
+        $("#chofer-nombre-input").val(chofer.firstname);
+        $("#chofer-apellido-input").val(chofer.lastname);
+        $("#chofer-mobile-input").val(chofer.mobile);
+        $("#chofer-dni-input").val(chofer._id);
+        $("#chofer-data").show();
+        $("#chofer-not-found").hide();
+    },
     addChoferFormListener: function() {
         var self = this;
 
@@ -303,12 +346,7 @@ var IngresoWidget = BaseWidget.extend({
                 }).done(function(response) {
                     if (response.status == 'OK' && response.data !== null) {
                         var chofer = response.data;
-                        $("#chofer-nombre-input").val(chofer.firstname);
-                        $("#chofer-apellido-input").val(chofer.lastname);
-                        $("#chofer-mobile-input").val(chofer.mobile);
-                        $("#chofer-dni-input").val(chofer._id);
-                        $("#chofer-data").show();
-                        $("#chofer-not-found").hide();
+                        self.mostrarDatosChofer(chofer, false);
                         self.buscarChoferInCNRT(dni);
                     } else {
                         $("#chofer-data").hide();
