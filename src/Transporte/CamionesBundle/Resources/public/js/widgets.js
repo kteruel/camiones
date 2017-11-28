@@ -604,7 +604,7 @@ var IngresoWidget = BaseWidget.extend({
             data: data
         }).done(function(response) {
             if (response.status == 'OK') {
-                self.alertSuccess('Gate IN', 'Se registro el Ingreso de Camión Correctamente.');
+                self.alertSuccess('Gate IN', 'Se Registro el Ingreso de Camión Correctamente.');
             }
         }).fail(function(response) {
             console.log(response);
@@ -686,8 +686,54 @@ var SalidaWidget = IngresoWidget.extend({
                 self.buscarTractorInCNRT(patente);
             }
         });
+    },
+    isFormSalidaValid: function() {
+        var self = this;
+        if ($(self.tractorInputId).val() == "") {
+            self.alertError('Campos obligatorios', 'Debe ingresar la Patente del Tractor');
+            return false;
+        }
 
-        self.autoCompleteTractores();
+        return true;
+    },
+    ajaxGateOutCamion: function() {
+        var self = this;
+        var now = new Date();
+        var gateTimestamp = now.toISOString();
+        var data = {
+            // QUESTION: ¿De donde saco la información comentada?
+            //'mov' : $("#transporte_camionesbundle_ingreso_mov").val(),
+            'tipo' : 'OUT',
+            /*
+            'carga' : $("#transporte_camionesbundle_ingreso_carga").val(),
+            'contenedor' : $("#transporte_camionesbundle_ingreso_contenedor").val(),
+            'inicio'     : $("#transporte_camionesbundle_ingreso_inicio").val(),
+            'fin'     : $("#transporte_camionesbundle_ingreso_fin").val(),
+            */
+            'patenteCamion' : $(self.tractorInputId).val(),
+            'gateTimestamp' : gateTimestamp
+        };
+        $.ajax({
+            method: 'POST',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            url: window.transporte.gateApiURL,
+            data: data
+        }).done(function(response) {
+            if (response.status == 'OK') {
+                self.alertSuccess('Gate OUT', 'Se Registro la Salida de Camión Correctamente.');
+            }
+        }).fail(function(response) {
+            console.log(response);
+        });
+    },
+    addInformarTerminalListener: function() {
+        var self = this;
+        $("#informar_terminal").click(function(e) {
+            if (self.isFormSalidaValid()) {
+                self.ajaxGateOutCamion();
+            }
+        });
     },
     init: function(args) {
         var widget = this;
@@ -702,6 +748,8 @@ var SalidaWidget = IngresoWidget.extend({
         this.dontUseEnterInForm();
 
         this.addTractorFormListener();
+
+        this.addInformarTerminalListener();
     }
 });
 
