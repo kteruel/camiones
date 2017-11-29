@@ -9,6 +9,8 @@
 
         <script type="text/javascript">
 		window.transporte = {
+			tipo_movimiento: {{ tipo_movimiento|json_encode|raw }},
+			tipo_carga: {{ tipo_carga|json_encode|raw }},
 			currentPath : "{{ current_path }}",
 			apiURL: "{{ api_url }}",
 			gateApiURL: "{{ gate_api_url }}",

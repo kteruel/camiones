@@ -23,25 +23,32 @@
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
                     <input type="text" class="form-control" placeholder="Buscar Operatoria">
                 </th>
-                <th class="hasinput icon-addon">
-                    <input id="dateselect_filter" type="text" placeholder="Buscar Fecha Turno" class="form-control datepicker" data-dateformat="dd/mm/yy">
-                    <label for="dateselect_filter" class="glyphicon glyphicon-calendar no-margin padding-top-15" rel="tooltip" title="" data-original-title="Buscar Fecha"></label>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" placeholder="Buscar Hora Entrada" class="form-control clockpicker" data-autoclose="true">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
-                    <input type="text" placeholder="Buscar Hora Turno" class="form-control clockpicker" data-autoclose="true">
+                    <input type="text" placeholder="Buscar Hora Inicio Turno" class="form-control clockpicker" data-autoclose="true">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
-                    <input type="text" class="form-control" placeholder="Buscar Orden de Arribo">
+                    <input type="text" placeholder="Buscar Hora Fin Turno" class="form-control clockpicker" data-autoclose="true">
+                </th>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" class="form-control" placeholder="Buscar Tipo Movimiento">
+                </th>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" class="form-control" placeholder="Buscar Tipo Carga">
                 </th>
                 <th></th>
             </tr>
             <tr>
                 <th>Patente</th>
                 <th>Terminal</th>
-                <th>Operatoria</th>
-                <th>Fecha Turno</th>
-                <th>Hora Turno</th>
-                <th>Orden de arribo</th>
+                <th>Contenedor</th>
+                <th>Hora Entrada</th>
+                <th>Hora Inicio Turno</th>
+                <th>Hora Fin Turno</th>
+                <th>Tipo Movimiento</th>
+                <th>Carga</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -56,35 +63,10 @@
 {% block javascripts %}
     {{ parent() }}
     {% include '::dataTables.html.twig' %}
+    <script src="{{ asset('bundles/camiones/js/widgets.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $.ajax({
-                url: "{{ path('playa') }}"
-            }).done(function(response) {
-                if (response.status == 'ok') {
-                    var turnos = response.data;
-                    for(t in turnos) {
-                        if (turnos.hasOwnProperty(t)) {
-                            var turno = turnos[t];
-                            var $tr = $("<tr></tr>");
-                            $tr.append($("<td>" + turno.patente + "</td>"));
-                            $tr.append($("<td>" + turno.terminal + "</td>"));
-                            $tr.append($("<td>" + turno.operatoria + "</td>"));
-                            var split = turno.fecha.split(" ");
-                            $tr.append($("<td>" + split[0] + "</td>"));
-                            $tr.append($("<td>" + split[1] + "</td>"));
-                            $tr.append($("<td> - </td>")); // Orden de arribo
-                            var verMasUrl = Routing.generate('ver_turno', {
-                                'patente': turno.patente,
-                                'fecha' : turno.fecha
-                            });
-                            $tr.append($("<td><a href='" + verMasUrl + "' class=\"btn btn-xs btn-default\"><i class=\"fa fa-eye\"></i></a></td>"));
-                            $("#tbody-camiones").append($tr);
-                        }
-                    }
-                }
-                new DataTableWidget();
-            });
+            new PlayaWidget();
         });
     </script>
 {% endblock %}
