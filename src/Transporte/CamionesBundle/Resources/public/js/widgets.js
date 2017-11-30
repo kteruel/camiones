@@ -841,6 +841,7 @@ var TableServerSide = BaseWidget.extend({
 
 var PlayaWidget = BaseWidget.extend({
     dataTable : null,
+    colours: [],
     salidaCamion: function(patente, mov, carga) {
         var self = this;
         var now = new Date();
@@ -865,6 +866,26 @@ var PlayaWidget = BaseWidget.extend({
         }).fail(function(response) {
             console.log(response);
         });
+    },
+    getColours: function() {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: window.transporte.apiURL + "/gates/ZAP/0/10000",
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            data: data
+        }).done(function(response) {
+            if (response.status == 'OK') {
+                self.colours = response.data;
+            }
+        });
+    },
+    getStatus: function(fechaEntrada, fechaInicioTurno) {
+        if (fechaInicioTurno === "") {
+            return "";
+        }
+        // TODO revisar la diferencia de llegada que te llega por API
     },
     render: function() {
         var self = this;
@@ -903,6 +924,7 @@ var PlayaWidget = BaseWidget.extend({
                         var fechaEntrada = new Date(turno.gateTimestamp);
                         var fechaInicioTurno = new Date(turno.turnoInicio);
                         var fechaFinTurno = new Date(turno.turnoFin);
+                        var color = self.getStatus(fechaEntrada, fechaInicioTurno);
                         $tr.append($("<td>" + self.timeFormat(fechaEntrada) + "</td>"));
                         $tr.append($("<td>" + self.timeFormat(fechaInicioTurno) + "</td>"));
                         $tr.append($("<td>" + self.timeFormat(fechaFinTurno) + "</td>"));
@@ -930,6 +952,10 @@ var PlayaWidget = BaseWidget.extend({
     init: function(args) {
         this._super(args);
 
+        this.getColours();
+
         this.render();
+
+
     }
 });
