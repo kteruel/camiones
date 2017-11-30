@@ -894,7 +894,7 @@ var PlayaWidget = BaseWidget.extend({
     getStatusEntrada: function(fechaEntrada, fechaInicioTurno, fechaFinTurno) {
         var self = this;
         if (fechaInicioTurno === "") { // No tiene turno
-            return "normal";
+            return "info";
         }
         if (fechaInicioTurno <= fechaEntrada && fechaEntrada <= fechaFinTurno) { // Entro en el turno
             return "normal";
@@ -929,6 +929,7 @@ var PlayaWidget = BaseWidget.extend({
             case 'text-danger': return "Llegó tarde";
             case 'danger': return "Llegó muy tarde";
             case 'normal': return "Llegó a tiempo";
+            case 'info': return "No tiene turno";
         }
         return "";
     },
@@ -958,22 +959,17 @@ var PlayaWidget = BaseWidget.extend({
                         var turno = turnos[t];
                         if (!turno.gateTimestamp_out) {
                             var fechaEntrada = new Date(turno.gateTimestamp);
-                            var fechaEntrada = new Date('2017-11-30 20:00');
+                            //var fechaEntrada = new Date('2017-11-30 20:00');
                             var fechaInicioTurno = turno.turnoInicio ? new Date(turno.turnoInicio) : "";
-                            var fechaInicioTurno = new Date('2017-11-30 18:00');
+                            //var fechaInicioTurno = new Date('2017-11-30 18:00');
                             var fechaFinTurno = turno.turnoFin ? new Date(turno.turnoFin) : "";
-                            var fechaFinTurno = new Date('2017-11-30 19:00');
+                            //var fechaFinTurno = new Date('2017-11-30 19:00');
                             var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
                             var $tr = $("<tr class='"+statusEntrada+"'></tr>");
                             $tr.append($("<td class='patente' data-patente='"+turno.patenteCamion+"'>" + turno.patenteCamion + "</td>"));
                             $tr.append($("<td>" + turno.terminal + "</td>"));
                             var contenedor = turno.contenedor || "";
                             $tr.append($("<td>" + contenedor + "</td>"));
-                            /*
-                            <th>Hora Entrada</th>
-                            <th>Hora Inicio Turno</th>
-                            <th>Hora Fin Turno</th>
-                             */
                             $tr.append($("<td>" + self.timeFormat(fechaEntrada) + "</td>"));
                             $tr.append($("<td class='turno-inicio' data-turnoinicio='"+self.timeFormat(fechaInicioTurno)+"'>" + self.timeFormat(fechaInicioTurno) + "</td>"));
                             $tr.append($("<td>" + self.timeFormat(fechaFinTurno) + "</td>"));
