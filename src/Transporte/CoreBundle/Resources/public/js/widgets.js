@@ -46,13 +46,22 @@ var BaseWidget = Class.extend({
         return string;
     },
     dateFormat: function(date) {
+        if (date === "") {
+            return date;
+        }
         return this.zeroString(date.getDate(), 2) + "/" + this.zeroString((date.getMonth() + 1), 2) + "/" + date.getFullYear()
     },
     dateTimeFormat: function(date) {
+        if (date === "") {
+            return date;
+        }
         return this.zeroString(date.getDate(), 2) + "/" + this.zeroString((date.getMonth() + 1), 2) + "/" + date.getFullYear() +
                " " + this.zeroString(date.getHours(), 2) + ":" + this.zeroString(date.getMinutes(), 2)
     },
     timeFormat: function(date) {
+        if (date === "") {
+            return date;
+        }
         return this.zeroString(date.getHours(), 2) + ":" + this.zeroString(date.getMinutes(), 2);
     },
     /** Alert Functions */

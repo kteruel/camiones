@@ -1,4 +1,7 @@
 /** Utilizar la librería widgets para extender otros widgets */
+$("#ribbon-refresh").click(function(e) {
+    window.location.href = window.location.href;
+});
 
 var IngresoWidget = BaseWidget.extend({
     tractorInputId: '',
@@ -54,6 +57,8 @@ var IngresoWidget = BaseWidget.extend({
                 var data = response.data;
                 var playo = data.trailerId;
                 var chofer = data.driverId;
+                var tractor = data._id;
+                self.mostrarDatosTractor(tractor);
                 self.mostrarDatosChofer(chofer, true);
                 self.mostrarDatosPlayo(playo, true);
             } else {
@@ -571,7 +576,7 @@ var IngresoWidget = BaseWidget.extend({
             data: data
         }).done(function(response) {
             if (response.status == 'OK') {
-                self.alertSuccess('Ingreso de Camión', 'Los datos del Ingreso de Camión se han actualizado correctamente.');
+                console.log('Los datos del Ingreso de Camión se han actualizado correctamente.');
             }
         }).fail(function(response) {
             console.log(response);
@@ -586,8 +591,8 @@ var IngresoWidget = BaseWidget.extend({
             'tipo' : 'IN',
             'carga' : $("#transporte_camionesbundle_ingreso_carga").val(),
             'contenedor' : $("#transporte_camionesbundle_ingreso_contenedor").val(),
-            'inicio'     : $("#transporte_camionesbundle_ingreso_inicio").val(),
-            'fin'     : $("#transporte_camionesbundle_ingreso_fin").val(),
+            'turnoInicio'     : $("#transporte_camionesbundle_ingreso_inicio").val(),
+            'turnoFin'     : $("#transporte_camionesbundle_ingreso_fin").val(),
             'patenteCamion' : $("#transporte_camionesbundle_ingreso_tractor_patente").val(),
             'gateTimestamp' : gateTimestamp
         };
@@ -841,7 +846,7 @@ var TableServerSide = BaseWidget.extend({
 
 var PlayaWidget = BaseWidget.extend({
     dataTable : null,
-    salidaCamion: function(patente, mov, carga) {
+    salidaCamion: function(patente, mov, carga, conTurno) {
         var self = this;
         var now = new Date();
         var gateTimestamp = now.toISOString();
@@ -860,7 +865,11 @@ var PlayaWidget = BaseWidget.extend({
             data: data
         }).done(function(response) {
             if (response.status == 'OK') {
-                self.alertSuccess('Gate OUT', 'Se Registro la Salida de Camión Correctamente.');
+                if (conTurno) {
+                    self.alertSuccess('Salida Camión', 'Se Registro la Salida de Camión Correctamente.');
+                } else {
+                    self.alertSuccess('Salida Sin Turno', 'Se Registro la Salida de Camión Correctamente.');
+                }
             }
         }).fail(function(response) {
             console.log(response);
@@ -890,30 +899,31 @@ var PlayaWidget = BaseWidget.extend({
                 for(t in turnos) {
                     if (turnos.hasOwnProperty(t)) {
                         var turno = turnos[t];
-                        var $tr = $("<tr></tr>");
-                        $tr.append($("<td class='patente' data-patente='"+turno.patenteCamion+"'>" + turno.patenteCamion + "</td>"));
-                        $tr.append($("<td>" + turno.terminal + "</td>"));
-                        var contenedor = turno.contenedor || "";
-                        $tr.append($("<td>" + contenedor + "</td>"));
-                        /*
-                        <th>Hora Entrada</th>
-                        <th>Hora Inicio Turno</th>
-                        <th>Hora Fin Turno</th>
-                         */
-                        var fechaEntrada = new Date(turno.gateTimestamp);
-                        var fechaInicioTurno = new Date(turno.turnoInicio);
-                        var fechaFinTurno = new Date(turno.turnoFin);
-                        $tr.append($("<td>" + self.timeFormat(fechaEntrada) + "</td>"));
-                        $tr.append($("<td>" + self.timeFormat(fechaInicioTurno) + "</td>"));
-                        $tr.append($("<td>" + self.timeFormat(fechaFinTurno) + "</td>"));
-                        $tr.append($("<td class='mov' data-mov='"+turno.mov+"'>" + window.transporte.tipo_movimiento[turno.mov] + "</td>"));
-                        $tr.append($("<td class='carga' data-carga='"+turno.carga+"'>" + window.transporte.tipo_carga[turno.carga] + "</td>"));
-                        var $actions = $("<td></td>");
-                        if (turno.turnoInicio) {
-                            $actions.append($("<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida'><i class=\"fa fa-arrow-left\"></i></a>"));
+                        if (!turno.gateTimestamp_out) {
+                            var $tr = $("<tr></tr>");
+                            $tr.append($("<td class='patente' data-patente='"+turno.patenteCamion+"'>" + turno.patenteCamion + "</td>"));
+                            $tr.append($("<td>" + turno.terminal + "</td>"));
+                            var contenedor = turno.contenedor || "";
+                            $tr.append($("<td>" + contenedor + "</td>"));
+                            /*
+                            <th>Hora Entrada</th>
+                            <th>Hora Inicio Turno</th>
+                            <th>Hora Fin Turno</th>
+                             */
+                            var fechaEntrada = new Date(turno.gateTimestamp);
+                            var fechaInicioTurno = turno.turnoInicio ? new Date(turno.turnoInicio) : "";
+                            var fechaFinTurno = turno.turnoFin ? new Date(turno.turnoFin) : "";
+                            $tr.append($("<td>" + self.timeFormat(fechaEntrada) + "</td>"));
+                            $tr.append($("<td class='turno-inicio' data-turnoinicio='"+self.timeFormat(fechaInicioTurno)+"'>" + self.timeFormat(fechaInicioTurno) + "</td>"));
+                            $tr.append($("<td>" + self.timeFormat(fechaFinTurno) + "</td>"));
+                            $tr.append($("<td class='mov' data-mov='"+turno.mov+"'>" + window.transporte.tipo_movimiento[turno.mov] + "</td>"));
+                            $tr.append($("<td class='carga' data-carga='"+turno.carga+"'>" + window.transporte.tipo_carga[turno.carga] + "</td>"));
+                            var $actions = $("<td></td>");
+                            var classes = (turno.turnoInicio === null) ? 'bg-color-redLight txt-color-white':'';
+                            $actions.append($("<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " + classes + "'><i class=\"fa fa-arrow-left\"></i></a>"));
+                            $tr.append($actions);
+                            $("#tbody-camiones").append($tr);
                         }
-                        $tr.append($actions);
-                        $("#tbody-camiones").append($tr);
                     }
                 }
             }
@@ -922,7 +932,8 @@ var PlayaWidget = BaseWidget.extend({
                 var patente = $tr.find('.patente').attr('data-patente');
                 var mov = $tr.find('.mov').attr('data-mov');
                 var carga = $tr.find('.carga').attr('data-carga');
-                self.salidaCamion(patente, mov, carga);
+                var turnoinicio = $tr.find('.turno-inicio').attr('data-turnoinicio');
+                self.salidaCamion(patente, mov, carga, turnoinicio !== "");
             });
             self.dataTable = new DataTableWidget();
         });
