@@ -845,7 +845,9 @@ var TableServerSide = BaseWidget.extend({
 });
 
 var PlayaWidget = BaseWidget.extend({
+    urlStatus : '',
     dataTable : null,
+    statusEntrada: [],
     salidaCamion: function(patente, mov, carga, conTurno) {
         var self = this;
         var now = new Date();
@@ -875,6 +877,61 @@ var PlayaWidget = BaseWidget.extend({
             console.log(response);
         });
     },
+    getStatusAndRender: function() {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            url: self.urlStatus,
+            dataType: 'json',
+            beforeSend: self.setHeader
+        }).done(function(response) {
+            if (response.status == 'OK') {
+                self.statusEntrada = response.data;
+                self.render();
+            }
+        });
+    },
+    getStatusEntrada: function(fechaEntrada, fechaInicioTurno, fechaFinTurno) {
+        var self = this;
+        if (fechaInicioTurno === "") { // No tiene turno
+            return "normal";
+        }
+        if (fechaInicioTurno <= fechaEntrada && fechaEntrada <= fechaFinTurno) { // Entro en el turno
+            return "normal";
+        }
+        if (fechaEntrada < fechaInicioTurno) { // Entro antes
+            var diffMinutes = Math.floor((fechaInicioTurno-fechaEntrada)/1000/60);
+            if (diffMinutes > self.statusEntrada.veryEarly) { // Entro mucho antes
+                return "warning";
+            } else {
+                if (diffMinutes > self.statusEntrada.early) { // Entro un poco antes
+                    return "text-warning";
+                }
+            }
+        } else {
+            if (fechaEntrada > fechaFinTurno) { // Entro después
+                var diffMinutes = Math.floor((fechaEntrada-fechaFinTurno)/1000/60);
+                if (diffMinutes > self.statusEntrada.veryLate) { // Entro mucho después
+                    return "danger";
+                } else {
+                    if (diffMinutes > self.statusEntrada.late) { // Entro un poco después
+                        return "text-danger";
+                    }
+                }
+            }
+        }
+        return "normal";
+    },
+    translateStatusEntrada: function(statusEntrada) {
+        switch(statusEntrada) {
+            case 'text-warning': return "Llegó temprano";
+            case 'warning': return "Llegó muy temprano";
+            case 'text-danger': return "Llegó tarde";
+            case 'danger': return "Llegó muy tarde";
+            case 'normal': return "Llegó a tiempo";
+        }
+        return "";
+    },
     render: function() {
         var self = this;
         var inicio = new Date();
@@ -900,7 +957,14 @@ var PlayaWidget = BaseWidget.extend({
                     if (turnos.hasOwnProperty(t)) {
                         var turno = turnos[t];
                         if (!turno.gateTimestamp_out) {
-                            var $tr = $("<tr></tr>");
+                            var fechaEntrada = new Date(turno.gateTimestamp);
+                            var fechaEntrada = new Date('2017-11-30 20:00');
+                            var fechaInicioTurno = turno.turnoInicio ? new Date(turno.turnoInicio) : "";
+                            var fechaInicioTurno = new Date('2017-11-30 18:00');
+                            var fechaFinTurno = turno.turnoFin ? new Date(turno.turnoFin) : "";
+                            var fechaFinTurno = new Date('2017-11-30 19:00');
+                            var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
+                            var $tr = $("<tr class='"+statusEntrada+"'></tr>");
                             $tr.append($("<td class='patente' data-patente='"+turno.patenteCamion+"'>" + turno.patenteCamion + "</td>"));
                             $tr.append($("<td>" + turno.terminal + "</td>"));
                             var contenedor = turno.contenedor || "";
@@ -910,12 +974,11 @@ var PlayaWidget = BaseWidget.extend({
                             <th>Hora Inicio Turno</th>
                             <th>Hora Fin Turno</th>
                              */
-                            var fechaEntrada = new Date(turno.gateTimestamp);
-                            var fechaInicioTurno = turno.turnoInicio ? new Date(turno.turnoInicio) : "";
-                            var fechaFinTurno = turno.turnoFin ? new Date(turno.turnoFin) : "";
                             $tr.append($("<td>" + self.timeFormat(fechaEntrada) + "</td>"));
                             $tr.append($("<td class='turno-inicio' data-turnoinicio='"+self.timeFormat(fechaInicioTurno)+"'>" + self.timeFormat(fechaInicioTurno) + "</td>"));
                             $tr.append($("<td>" + self.timeFormat(fechaFinTurno) + "</td>"));
+                            var translateStatusEntrada = self.translateStatusEntrada(statusEntrada);
+                            $tr.append($("<td>" + translateStatusEntrada + "</td>"));
                             $tr.append($("<td class='mov' data-mov='"+turno.mov+"'>" + window.transporte.tipo_movimiento[turno.mov] + "</td>"));
                             $tr.append($("<td class='carga' data-carga='"+turno.carga+"'>" + window.transporte.tipo_carga[turno.carga] + "</td>"));
                             var $actions = $("<td></td>");
@@ -941,6 +1004,6 @@ var PlayaWidget = BaseWidget.extend({
     init: function(args) {
         this._super(args);
 
-        this.render();
+        this.getStatusAndRender();
     }
 });

@@ -33,6 +33,9 @@
                     <input type="text" placeholder="Buscar Hora Fin Turno" class="form-control clockpicker" data-autoclose="true">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
+                    <input type="text" class="form-control" placeholder="Buscar Estado Llegada">
+                </th>
+                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
                     <input type="text" class="form-control" placeholder="Buscar Tipo Movimiento">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
@@ -47,6 +50,7 @@
                 <th>Hora Entrada</th>
                 <th>Hora Inicio Turno</th>
                 <th>Hora Fin Turno</th>
+                <th>Estado Llegada</th>
                 <th>Tipo Movimiento</th>
                 <th>Carga</th>
                 <th>Acciones</th>
@@ -66,7 +70,9 @@
     <script src="{{ asset('bundles/camiones/js/widgets.js') }}"></script>
     <script>
         $(document).ready(function() {
-            new PlayaWidget();
+            new PlayaWidget({
+                urlStatus: "{{ path('status') }}"//window.transporte.apiURL + "/gates/ZAP/0/10000"
+            });
         });
     </script>
 {% endblock %}

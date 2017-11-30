@@ -15,6 +15,23 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class AjaxMockController extends Controller
 {
     /**
+     * @Route("/status", name="status")
+     * @Method("GET")
+     */
+    public function statusAction()
+    {
+        // In minutes
+        return new JsonResponse([
+            'status' => 'OK',
+            'data' => [
+                'veryLate' => 60,
+                'late' => 30,
+                'early' => 30,
+                'veryEarly' => 60
+            ]
+        ]);
+    }
+    /**
      * @Route("/buscar_tractor", name="buscar_tractor")
      * @Method("POST")
      */
