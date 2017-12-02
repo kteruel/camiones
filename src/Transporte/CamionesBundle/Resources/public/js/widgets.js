@@ -437,7 +437,11 @@ var IngresoWidget = BaseWidget.extend({
                             <div class='radio'>\
                                 <label>\
                                     <input type='radio' value='" + dateInicio.toISOString() + "-" + dateFin.toISOString() + "'" +
-                                    "data-inicio='" + turno.inicio + "' data-fin='" + turno.fin + "' data-mov='" + turno.mov + "'" +
+                                    " data-inicio='" + turno.inicio + "'" +
+                                    " data-fin='" + turno.fin + "'" +
+                                    " data-mov='" + turno.mov + "'" +
+                                    " data-alta='" + turno.alta + "'" +
+                                    " data-terminal='" + turno.terminal + "'" +
                                     ">" +
                                     self.dateTimeFormat(dateInicio) + " a " + self.dateTimeFormat(dateFin) +
                                 "</label>\
@@ -454,9 +458,13 @@ var IngresoWidget = BaseWidget.extend({
                     var mov = $input.attr('data-mov');
                     var inicio = $input.attr('data-inicio');
                     var fin = $input.attr('data-fin');
+                    var alta = $input.attr('data-alta');
+                    var terminal = $input.attr('data-terminal');
                     $("#transporte_camionesbundle_ingreso_mov").val(mov);
                     $("#transporte_camionesbundle_ingreso_inicio").val(inicio);
                     $("#transporte_camionesbundle_ingreso_fin").val(fin);
+                    $("#transporte_camionesbundle_ingreso_alta").val(alta);
+                    $("#transporte_camionesbundle_ingreso_terminal").val(terminal);
                 });
                 // Selecciono automáticamente el turno si hay uno solo
                 if ($("#turnos-radio .radio").length == 1) {
@@ -973,16 +981,19 @@ var PlayaWidget = BaseWidget.extend({
                             var fechaFinTurno = turno.turnoFin ? new Date(turno.turnoFin) : "";
                             //var fechaFinTurno = new Date('2017-11-30 19:00');
                             var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
+                            var fechaAltaTurno = turno.alta ? new Date(turno.alta) : "";
                             var $tr = $("<tr class='"+statusEntrada+"'></tr>");
                             $tr.append($("<td class='patente' data-patente='"+turno.patenteCamion+"'>" + turno.patenteCamion + "</td>"));
                             $tr.append($("<td>" + turno.terminal + "</td>"));
                             var contenedor = turno.contenedor || "";
                             $tr.append($("<td>" + contenedor + "</td>"));
                             $tr.append($("<td>" + self.timeFormat(fechaEntrada) + "</td>"));
+                            $tr.append($("<td>" + self.dateTimeFormat(fechaAltaTurno) + "</td>"));
                             $tr.append($("<td class='turno-inicio' data-turnoinicio='"+self.timeFormat(fechaInicioTurno)+"'>" + self.timeFormat(fechaInicioTurno) + "</td>"));
                             $tr.append($("<td>" + self.timeFormat(fechaFinTurno) + "</td>"));
                             var translateStatusEntrada = self.translateStatusEntrada(statusEntrada);
                             $tr.append($("<td>" + translateStatusEntrada + "</td>"));
+                            $tr.append($("<td class='terminal' data-terminal='"+turno.terminal+"'>" + turno.terminal + "</td>"));
                             $tr.append($("<td class='mov' data-mov='"+turno.mov+"'>" + window.transporte.tipo_movimiento[turno.mov] + "</td>"));
                             $tr.append($("<td class='carga' data-carga='"+turno.carga+"'>" + window.transporte.tipo_carga[turno.carga] + "</td>"));
                             var $actions = $("<td></td>");
