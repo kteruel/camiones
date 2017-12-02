@@ -422,6 +422,7 @@ var IngresoWidget = BaseWidget.extend({
     /** FIN CAMPO CONTENTEDOR */
     turnosResponseEvent: function(turnos) {
         var self = this;
+        $("#turnos-radio").empty();
         if (turnos.length > 0) {
             var now = new Date();
 
@@ -651,6 +652,7 @@ var IngresoWidget = BaseWidget.extend({
     }
 });
 
+/** @deprecated No se utiliza más el Widget porque la pantalla de Salida de Camión no se va a usar */
 var SalidaWidget = IngresoWidget.extend({
     ajaxBuscarTractorEnHistorico: function(patente) {
         var self = this;
@@ -753,6 +755,7 @@ var SalidaWidget = IngresoWidget.extend({
     }
 });
 
+/** @deprecated No se utiliza más la pantalla de Test porque ya se está usando las demás API de test */
 var TableServerSide = BaseWidget.extend({
     pageInit: 0,
     pageLength: 10,
