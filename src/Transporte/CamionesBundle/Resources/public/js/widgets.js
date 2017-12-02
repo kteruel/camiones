@@ -81,6 +81,7 @@ var IngresoWidget = BaseWidget.extend({
             if (patente !== "") {
                 self.ajaxBuscarTractorCompletoEnHistorico(patente);
                 self.buscarTractorInCNRT(patente);
+                self.ajaxBuscarTurnoPorTractorPatente(patente);
             }
         });
 
@@ -468,6 +469,20 @@ var IngresoWidget = BaseWidget.extend({
             self.alertError("Consulta de Turno", "No se encontró ningún Turno.")
         }
     },
+    ajaxBuscarTurnoPorTractorPatente: function(tractor_patente) {
+        var self = this;
+        $.ajax({
+            method: 'GET',
+            dataType: 'json',
+            beforeSend: self.setHeader,
+            url: window.transporte.apiURL + "/zap/turno/patente/" + tractor_patente
+        }).done(function(response) {
+            if (response.status == 'OK') {
+                var turnos = response.data;
+                self.turnosResponseEvent(turnos);
+            }
+        });
+    },
     buscarTurnoListener: function() {
         var self = this;
         $("#buscar_turno_por_tractor").click(function(e) {
@@ -483,18 +498,8 @@ var IngresoWidget = BaseWidget.extend({
             $("#form-group-tractor").removeClass('has-error');
 
             if (tractor_patente !== "") {
-                /** BUSCAR TURNO POR CONTENEDOR */
-                $.ajax({
-                    method: 'GET',
-                    dataType: 'json',
-                    beforeSend: self.setHeader,
-                    url: window.transporte.apiURL + "/zap/turno/patente/" + tractor_patente
-                }).done(function(response) {
-                    if (response.status == 'OK') {
-                        var turnos = response.data;
-                        self.turnosResponseEvent(turnos);
-                    }
-                });
+                /** BUSCAR TURNO POR TRACTOR */
+                self.ajaxBuscarTurnoPorTractorPatente(tractor_patente);
             }
         });
         $("#buscar_turno_por_contenedor").click(function(e) {
