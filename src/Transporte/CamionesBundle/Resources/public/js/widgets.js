@@ -433,15 +433,22 @@ var IngresoWidget = BaseWidget.extend({
                     var dateInicio = new Date(turno.inicio);
                     var dateFin = new Date(turno.fin);
                     if (self.equalDates(now, dateInicio)) {
+                        var turno_inicio     = typeof turno.inicio !== "undefined" ? turno.inicio : "";
+                        var turno_fin        = typeof turno.fin !== "undefined" ? turno.fin : "";
+                        var turno_contenedor = typeof turno.contenedor !== "undefined" ? turno.contenedor : "";
+                        var turno_mov        = typeof turno.mov !== "undefined" ? turno.mov : "";
+                        var turno_alta       = typeof turno.alta !== "undefined" ? turno.alta : "";
+                        var turno_terminal   = typeof turno.terminal !== "undefined" ? turno.terminal : "";
                         $("#turnos-radio").append($("\
                             <div class='radio'>\
                                 <label>\
                                     <input type='radio' value='" + dateInicio.toISOString() + "-" + dateFin.toISOString() + "'" +
-                                    " data-inicio='" + turno.inicio + "'" +
-                                    " data-fin='" + turno.fin + "'" +
-                                    " data-mov='" + turno.mov + "'" +
-                                    " data-alta='" + turno.alta + "'" +
-                                    " data-terminal='" + turno.terminal + "'" +
+                                    " data-inicio='" + turno_inicio + "'" +
+                                    " data-fin='" + turno_fin + "'" +
+                                    " data-contenedor='" + turno_contenedor + "'" +
+                                    " data-mov='" + turno_mov + "'" +
+                                    " data-alta='" + turno_alta + "'" +
+                                    " data-terminal='" + turno_terminal + "'" +
                                     ">" +
                                     self.dateTimeFormat(dateInicio) + " a " + self.dateTimeFormat(dateFin) +
                                 "</label>\
@@ -455,11 +462,13 @@ var IngresoWidget = BaseWidget.extend({
                 $("#form-group-turnos").show();
                 $("#turnos-radio .radio label").click(function(e) {
                     var $input = $(this).find('input');
+                    var contenedor = $input.attr('data-contenedor');
                     var mov = $input.attr('data-mov');
                     var inicio = $input.attr('data-inicio');
                     var fin = $input.attr('data-fin');
                     var alta = $input.attr('data-alta');
                     var terminal = $input.attr('data-terminal');
+                    $("#transporte_camionesbundle_ingreso_contenedor").val(contenedor);
                     $("#transporte_camionesbundle_ingreso_mov").val(mov);
                     $("#transporte_camionesbundle_ingreso_inicio").val(inicio);
                     $("#transporte_camionesbundle_ingreso_fin").val(fin);

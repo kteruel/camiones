@@ -27,8 +27,8 @@ class IngresoType extends AbstractType
             ->add('contenedor', TextType::class, [ 'label' => 'Contenedor' ])
             ->add('inicio', HiddenType::class) // Turno Inicio
             ->add('fin', HiddenType::class) // Turno Fin
+            ->add('terminal', TextType::class, [ 'label' => 'Terminal' ])
             ->add('alta', HiddenType::class) // Alta Turno
-            ->add('terminal', HiddenType::class) // Terminal
             ->add('mov', ChoiceType::class, [
                 'label' => 'Movimiento',
                 'choices'  => array_flip($this->tipoMovimiento),
