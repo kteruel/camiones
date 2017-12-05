@@ -12,8 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class IngresoType extends AbstractType
 {
-    public function __construct($tipoMovimiento, $tipoCarga)
+    public function __construct($tipoMovimiento, $tipoCarga, $destino)
     {
+        $this->destino = $destino;
         $this->tipoMovimiento = $tipoMovimiento;
         $this->tipoCarga = $tipoCarga;
     }
@@ -27,7 +28,12 @@ class IngresoType extends AbstractType
             ->add('contenedor', TextType::class, [ 'label' => 'Contenedor' ])
             ->add('inicio', HiddenType::class) // Turno Inicio
             ->add('fin', HiddenType::class) // Turno Fin
-            ->add('terminal', TextType::class, [ 'label' => 'Terminal' ])
+            ->add('terminal', ChoiceType::class, [ 
+                'label' => 'Terminal',
+                'choices'  => array_flip($this->destino),
+                'required' => false,
+                'placeholder' => ' - Seleccione - '
+            ])
             ->add('alta', HiddenType::class) // Alta Turno
             ->add('mov', ChoiceType::class, [
                 'label' => 'Movimiento',

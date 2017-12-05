@@ -949,11 +949,11 @@ var PlayaWidget = BaseWidget.extend({
     },
     translateStatusEntrada: function(statusEntrada) {
         switch(statusEntrada) {
-            case 'text-warning': return "Llegó temprano";
-            case 'warning': return "Llegó muy temprano";
-            case 'text-danger': return "Llegó tarde";
-            case 'danger': return "Llegó muy tarde";
-            case 'normal': return "Llegó a tiempo";
+            case 'text-warning': return "Temprano";
+            case 'warning': return "Muy temprano";
+            case 'text-danger': return "Tarde";
+            case 'danger': return "Muy tarde";
+            case 'normal': return "A tiempo";
             case 'info': return "No tiene turno";
         }
         return "";
@@ -972,10 +972,10 @@ var PlayaWidget = BaseWidget.extend({
         };
         $.ajax({
             method: 'GET',
-            url: window.transporte.apiURL + "/gates/ZAP/0/10000",
+            url: window.transporte.apiURL + "/gates/IN/ZAP/0/10000",
             dataType: 'json',
             beforeSend: self.setHeader,
-            data: data
+            data: {} //data
         }).done(function(response) {
             if (response.status == 'OK') {
                 var turnos = response.data;
@@ -992,19 +992,16 @@ var PlayaWidget = BaseWidget.extend({
                             var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
                             var fechaAltaTurno = turno.alta ? new Date(turno.alta) : "";
                             var $tr = $("<tr class='"+statusEntrada+"'></tr>");
-                            $tr.append($("<td class='patente' data-patente='"+turno.patenteCamion+"'>" + turno.patenteCamion + "</td>"));
-                            $tr.append($("<td>" + turno.terminal + "</td>"));
+                            $tr.append($("<td class='patente' data-patente='"+turno.patenteCamion+"'><strong>" + turno.patenteCamion + "</strong></td>"));
                             var contenedor = turno.contenedor || "";
-                            $tr.append($("<td>" + contenedor + "</td>"));
+                            $tr.append($("<td><strong>" + contenedor + "</strong></td>"));
                             $tr.append($("<td>" + self.timeFormat(fechaEntrada) + "</td>"));
-                            $tr.append($("<td>" + self.dateTimeFormat(fechaAltaTurno) + "</td>"));
                             $tr.append($("<td class='turno-inicio' data-turnoinicio='"+self.timeFormat(fechaInicioTurno)+"'>" + self.timeFormat(fechaInicioTurno) + "</td>"));
                             $tr.append($("<td>" + self.timeFormat(fechaFinTurno) + "</td>"));
                             var translateStatusEntrada = self.translateStatusEntrada(statusEntrada);
                             $tr.append($("<td>" + translateStatusEntrada + "</td>"));
-                            $tr.append($("<td class='terminal' data-terminal='"+turno.terminal+"'>" + turno.terminal + "</td>"));
                             $tr.append($("<td class='mov' data-mov='"+turno.mov+"'>" + window.transporte.tipo_movimiento[turno.mov] + "</td>"));
-                            $tr.append($("<td class='carga' data-carga='"+turno.carga+"'>" + window.transporte.tipo_carga[turno.carga] + "</td>"));
+                            $tr.append($("<td class='terminal' data-terminal='"+turno.terminal+"'>" + turno.terminal + "</td>"));
                             var $actions = $("<td></td>");
                             var classes = (turno.turnoInicio === null) ? 'bg-color-redLight txt-color-white':'';
                             $actions.append($("<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " + classes + "'><i class=\"fa fa-arrow-left\"></i></a>"));
