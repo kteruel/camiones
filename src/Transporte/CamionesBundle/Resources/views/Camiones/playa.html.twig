@@ -18,16 +18,10 @@
                     <input type="text" class="form-control" placeholder="Buscar Patente">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
-                    <input type="text" class="form-control" placeholder="Buscar Terminal">
-                </th>
-                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
                     <input type="text" class="form-control" placeholder="Buscar Operatoria">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
                     <input type="text" placeholder="Buscar Hora Entrada" class="form-control clockpicker" data-autoclose="true">
-                </th>
-                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
-                    <input type="text" class="form-control" placeholder="Buscar Fecha Alta Turno">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
                     <input type="text" placeholder="Buscar Hora Inicio Turno" class="form-control clockpicker" data-autoclose="true">
@@ -39,28 +33,22 @@
                     <input type="text" class="form-control" placeholder="Buscar Estado Llegada">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
-                    <input type="text" class="form-control" placeholder="Buscar Terminal">
+                    <input type="text" class="form-control" placeholder="Buscar Operatoria">
                 </th>
                 <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
-                    <input type="text" class="form-control" placeholder="Buscar Tipo Movimiento">
-                </th>
-                <th class="hasinput" style="width:17%" rowspan="1" colspan="1">
-                    <input type="text" class="form-control" placeholder="Buscar Tipo Carga">
+                    <input type="text" class="form-control" placeholder="Buscar Destino">
                 </th>
                 <th></th>
             </tr>
             <tr>
                 <th>Patente</th>
-                <th>Terminal</th>
                 <th>Contenedor</th>
-                <th>Hora Entrada</th>
-                <th>Fecha Alta Turno</th>
-                <th>Hora Inicio Turno</th>
-                <th>Hora Fin Turno</th>
-                <th>Estado Llegada</th>
-                <th>Terminal</th>
-                <th>Tipo Movimiento</th>
-                <th>Carga</th>
+                <th>Entrada</th>
+                <th>Turno Inicio</th>
+                <th>Turno Fin</th>
+                <th>Estado</th>
+                <th>Operatoria</th>
+                <th>Destino</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -79,7 +67,7 @@
     <script>
         $(document).ready(function() {
             new PlayaWidget({
-                urlStatus: "{{ path('status') }}"//window.transporte.apiURL + "/gates/ZAP/0/10000"
+                urlStatus: "{{ path('status') }}"//window.transporte.apiURL + "/gates/IN/ZAP/0/10000"
             });
         });
     </script>
