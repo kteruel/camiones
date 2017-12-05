@@ -1,6 +1,6 @@
 services:
   camiones.form.ingreso:
     class: Transporte\CamionesBundle\Form\IngresoType
-    arguments: ["%tipo_movimiento%", "%tipo_carga%"]
+    arguments: ["%tipo_movimiento%", "%tipo_carga%", "%destino%"]
     tags:
       - { name: form.type, alias: ingreso }
