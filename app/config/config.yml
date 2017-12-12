@@ -23,6 +23,10 @@ parameters:
     tipo_movimiento:
         IMPO: "IMPO"
         EXPO: "EXPO"
+        VACIODEV: "Vacio Devolución"
+        VACIORET: "Vacio Retiro"
+        ESTACIONA: "Estacionamiento"
+        CARGAGRAL: "Carga General"
     tipo_carga:
         'LL': "Contenedor lleno"
         'VA': "Contenedor Vacio"

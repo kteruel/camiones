@@ -82,7 +82,7 @@
                     <span style="display:none" id="mov-empty" class="help-block"><i class="fa fa-warning"></i> Debe seleccionar un Tipo de Movimiento</span>
                 </div>
             </div>
-            <div class="form-group" id="form-group-carga">
+            <div class="form-group" id="form-group-carga" style="display:none">
                 {{ form_label(form.carga) }}
                 <div class="col-md-10">
                     {{ form_widget(form.carga) }}
@@ -97,7 +97,7 @@
                         { 'path' : 'javascript:void(0);', 'text' : 'Consultar Turno por Tractor', 'id' : 'buscar_turno_por_tractor', 'classes' : 'btn btn-success' },
                         { 'path' : 'javascript:void(0);', 'text' : 'Consultar Turno por Contenedor', 'id' : 'buscar_turno_por_contenedor', 'classes' : 'btn btn-success' },
                         { 'path' : 'javascript:void(0);', 'text' : 'Nuevo Ingreso', 'id' : 'refresh', 'classes' : 'btn btn-default' },
-                        { 'path' : 'javascript:void(0);', 'text' : 'Informar Terminal', 'id' : 'informar_terminal', 'classes' : 'btn btn-primary', 'icon' : 'bell-o' }
+                        { 'path' : 'javascript:void(0);', 'text' : 'Ingreso', 'id' : 'informar_terminal', 'classes' : 'btn btn-primary', 'icon' : 'bell-o' }
                     ]
                 }
         %}
