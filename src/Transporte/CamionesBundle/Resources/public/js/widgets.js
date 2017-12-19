@@ -94,7 +94,11 @@ var IngresoWidget = BaseWidget.extend({
         var chofer = data.driverId;
         var tractor = data._id;
         self.mostrarDatosTractor(tractor);
-        self.mostrarDatosChofer(chofer, true);
+        if (chofer !== null) {
+          self.mostrarDatosChofer(chofer, true);
+        } else {
+          self.mostrarDatosChofer(chofer, false);
+        }
         self.mostrarDatosPlayo(playo, true);
       } else {
         self.ajaxBuscarTractorEnHistorico(patente);
@@ -475,7 +479,7 @@ var IngresoWidget = BaseWidget.extend({
         }).done(function(response) {
           if (response.status == "OK" && response.data !== null) {
             var chofer = response.data;
-            self.mostrarDatosChofer(chofer, false);
+            self.mostrarDatosChofer(chofer, true);
             self.buscarChoferInCNRT(dni);
           } else {
             $("#chofer-data").hide();
