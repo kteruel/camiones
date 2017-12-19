@@ -97,8 +97,8 @@ var IngresoWidget = BaseWidget.extend({
         if (chofer !== null) {
           self.mostrarDatosChofer(chofer, true);
         } else {
-          self.mostrarDatosChofer(chofer, false);
-        }
+          $("#chofer-data").hide();
+      }
         self.mostrarDatosPlayo(playo, true);
       } else {
         self.ajaxBuscarTractorEnHistorico(patente);
