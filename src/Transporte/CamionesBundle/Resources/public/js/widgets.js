@@ -88,7 +88,7 @@ var IngresoWidget = BaseWidget.extend({
       beforeSend: self.setHeader,
       url: window.transporte.apiURL + "/zap/historico/camion/" + patente
     }).done(function(response) {
-      if (response.status == "OK" && response.data !== null) {
+      if (response.status == "OK" && response.data !== null && response.data.length > 0) {
         var data = response.data;
         var playo = data.trailerId;
         var chofer = data.driverId;
@@ -868,7 +868,7 @@ var SalidaWidget = IngresoWidget.extend({
       beforeSend: self.setHeader,
       url: window.transporte.apiURL + "/zap/camion/" + patente
     }).done(function(response) {
-      if (response.status == "OK" && response.data !== null) {
+      if (response.status == "OK" && response.data !== null && response.data.length > 0 ) {
         var tractor = response.data;
         self.mostrarDatosTractor(tractor);
       } else {
