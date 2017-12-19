@@ -51,7 +51,8 @@ var IngresoWidget = BaseWidget.extend({
   /** CAMPO TRACTOR */
   mostrarDatosTractor: function(tractor) {
     $("#tractor-dominio-input").val(tractor._id);
-    $("#tractor-anio_modelo-input-input").val(tractor.year);
+    $("#tractor-marca-input").val(tractor.trade);
+    $("#tractor-color-input").val(tractor.color);
     $("#tractor-cantidad_ejes-input").val(tractor.axis);
     $("#tractor-data").show();
     $("#tractor-not-found").hide();
@@ -70,10 +71,12 @@ var IngresoWidget = BaseWidget.extend({
       } else {
         $("#tractor-data").hide();
         $("#tractor-not-found").show();
+
         /** Mostrar Modal Alta Tractor */
-        $("#modal-alta-tractor-input-axis").val("");
-        $("#modal-alta-tractor-input-year").val("");
-        $("#alta-tractor").modal();
+        // $("#modal-alta-tractor-input-axis").val("");
+        // $("#modal-alta-tractor-input-year").val("");
+        // $("#alta-tractor").modal();
+
       }
     });
   },
@@ -121,6 +124,18 @@ var IngresoWidget = BaseWidget.extend({
         self.ajaxBuscarTurnoPorTractorPatente(patente);
       }
     });
+    $("#cargar_tractor").click(function(e) {
+        e.preventDefault();
+        var patente = $(self.tractorInputId).val();
+        if (patente == "") $("#tractor-empty").show();
+        else $("#tractor-empty").hide();
+        if (patente !== "") {
+            $("#modal-alta-tractor-input-axis").val("");
+            $("#modal-alta-tractor-input-year").val("");
+            $("#alta-tractor").modal();
+        }
+      });
+  
 
     self.nuevoTractorButtonListener();
     self.autoCompleteTractores();
@@ -140,9 +155,9 @@ var IngresoWidget = BaseWidget.extend({
           if (response.status == "OK") {
             var tractor = response.data;
             $("#tractor-dominio-input").val(tractor.dominio);
-            $("#tractor-anio_modelo-input").val(tractor.anio_modelo);
+            $("#tractor-marca-input").val(tractor.trade);
             $("#tractor-cantidad_ejes-input").val(tractor.cantidad_ejes);
-            $("#tractor-razon_social-input").val(tractor.razon_social);
+            $("#tractor-color-input").val(tractor.color);
             $("#tractor-cnrt-not-found").hide();
           }
         })
@@ -224,7 +239,8 @@ var IngresoWidget = BaseWidget.extend({
       $("#transporte_camionesbundle_ingreso_playo_patente").val(playo._id);
     }
     $("#playo-dominio-input").val(playo._id);
-    $("#playo-anio_modelo-input-input").val(playo.year);
+    $("#playo-tipo-input").val(playo.type);
+    $("#playo-color-input").val(playo.color);
     $("#playo-cantidad_ejes-input").val(playo.axis);
     $("#playo-data").show();
     $("#playo-not-found").hide();
@@ -261,13 +277,25 @@ var IngresoWidget = BaseWidget.extend({
             $("#playo-data").hide();
             $("#playo-not-found").show();
             /** Mostrar Modal Alta Playo */
-            $("#modal-alta-playo-input-axis").val("");
-            $("#modal-alta-playo-input-year").val("");
-            $("#alta-playo").modal();
+            // $("#modal-alta-playo-input-axis").val("");
+            // $("#modal-alta-playo-input-year").val("");
+            // $("#alta-playo").modal();
           }
         });
       }
     });
+
+    $("#cargar_playo").click(function(e) {
+        e.preventDefault();
+        var patente = $("#transporte_camionesbundle_ingreso_playo_patente").val();
+        if (patente == "") $("#playo-empty").show();
+        else $("#playo-empty").hide();
+        if (patente !== "") {
+            $("#modal-alta-playo-input-axis").val("");
+            $("#modal-alta-playo-input-year").val("");
+            $("#alta-playo").modal();
+        }
+      });
 
     self.nuevoPlayoButtonListener();
   },
@@ -286,9 +314,9 @@ var IngresoWidget = BaseWidget.extend({
           if (response.status == "OK") {
             var playo = response.data;
             $("#playo-dominio-input").val(playo.dominio);
-            $("#playo-anio_modelo-input").val(playo.anio_modelo);
+            $("#playo-tipo-input").val(playo.type);
             $("#playo-cantidad_ejes-input").val(playo.cantidad_ejes);
-            $("#playo-razon_social-input").val(playo.razon_social);
+            $("#playo-color-input").val(playo.color);
             $("#playo-cnrt-not-found").hide();
           }
         })
@@ -473,6 +501,9 @@ var IngresoWidget = BaseWidget.extend({
           .val()
           .toUpperCase()
       );
+      if (e.keyCode == 13) {
+        $("#buscar_turno_por_contenedor").click();
+      }
     });
     this.autoCompleteContenedores();
   },
@@ -502,8 +533,8 @@ var IngresoWidget = BaseWidget.extend({
   /** FIN CAMPO CONTENTEDOR */
   turnosResponseEvent: function(turnos) {
     var self = this;
-    $("#turnos-radio").empty();
     if (turnos.length > 0) {
+      $("#turnos-radio").empty();
       var now = new Date();
 
       for (t in turnos) {
@@ -696,14 +727,14 @@ var IngresoWidget = BaseWidget.extend({
       );
       return false;
     }
-
-    if ($("#transporte_camionesbundle_ingreso_carga").val() == "") {
-      self.alertError(
-        "Campos obligatorios",
-        "Debe seleccionar un Tipo de Carga"
-      );
-      return false;
-    }
+    // Genera el dato en base al tipo MOV
+    // if ($("#transporte_camionesbundle_ingreso_carga").val() == "") {
+    //   self.alertError(
+    //     "Campos obligatorios",
+    //     "Debe seleccionar un Tipo de Carga"
+    //   );
+    //   return false;
+    // }
 
     return true;
   },
@@ -743,10 +774,22 @@ var IngresoWidget = BaseWidget.extend({
     var self = this;
     var now = new Date();
     var gateTimestamp = now.toISOString();
+
+    var mov = $("#transporte_camionesbundle_ingreso_mov").val();
+    var carga = "";
+    if (mov === "EXPO") {
+      carga = "LL";
+    } else if (mov === "VACIODEV") {
+      carga = "VA";
+    } else {
+      carga = "NO";
+    }
+
+
     var data = {
-      mov: $("#transporte_camionesbundle_ingreso_mov").val(),
+      mov: mov,
       tipo: "IN",
-      carga: $("#transporte_camionesbundle_ingreso_carga").val(),
+      carga: carga, //$("#transporte_camionesbundle_ingreso_carga").val(),
       contenedor: $("#transporte_camionesbundle_ingreso_contenedor").val(),
       turnoInicio: $("#transporte_camionesbundle_ingreso_inicio").val(),
       turnoFin: $("#transporte_camionesbundle_ingreso_fin").val(),
@@ -1072,6 +1115,33 @@ var PlayaWidget = BaseWidget.extend({
         console.log(response);
       });
   },
+  updateGate: function(param) {
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        beforeSend: self.setHeader,
+        url: window.transporte.gateApiURL,
+        data: data
+      })
+        .done(function(response) {
+          if (response.status == "OK") {
+            if (conTurno) {
+              self.alertSuccess(
+                "Salida Camión",
+                "Se Registro la Salida de Camión Correctamente."
+              );
+            } else {
+              self.alertSuccess(
+                "Salida Sin Turno",
+                "Se Registro la Salida de Camión Correctamente."
+              );
+            }
+          }
+        })
+        .fail(function(response) {
+          console.log(response);
+        });
+    },
   getStatusAndRender: function() {
     var self = this;
     $.ajax({
@@ -1187,8 +1257,10 @@ var PlayaWidget = BaseWidget.extend({
                 fechaFinTurno
               );
               var fechaAltaTurno = turno.alta ? new Date(turno.alta) : "";
+              var contenedor = turno.contenedor || "";
+
               var $tr = $(
-                "<tr estado='" +
+                "<tr contenedor= '" + contenedor + "' estado='" +
                   statusEntrada +
                   "' class='" +
                   statusEntrada +
@@ -1203,7 +1275,6 @@ var PlayaWidget = BaseWidget.extend({
                     "</strong></td>"
                 )
               );
-              var contenedor = turno.contenedor || "";
               $tr.append($("<td><strong>" + contenedor + "</strong></td>"));
               $tr.append(
                 $(
@@ -1226,7 +1297,7 @@ var PlayaWidget = BaseWidget.extend({
                     "</td>"
                 )
               );
-              $tr.append($("<td>" + self.timeFormat(fechaFinTurno) + "</td>"));
+              $tr.append($("<td class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</td>"));
               var translateStatusEntrada = self.translateStatusEntrada(
                 statusEntrada
               );
@@ -1300,7 +1371,22 @@ var PlayaWidget = BaseWidget.extend({
     });
   },
   init: function(args) {
-    this._super(args);
+        var self = this;
+        this._super(args);
+        var socket = args.socket;
+
+    socket.on('appointment', function (param) {
+        
+        var $tr = $('tr[contenedor="' + param.contenedor + '"');
+        $tr.attr('class', 'normal');
+
+        var $turnoinicio = $tr.find(".turno-inicio");
+        $turnoinicio.html(self.timeFormat(new Date(param.inicio)));
+
+        var $turnoFin = $tr.find(".turno-fin");
+        $turnoFin.html(self.timeFormat(new Date(param.fin)));
+
+    });
 
     this.getStatusAndRender();
   }

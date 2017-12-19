@@ -67,11 +67,19 @@
 {% block javascripts %}
     {{ parent() }}
     {% include '::dataTables.html.twig' %}
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="{{ asset('bundles/camiones/js/widgets.js') }}"></script>
     <script>
+        var SOCKET_URL = 'http://190.221.146.245:8090';
         $(document).ready(function() {
+
+            var socket = io.connect(SOCKET_URL);
+            socket.on('connect', function(param) {
+                console.log("Socket Conectado");
+            });
             new PlayaWidget({
-                urlStatus: "{{ path('status') }}"//window.transporte.apiURL + "/gates/IN/ZAP/0/10000"
+                urlStatus: "{{ path('status') }}", //window.transporte.apiURL + "/gates/IN/ZAP/0/10000"
+                socket: socket
             });
         });
     </script>
