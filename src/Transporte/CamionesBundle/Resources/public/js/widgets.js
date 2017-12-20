@@ -184,10 +184,12 @@ var IngresoWidget = BaseWidget.extend({
         "#transporte_camionesbundle_ingreso_tractor_patente"
       ).val();
       var axis = $("#modal-alta-tractor-input-axis").val();
+      var trade = $("#modal-alta-tractor-input-trade").val();
       var color = $("#modal-alta-tractor-input-color").val();
       if (patente !== "") {
         var data = {
           _id: patente,
+          trade: trade,
           axis: axis,
           color: color
         };
