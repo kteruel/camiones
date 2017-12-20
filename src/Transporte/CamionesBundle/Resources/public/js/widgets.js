@@ -74,7 +74,7 @@ var IngresoWidget = BaseWidget.extend({
 
         /** Mostrar Modal Alta Tractor */
         // $("#modal-alta-tractor-input-axis").val("");
-        // $("#modal-alta-tractor-input-year").val("");
+        // $("#modal-alta-tractor-input-color").val("");
         // $("#alta-tractor").modal();
 
       }
@@ -139,7 +139,7 @@ var IngresoWidget = BaseWidget.extend({
         else $("#tractor-empty").hide();
         if (patente !== "") {
             $("#modal-alta-tractor-input-axis").val("");
-            $("#modal-alta-tractor-input-year").val("");
+            $("#modal-alta-tractor-input-color").val("");
             $("#alta-tractor").modal();
         }
       });
@@ -153,7 +153,6 @@ var IngresoWidget = BaseWidget.extend({
     if (patente == "") $("#tractor-empty").show();
     else $("#tractor-empty").hide();
     if (patente !== "") {
-      patente = 'FVO243';
       $.ajax({
         method: "GET",
         dataType: "json",
@@ -185,12 +184,12 @@ var IngresoWidget = BaseWidget.extend({
         "#transporte_camionesbundle_ingreso_tractor_patente"
       ).val();
       var axis = $("#modal-alta-tractor-input-axis").val();
-      var year = $("#modal-alta-tractor-input-year").val();
+      var color = $("#modal-alta-tractor-input-color").val();
       if (patente !== "") {
         var data = {
           _id: patente,
           axis: axis,
-          year: year
+          color: color
         };
         $.ajax({
           method: "POST",
@@ -203,7 +202,7 @@ var IngresoWidget = BaseWidget.extend({
             if (response.status == "OK") {
               $("#tractor-dominio-input").val(patente);
               $("#tractor-cantidad_ejes-input").val(axis);
-              $("#tractor-anio_modelo-input").val(year);
+              $("#tractor-anio_modelo-input").val(color);
               $("#tractor-data").show();
               $("#tractor-not-found").hide();
               $("#alta-tractor").modal("toggle");
@@ -302,9 +301,10 @@ var IngresoWidget = BaseWidget.extend({
         if (patente == "") $("#playo-empty").show();
         else $("#playo-empty").hide();
         if (patente !== "") {
-            $("#modal-alta-playo-input-axis").val("");
-            $("#modal-alta-playo-input-year").val("");
-            $("#alta-playo").modal();
+          $("#modal-alta-playo-input-tipo").val("");
+          $("#modal-alta-playo-input-axis").val("");
+          $("#modal-alta-playo-input-color").val("");
+          $("#alta-playo").modal();
         }
       });
 
@@ -342,12 +342,14 @@ var IngresoWidget = BaseWidget.extend({
       e.preventDefault();
       var patente = $("#transporte_camionesbundle_ingreso_playo_patente").val();
       var axis = $("#modal-alta-playo-input-axis").val();
-      var year = $("#modal-alta-playo-input-year").val();
+      var type = $("#modal-alta-playo-input-type").val();
+      var color = $("#modal-alta-playo-input-color").val();
       if (patente !== "") {
         var data = {
           _id: patente,
           axis: axis,
-          year: year
+          color: color,
+          type: type
         };
         $.ajax({
           method: "POST",
@@ -360,7 +362,8 @@ var IngresoWidget = BaseWidget.extend({
             if (response.status == "OK") {
               $("#playo-dominio-input").val(patente);
               $("#playo-cantidad_ejes-input").val(axis);
-              $("#playo-anio_modelo-input").val(year);
+              $("#playo-type-input").val(type);
+              $("#playo-color-input").val(color);
               $("#playo-data").show();
               $("#playo-not-found").hide();
               $("#alta-playo").modal("toggle");
