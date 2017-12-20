@@ -202,7 +202,8 @@ var IngresoWidget = BaseWidget.extend({
             if (response.status == "OK") {
               $("#tractor-dominio-input").val(patente);
               $("#tractor-cantidad_ejes-input").val(axis);
-              $("#tractor-anio_modelo-input").val(color);
+              $("#tractor-marca-input").val(trade);
+              $("#tractor-color-input").val(color);
               $("#tractor-data").show();
               $("#tractor-not-found").hide();
               $("#alta-tractor").modal("toggle");
