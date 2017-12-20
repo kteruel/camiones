@@ -98,8 +98,12 @@ var IngresoWidget = BaseWidget.extend({
           self.mostrarDatosChofer(chofer, true);
         } else {
           $("#chofer-data").hide();
-      }
-        self.mostrarDatosPlayo(playo, true);
+        }
+        if (playo !== null) {
+          self.mostrarDatosPlayo(playo, true);
+        } else {
+          $("#playo-data").hide();
+        }
       } else {
         self.ajaxBuscarTractorEnHistorico(patente);
       }
@@ -149,6 +153,7 @@ var IngresoWidget = BaseWidget.extend({
     if (patente == "") $("#tractor-empty").show();
     else $("#tractor-empty").hide();
     if (patente !== "") {
+      patente = 'FVO243';
       $.ajax({
         method: "GET",
         dataType: "json",
