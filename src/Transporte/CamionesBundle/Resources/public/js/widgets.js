@@ -168,10 +168,12 @@ var IngresoWidget = BaseWidget.extend({
             $("#tractor-cantidad_ejes-input").val(tractor.cantidad_ejes);
             $("#tractor-color-input").val(tractor.color);
             $("#tractor-cnrt-not-found").hide();
+            $("#tractor-cnrt-found").show();
           }
         })
         .fail(function(response) {
           $("#tractor-cnrt-not-found").show();
+          $("#tractor-cnrt-found").hide();
         });
     }
   },
@@ -398,10 +400,12 @@ var IngresoWidget = BaseWidget.extend({
             $("#chofer-apellido-input").val(chofer.apellido);
             $("#chofer-dni-input").val(chofer.dni);
             $("#chofer-cnrt-not-found").hide();
+            $("#chofer-cnrt-found").show();
           }
         })
         .fail(function(response) {
           $("#chofer-cnrt-not-found").show();
+          $("#chofer-cnrt-found").hide();
         });
     }
   },
