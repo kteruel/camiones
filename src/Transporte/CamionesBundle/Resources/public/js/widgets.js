@@ -258,7 +258,7 @@ var IngresoWidget = BaseWidget.extend({
         var marcas = response.data;
         for (t in marcas) {
           if (marcas.hasOwnProperty(t)) {
-            var marcasCantidad = tractores[t];
+            var marcasCantidad = marcas;
             $("#alta-tractor-label").text(marcasCantidad.length)
             // $("#tractores-list").append(
             //   $(
