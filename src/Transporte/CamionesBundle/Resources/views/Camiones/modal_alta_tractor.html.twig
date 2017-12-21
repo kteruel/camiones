@@ -23,6 +23,14 @@
 
                                 <input type="text" class="form-control" id="modal-alta-tractor-input-trade" name="trade" placeholder="Marca" />
                             </div>
+                            <div class="form-group" id="form-group-mov">
+                                {{ form_label(form.mov) }}
+                                <div class="col-md-10">
+                                    {{ form_widget(form.mov) }}
+                                    <span style="display:none" id="mov-empty" class="help-block"><i class="fa fa-warning"></i> Debe seleccionar un Tipo de Movimiento</span>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
