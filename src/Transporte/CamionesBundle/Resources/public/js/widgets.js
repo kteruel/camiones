@@ -256,7 +256,7 @@ var IngresoWidget = BaseWidget.extend({
     }).done(function(response) {
       if (response.status == "OK") {
         var marcas = response.data;
-        for (t in marcas) {
+        marcas.forEach( function (t) {
           if (marcas.hasOwnProperty(t)) {
             $("#marcas-list").append(
               $(
@@ -268,7 +268,7 @@ var IngresoWidget = BaseWidget.extend({
               )
             );
           }
-        }
+        });
       }
     });
   },
