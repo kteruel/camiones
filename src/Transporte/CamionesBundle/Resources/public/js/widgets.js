@@ -5,36 +5,38 @@ $("#ribbon-refresh").click(function(e) {
 
 var today = new Date();
 Date.daysBetween = function(date1, date2) {
-  //Get 1 day in milliseconds
-  var one_day = 1000 * 60 * 60 * 24;
+    //Get 1 day in milliseconds
+    var one_day = 1000 * 60 * 60 * 24;
 
-  // Convert both dates to milliseconds
-  var date1_ms = date1.getTime();
-  var date2_ms = date2.getTime();
+    // Convert both dates to milliseconds
+    var date1_ms = date1.getTime();
+    var date2_ms = date2.getTime();
 
-  // Calculate the difference in milliseconds
-  var difference_ms = date2_ms - date1_ms;
-  //take out milliseconds
-  difference_ms = difference_ms / 1000;
-  var seconds = Math.floor(difference_ms % 60);
-  difference_ms = difference_ms / 60;
-  var minutes = Math.floor(difference_ms % 60);
-  difference_ms = difference_ms / 60;
-  var hours = Math.floor(difference_ms % 24);
-  var days = Math.floor(difference_ms / 24);
+    // Calculate the difference in milliseconds
+    var difference_ms = date2_ms - date1_ms;
+    //take out milliseconds
+    difference_ms = difference_ms / 1000;
+    var seconds = Math.floor(difference_ms % 60);
+    difference_ms = difference_ms / 60;
+    var minutes = Math.floor(difference_ms % 60);
+    difference_ms = difference_ms / 60;
+    var hours = Math.floor(difference_ms % 24);
+    var days = Math.floor(difference_ms / 24);
 
-  var resultado = "";
-  if (days > 0) {
-    resultado = days + "D, " + hours + "H, " + minutes + "M";
-  } else if (hours > 0) {
-    resultado = hours + "H, " + minutes + "M";
-  } else {
-    resultado = minutes + "M";
-  }
+    var resultado = "";
+    if (days > 0) {
+        resultado = days + "D, " + hours + "H, " + minutes + "M";
+    } else if (hours > 0) {
+        resultado = hours + "H, " + minutes + "M";
+    } else {
+        resultado = minutes + "M";
+    }
 
-  return resultado;
+    return resultado;
 };
-
+/*
+  Clase de Ingreso
+*/
 var IngresoWidget = BaseWidget.extend({
   tractorInputId: "",
   refreshForm: function() {
@@ -243,6 +245,36 @@ var IngresoWidget = BaseWidget.extend({
       }
     });
   },
+
+  comboMarcasAltaCamion: function() {
+    var self = this;
+    $.ajax({
+      method: "GET",
+      dataType: "json",
+      beforeSend: self.setHeader,
+      url: window.transporte.apiURL + "/zap/camionesmarcas"
+    }).done(function(response) {
+      if (response.status == "OK") {
+        var marcas = response.data;
+        for (t in marcas) {
+          if (marcas.hasOwnProperty(t)) {
+            var marcasCantidad = tractores[t];
+            $("#alta-tractor-label").text(marcasCantidad.length)
+            // $("#tractores-list").append(
+            //   $(
+            //     "<option value='" +
+            //       tractor_patente +
+            //       "'>" +
+            //       tractor_patente +
+            //       "</option>"
+            //   )
+            // );
+          }
+        }
+      }
+    });
+  },
+
   /** FIN CAMPO TRACTOR */
   /** CAMPO PLAYO */
   mostrarDatosPlayo: function(playo, completeIdInput) {
