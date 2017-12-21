@@ -885,6 +885,8 @@ var IngresoWidget = BaseWidget.extend({
   init: function(args) {
     this._super(args);
 
+    this.comboMarcasAltaCamion();
+    
     this.renderButtonMobile();
 
     this.dontUseEnterInForm();
