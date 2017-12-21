@@ -258,17 +258,15 @@ var IngresoWidget = BaseWidget.extend({
         var marcas = response.data;
         for (t in marcas) {
           if (marcas.hasOwnProperty(t)) {
-            var marcasCantidad = marcas;
-            $("#alta-tractor-label").text(marcasCantidad.length)
-            // $("#tractores-list").append(
-            //   $(
-            //     "<option value='" +
-            //       tractor_patente +
-            //       "'>" +
-            //       tractor_patente +
-            //       "</option>"
-            //   )
-            // );
+            $("#marcas-list").append(
+              $(
+                "<option value='" +
+                  t._id +
+                  "'>" +
+                  t._id +
+                  "</option>"
+              )
+            );
           }
         }
       }
@@ -886,7 +884,6 @@ var IngresoWidget = BaseWidget.extend({
     this._super(args);
 
     this.comboMarcasAltaCamion();
-    
     this.renderButtonMobile();
 
     this.dontUseEnterInForm();
