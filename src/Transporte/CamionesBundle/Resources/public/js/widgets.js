@@ -139,6 +139,7 @@ var IngresoWidget = BaseWidget.extend({
         else $("#tractor-empty").hide();
         if (patente !== "") {
             $("#modal-alta-tractor-input-axis").val("");
+            $("#modal-alta-tractor-input-trade").val("");
             $("#modal-alta-tractor-input-color").val("");
             $("#alta-tractor").modal();
         }
@@ -162,10 +163,7 @@ var IngresoWidget = BaseWidget.extend({
         .done(function(response) {
           if (response.status == "OK") {
             var tractor = response.data;
-            $("#tractor-dominio-input").val(tractor.dominio);
-            $("#tractor-marca-input").val(tractor.trade);
-            $("#tractor-cantidad_ejes-input").val(tractor.cantidad_ejes);
-            $("#tractor-color-input").val(tractor.color);
+            console.log("CNRT", response);
             $("#tractor-cnrt-not-found").hide();
             $("#tractor-cnrt-found").show();
           }
@@ -327,15 +325,13 @@ var IngresoWidget = BaseWidget.extend({
         .done(function(response) {
           if (response.status == "OK") {
             var playo = response.data;
-            $("#playo-dominio-input").val(playo.dominio);
-            $("#playo-tipo-input").val(playo.type);
-            $("#playo-cantidad_ejes-input").val(playo.cantidad_ejes);
-            $("#playo-color-input").val(playo.color);
             $("#playo-cnrt-not-found").hide();
+            $("#playo-cnrt-found").show();
           }
         })
         .fail(function(response) {
           $("#playo-cnrt-not-found").show();
+          $("#playo-cnrt-found").hide();
         });
     }
   },
