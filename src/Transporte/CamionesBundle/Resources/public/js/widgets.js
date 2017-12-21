@@ -257,7 +257,7 @@ var IngresoWidget = BaseWidget.extend({
       if (response.status == "OK") {
         var marcas = response.data;
         marcas.forEach( function (t) {
-          if (marcas.hasOwnProperty(t)) {
+          if (t.hasOwnProperty("_id")) {
             $("#marcas-list").append(
               $(
                 "<option value='" +
