@@ -17,6 +17,7 @@ class IngresoType extends AbstractType
         $this->destino = $destino;
         $this->tipoMovimiento = $tipoMovimiento;
         $this->tipoCarga = $tipoCarga;
+        $this->marcas = [];
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -45,6 +46,12 @@ class IngresoType extends AbstractType
                 'label' => 'Carga',
                 'choices'  => array_flip($this->tipoCarga),
                 'required' => false,
+                'placeholder' => ' - Seleccione - '
+            ])
+            ->add('marca', ChoiceType::class, [
+                'label' => 'Marca',
+                'choices'  => array_flip($this->marcas),
+                'required' => true,
                 'placeholder' => ' - Seleccione - '
             ])
         ;
