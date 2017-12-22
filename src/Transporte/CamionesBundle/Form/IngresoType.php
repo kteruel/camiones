@@ -49,7 +49,7 @@ class IngresoType extends AbstractType
                 'placeholder' => ' - Seleccione - '
             ])
             ->add('marca', ChoiceType::class, [
-                'label' => 'Marca',
+                'label' => 'Marcas',
                 'choices'  => array_flip($this->marcas),
                 'required' => true,
                 'placeholder' => ' - Seleccione - '
