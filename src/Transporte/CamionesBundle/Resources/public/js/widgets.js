@@ -146,7 +146,7 @@ var IngresoWidget = BaseWidget.extend({
             $("#alta-tractor").modal();
         }
       });
-  
+
 
     self.nuevoTractorButtonListener();
     self.autoCompleteTractores();
@@ -256,19 +256,18 @@ var IngresoWidget = BaseWidget.extend({
     }).done(function(response) {
       if (response.status == "OK") {
         var marcas = response.data;
-        marcas.forEach( function (t) {
-          if (t.hasOwnProperty("_id")) {
-            $("#marcas-list").append(
-              $(
-                "<option value='" +
-                  t._id +
-                  "'>" +
-                  t._id +
-                  "</option>"
-              )
-            );
+        $("#modal-alta-tractor-input-trade").empty();
+        $("#modal-alta-tractor-input-trade").append($("<option value=''> - Seleccione - </option>"));
+        for (m in marcas) {
+          if (marcas.hasOwnProperty(m)) {
+            var marca = marcas[m];
+            if (marca.hasOwnProperty("_id")) {
+              $("#modal-alta-tractor-input-trade").append(
+                $("<option value='" + marca._id + "'>" + marca._id + "</option>")
+              );
+            }
           }
-        });
+        }
       }
     });
   },
@@ -1422,7 +1421,7 @@ var PlayaWidget = BaseWidget.extend({
         var socket = args.socket;
 
     socket.on('appointment', function (param) {
-        
+
         var $tr = $('tr[contenedor="' + param.contenedor + '"');
         $tr.attr('class', 'normal');
 

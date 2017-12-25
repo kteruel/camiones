@@ -16,14 +16,12 @@
                     </div>
 
                     <div class="row">
-                        <div class="form-group">
-                            {{ form_label(form.marca) }}
-                            <div class="col-md-6">
-                                {{ form_widget(form.marca, {'attr' : {'class' : 'form-control', 'list' : 'marcas-list'} }) }}
-                                <datalist id="marcas-list"></datalist>
-                                <span id="marca-empty" class="help-block"><i class="fa fa-warning"></i> Debe seleccionar una Marca</span>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="modal-alta-tractor-input-trade"> Marca</label>
+                                <select class="form-control" id="modal-alta-tractor-input-trade" name="trade">
+                                </select>
                             </div>
-
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">

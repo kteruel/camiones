@@ -17,7 +17,6 @@ class IngresoType extends AbstractType
         $this->destino = $destino;
         $this->tipoMovimiento = $tipoMovimiento;
         $this->tipoCarga = $tipoCarga;
-        $this->marcas = [];
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -29,7 +28,7 @@ class IngresoType extends AbstractType
             ->add('contenedor', TextType::class, [ 'label' => 'Contenedor' ])
             ->add('inicio', HiddenType::class) // Turno Inicio
             ->add('fin', HiddenType::class) // Turno Fin
-            ->add('terminal', ChoiceType::class, [ 
+            ->add('terminal', ChoiceType::class, [
                 'label' => 'Terminal',
                 'choices'  => array_flip($this->destino),
                 'required' => false,
@@ -45,12 +44,6 @@ class IngresoType extends AbstractType
             ->add('carga', ChoiceType::class, [
                 'label' => 'Carga',
                 'choices'  => array_flip($this->tipoCarga),
-                'required' => false,
-                'placeholder' => ' - Seleccione - '
-            ])
-            ->add('marca', ChoiceType::class, [
-                'label' => 'Marcas',
-                'choices'  => array_flip($this->marcas),
                 'required' => false,
                 'placeholder' => ' - Seleccione - '
             ])
