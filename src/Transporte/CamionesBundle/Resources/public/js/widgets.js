@@ -95,9 +95,7 @@ var IngresoWidget = BaseWidget.extend({
         var playo = data.trailerId;
         var chofer = data.driverId;
         var tractor = data._id;
-        if (tractor !== null) {
-          self.mostrarDatosTractor(tractor);
-        }
+
         if (chofer !== null) {
           self.mostrarDatosChofer(chofer, true);
         } else {
@@ -872,7 +870,7 @@ var IngresoWidget = BaseWidget.extend({
       .done(function(response) {
         if (response.status == "OK") {
           console.log(
-            "Los datos del Ingreso de Camión se han actualizado correctamente."
+            "Los datos del Historico del Ingreso del Camión se han actualizado correctamente."
           );
         }
       })
@@ -918,6 +916,8 @@ var IngresoWidget = BaseWidget.extend({
     })
       .done(function(response) {
         if (response.status == "OK") {
+          self.refreshForm();
+          
           self.alertSuccess(
             "Gate IN",
             "Se Registro el Ingreso de Camión Correctamente."
