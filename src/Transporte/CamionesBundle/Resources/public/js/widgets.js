@@ -899,7 +899,7 @@ var IngresoWidget = BaseWidget.extend({
       contenedor: $("#transporte_camionesbundle_ingreso_contenedor").val(),
       turnoInicio: $("#transporte_camionesbundle_ingreso_inicio").val(),
       turnoFin: $("#transporte_camionesbundle_ingreso_fin").val(),
-      destino: $("#transporte_camionesbundle_ingreso_terminal").val()
+      destino: $("#transporte_camionesbundle_ingreso_terminal").val(),
       patenteCamion: $(
         "#transporte_camionesbundle_ingreso_tractor_patente"
       ).val(),
