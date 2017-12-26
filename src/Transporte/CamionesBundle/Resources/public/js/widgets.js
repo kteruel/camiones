@@ -609,6 +609,7 @@ var IngresoWidget = BaseWidget.extend({
       var valor = "";
       valor = $(this).find(":selected").val();
       if (valor === 'CARGAGRAL') {
+        console.log("LIMPIA CONTENEDOR");
         $("#transporte_camionesbundle_ingreso_contenedor").empty();
       }
     });
