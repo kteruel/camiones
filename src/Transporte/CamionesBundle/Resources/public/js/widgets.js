@@ -272,8 +272,35 @@ var IngresoWidget = BaseWidget.extend({
     });
   },
 
-  comboColorsAltaCamion: function() {
+  comboTiposAltaPlayo: function() {
     var self = this;
+    $.ajax({
+      method: "GET",
+      dataType: "json",
+      beforeSend: self.setHeader,
+      url: window.transporte.apiURL + "/zap/playotypes"
+    }).done(function(response) {
+      if (response.status == "OK") {
+        var marcas = response.data;
+        $("#modal-alta-trailer-input-tipo").empty();
+        $("#modal-alta-trailer-input-tipo").append($("<option value=''> - Seleccione - </option>"));
+        for (m in marcas) {
+          if (marcas.hasOwnProperty(m)) {
+            var marca = marcas[m];
+            if (marca.hasOwnProperty("_id")) {
+              $("#modal-alta-trailer-input-tipo").append(
+                $("<option value='" + marca._id + "'>" + marca._id + "</option>")
+              );
+            }
+          }
+        }
+      }
+    });
+  },
+
+  comboColors: function(comboId) {
+    var self = this;
+    comboId = '#' + comboId;
     $.ajax({
       method: "GET",
       dataType: "json",
@@ -282,13 +309,13 @@ var IngresoWidget = BaseWidget.extend({
     }).done(function(response) {
       if (response.status == "OK") {
         var marcas = response.data;
-        $("#modal-alta-tractor-input-color").empty();
-        $("#modal-alta-tractor-input-color").append($("<option value=''> - Seleccione - </option>"));
+        $(comboId).empty();
+        $(comboId).append($("<option value=''> - Seleccione - </option>"));
         for (m in marcas) {
           if (marcas.hasOwnProperty(m)) {
             var marca = marcas[m];
             if (marca.hasOwnProperty("_id")) {
-              $("#modal-alta-tractor-input-color").append(
+              $(comboId).append(
                 $("<option value='" + marca._id + "'>" + marca._id + "</option>")
               );
             }
@@ -910,7 +937,11 @@ var IngresoWidget = BaseWidget.extend({
 
     this.comboMarcasAltaCamion();
 
-    this.comboColorsAltaCamion();
+    this.comboColors('modal-alta-tractor-input-color');
+
+    this.comboTiposAltaPlayo();
+    
+    this.comboColors('modal-alta-playo-input-color');
     
     this.renderButtonMobile();
 
