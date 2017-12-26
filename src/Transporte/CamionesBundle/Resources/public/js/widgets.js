@@ -606,10 +606,11 @@ var IngresoWidget = BaseWidget.extend({
   },
   changeComboMovListener: function() {
     $('#transporte_camionesbundle_ingreso_mov').on('change', function (value) {
-      var str = "";
-      str = $(this).find(":selected").val();
-
-      console.log("no" + str);
+      var valor = "";
+      valor = $(this).find(":selected").val();
+      if (valor === 'CARGAGRAL') {
+        $("#transporte_camionesbundle_ingreso_contenedor").empty();
+      }
     });
   },
   autoCompleteContenedores: function() {
