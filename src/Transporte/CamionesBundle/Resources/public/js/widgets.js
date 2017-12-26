@@ -95,7 +95,9 @@ var IngresoWidget = BaseWidget.extend({
         var playo = data.trailerId;
         var chofer = data.driverId;
         var tractor = data._id;
-        self.mostrarDatosTractor(tractor);
+        if (tractor !== null) {
+          self.mostrarDatosTractor(tractor);
+        }
         if (chofer !== null) {
           self.mostrarDatosChofer(chofer, true);
         } else {
