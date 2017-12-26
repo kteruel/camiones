@@ -20,6 +20,7 @@ parameters:
         BACTSSA: "B.A.C.T.S.S.A."
         TERMINAL4: "APM Terminals"
         TRP: "Terminal Río de la Plata"
+        ZAP: "Zona Administración Portuaria" 
     tipo_movimiento:
         IMPO: "IMPO"
         EXPO: "EXPO"
