@@ -1201,7 +1201,6 @@ var PlayaWidget = BaseWidget.extend({
     var gateTimestamp = now.toISOString();
     var data = {
       mov: mov,
-      destino: 
       tipo: "OUT",
       carga: carga,
       patenteCamion: patente,
