@@ -604,6 +604,15 @@ var IngresoWidget = BaseWidget.extend({
     });
     this.autoCompleteContenedores();
   },
+  changeComboMovListener: function() {
+    $('#transporte_camionesbundle_ingreso_mov').change(function (value, e) {
+      var str = "";
+      $( "#transporte_camionesbundle_ingreso_mov option:selected" ).each(function() {
+        str += $( this ).text() + " ";
+      });
+      console.log(str);
+    })
+  },
   autoCompleteContenedores: function() {
     var self = this;
     $.ajax({
@@ -957,6 +966,8 @@ var IngresoWidget = BaseWidget.extend({
 
     this.addContenedorListener();
 
+    this.changeComboMovListener();
+    
     this.buscarTurnoListener();
 
     this.addInformarTerminalListener();
