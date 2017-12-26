@@ -609,7 +609,6 @@ var IngresoWidget = BaseWidget.extend({
       var valor = "";
       valor = $(this).find(":selected").val();
       if (valor === 'CARGAGRAL') {
-        console.log("LIMPIA CONTENEDOR");
         $("#transporte_camionesbundle_ingreso_contenedor").val("");
       }
     });
@@ -900,6 +899,7 @@ var IngresoWidget = BaseWidget.extend({
       contenedor: $("#transporte_camionesbundle_ingreso_contenedor").val(),
       turnoInicio: $("#transporte_camionesbundle_ingreso_inicio").val(),
       turnoFin: $("#transporte_camionesbundle_ingreso_fin").val(),
+      destino: $("#transporte_camionesbundle_ingreso_terminal").val()
       patenteCamion: $(
         "#transporte_camionesbundle_ingreso_tractor_patente"
       ).val(),
@@ -1201,6 +1201,7 @@ var PlayaWidget = BaseWidget.extend({
     var gateTimestamp = now.toISOString();
     var data = {
       mov: mov,
+      destino: 
       tipo: "OUT",
       carga: carga,
       patenteCamion: patente,
@@ -1479,8 +1480,7 @@ var PlayaWidget = BaseWidget.extend({
         }
         if (del) {
             $($tr).remove();
-            //lo comenté para no borrar de la base y tener que hacer ingresos a cada rato despues de probar borrar, hay que descomentarlo luego
-            // self.salidaCamion(patente, mov, carga, turnoinicio !== "");
+            self.salidaCamion(patente, mov, carga, turnoinicio !== "");
         }
       });
 
