@@ -1435,9 +1435,9 @@ var PlayaWidget = BaseWidget.extend({
               $tr.append(
                 $(
                   "<td class='terminal' data-terminal='" +
-                    turno.terminal +
+                    turno.destino +
                     "'>" +
-                    turno.terminal +
+                    turno.destino +
                     "</td>"
                 )
               );
