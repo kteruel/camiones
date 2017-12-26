@@ -282,13 +282,13 @@ var IngresoWidget = BaseWidget.extend({
     }).done(function(response) {
       if (response.status == "OK") {
         var marcas = response.data;
-        $("#modal-alta-trailer-input-tipo").empty();
-        $("#modal-alta-trailer-input-tipo").append($("<option value=''> - Seleccione - </option>"));
+        $("#modal-alta-playo-input-tipo").empty();
+        $("#modal-alta-playo-input-tipo").append($("<option value=''> - Seleccione - </option>"));
         for (m in marcas) {
           if (marcas.hasOwnProperty(m)) {
             var marca = marcas[m];
             if (marca.hasOwnProperty("_id")) {
-              $("#modal-alta-trailer-input-tipo").append(
+              $("#modal-alta-playo-input-tipo").append(
                 $("<option value='" + marca._id + "'>" + marca._id + "</option>")
               );
             }
