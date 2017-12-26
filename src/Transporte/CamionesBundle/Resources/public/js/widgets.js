@@ -272,6 +272,32 @@ var IngresoWidget = BaseWidget.extend({
     });
   },
 
+  comboColorsAltaCamion: function() {
+    var self = this;
+    $.ajax({
+      method: "GET",
+      dataType: "json",
+      beforeSend: self.setHeader,
+      url: window.transporte.apiURL + "/zap/colors"
+    }).done(function(response) {
+      if (response.status == "OK") {
+        var marcas = response.data;
+        $("#modal-alta-tractor-input-color").empty();
+        $("#modal-alta-tractor-input-color").append($("<option value=''> - Seleccione - </option>"));
+        for (m in marcas) {
+          if (marcas.hasOwnProperty(m)) {
+            var marca = marcas[m];
+            if (marca.hasOwnProperty("_id")) {
+              $("#modal-alta-tractor-input-color").append(
+                $("<option value='" + marca._id + "'>" + marca._id + "</option>")
+              );
+            }
+          }
+        }
+      }
+    });
+  },
+
   /** FIN CAMPO TRACTOR */
   /** CAMPO PLAYO */
   mostrarDatosPlayo: function(playo, completeIdInput) {
@@ -883,6 +909,9 @@ var IngresoWidget = BaseWidget.extend({
     this._super(args);
 
     this.comboMarcasAltaCamion();
+
+    this.comboColorsAltaCamion();
+    
     this.renderButtonMobile();
 
     this.dontUseEnterInForm();
