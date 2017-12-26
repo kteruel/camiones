@@ -823,7 +823,7 @@ var IngresoWidget = BaseWidget.extend({
       return false;
     }
 
-    if ($("#transporte_camionesbundle_ingreso_contenedor").val() == "") {
+    if ($("#transporte_camionesbundle_ingreso_contenedor").val() == "" && $("#transporte_camionesbundle_ingreso_mov").val() !== "CARGAGRAL") {
       self.alertError("Campos obligatorios", "Debe ingresar Contenedor");
       return false;
     }
