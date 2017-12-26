@@ -610,7 +610,7 @@ var IngresoWidget = BaseWidget.extend({
       $( "#transporte_camionesbundle_ingreso_mov option:selected" ).each(function() {
         str += $( this ).text() + " ";
       });
-      console.log(str);
+      console.log("no" + str);
     })
   },
   autoCompleteContenedores: function() {
