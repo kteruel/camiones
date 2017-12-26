@@ -605,13 +605,12 @@ var IngresoWidget = BaseWidget.extend({
     this.autoCompleteContenedores();
   },
   changeComboMovListener: function() {
-    $('#transporte_camionesbundle_ingreso_mov').change(function (value, e) {
+    $('#transporte_camionesbundle_ingreso_mov').on('change', function (value) {
       var str = "";
-      $( "#transporte_camionesbundle_ingreso_mov option:selected" ).each(function() {
-        str += $( this ).text() + " ";
-      });
+      str = $(this).find(":selected").val();
+
       console.log("no" + str);
-    })
+    });
   },
   autoCompleteContenedores: function() {
     var self = this;
