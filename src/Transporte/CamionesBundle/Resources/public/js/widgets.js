@@ -617,6 +617,7 @@ var IngresoWidget = BaseWidget.extend({
     });
   },
   changeComboTerminalListener: function() {
+    var self = this;
     $('#transporte_camionesbundle_ingreso_terminal').on('change', function (value) {
       var valor = "";
       var valComboMov = "";
