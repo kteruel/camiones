@@ -1422,6 +1422,11 @@ var PlayaWidget = BaseWidget.extend({
                   "margin-left": "100px"
                 }, "slow");
               });
+              $(function(){
+                $("#span-camionesCant").animate({
+                  "margin-left": "0px"
+                }, "fast");
+              });
 
 
               var $tr = $(
