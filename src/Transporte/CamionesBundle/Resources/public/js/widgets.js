@@ -1429,26 +1429,16 @@ var PlayaWidget = BaseWidget.extend({
           if (turnos.hasOwnProperty(t)) {
             var turno = turnos[t];
 
-            var translateStatusEntrada = self.translateStatusEntrada(
-              statusEntrada
-            );
-
             if (!turno.gateTimestamp_out) {
-              var fechaEntrada = new Date(turno.gateTimestamp);
-              //var fechaEntrada = new Date('2017-11-30 20:00');
-              var fechaInicioTurno = turno.turnoInicio
-                ? new Date(turno.turnoInicio)
-                : "";
-              //var fechaInicioTurno = new Date('2017-11-30 18:00');
-              var fechaFinTurno = turno.turnoFin
-                ? new Date(turno.turnoFin)
-                : "";
-              //var fechaFinTurno = new Date('2017-11-30 19:00');
-              var statusEntrada = self.getStatusEntrada(
-                fechaEntrada,
-                fechaInicioTurno,
-                fechaFinTurno
+
+              var translateStatusEntrada = self.translateStatusEntrada(
+                statusEntrada
               );
+  
+              var fechaEntrada = new Date(turno.gateTimestamp);
+              var fechaInicioTurno = turno.turnoInicio ? new Date(turno.turnoInicio) : "";
+              var fechaFinTurno = turno.turnoFin ? new Date(turno.turnoFin) : "";
+              var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
               var fechaAltaTurno = turno.alta ? new Date(turno.alta) : "";
               var contenedor = turno.contenedor || "";
 
@@ -1482,7 +1472,7 @@ var PlayaWidget = BaseWidget.extend({
                 $("<td>" + Date.daysBetween(fechaEntrada, today) + "</td>")
               );
               $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>-<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
-              $tr.append($("<td>" + translateStatusEntrada + "</td>"));
+              $tr.append($("<td>" + Date.daysBetween(fechaEntrada, fechaInicioTurno) + "</td>"));
               $tr.append(
                 $(
                   "<td class='mov' data-mov='" +
