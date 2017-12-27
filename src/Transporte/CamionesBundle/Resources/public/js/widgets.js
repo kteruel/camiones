@@ -1394,6 +1394,19 @@ var PlayaWidget = BaseWidget.extend({
     }).done(function(response) {
       if (response.status == "OK") {
         var turnos = response.data;
+
+        $("#span-camionesCant").text("Camiones en Playa #" + response.totalCount);
+        $(function(){
+          $("#span-camionesCant").animate({
+            "margin-left": "50px"
+          }, "slow");
+        });
+        $(function(){
+          $("#span-camionesCant").animate({
+            "margin-left": "0px"
+          }, "fast");
+        });
+
         for (t in turnos) {
           if (turnos.hasOwnProperty(t)) {
             var turno = turnos[t];
@@ -1415,19 +1428,6 @@ var PlayaWidget = BaseWidget.extend({
               );
               var fechaAltaTurno = turno.alta ? new Date(turno.alta) : "";
               var contenedor = turno.contenedor || "";
-
-              $("#span-camionesCant").text("Camiones en Playa #" + response.totalCount);
-              $(function(){
-                $("#span-camionesCant").animate({
-                  "margin-left": "100px"
-                }, "slow");
-              });
-              $(function(){
-                $("#span-camionesCant").animate({
-                  "margin-left": "0px"
-                }, "fast");
-              });
-
 
               var $tr = $(
                 "<tr contenedor= '" + contenedor + "' estado='" +
