@@ -1,0 +1,4 @@
+!#/bin/bash
+sudo git pull
+sudo bin/console cache:clear -e prod
+sudo bin/console assets:install -e prod
