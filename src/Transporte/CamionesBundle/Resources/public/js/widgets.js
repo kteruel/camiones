@@ -1431,16 +1431,16 @@ var PlayaWidget = BaseWidget.extend({
 
             if (!turno.gateTimestamp_out) {
 
-              var translateStatusEntrada = self.translateStatusEntrada(
-                statusEntrada
-              );
-  
               var fechaEntrada = new Date(turno.gateTimestamp);
               var fechaInicioTurno = turno.turnoInicio ? new Date(turno.turnoInicio) : "";
               var fechaFinTurno = turno.turnoFin ? new Date(turno.turnoFin) : "";
               var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
               var fechaAltaTurno = turno.alta ? new Date(turno.alta) : "";
               var contenedor = turno.contenedor || "";
+
+              var translateStatusEntrada = self.translateStatusEntrada(
+                statusEntrada
+              );
 
               var $tr = $(
                 "<tr contenedor= '" + contenedor + "' estado='" +
@@ -1493,9 +1493,7 @@ var PlayaWidget = BaseWidget.extend({
               );
               var $actions = $("<td></td>");
               var classes =
-                turno.turnoInicio === null
-                  ? "bg-color-redLight txt-color-white"
-                  : "";
+                turno.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
               $actions.append(
                 $(
                   "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
