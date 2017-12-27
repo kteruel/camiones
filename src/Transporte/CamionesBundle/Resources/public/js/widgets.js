@@ -1387,6 +1387,24 @@ var PlayaWidget = BaseWidget.extend({
     };
     $.ajax({
       method: "GET",
+      url: window.transporte.apiURL + "/appointments/byDay?fechaInicio=2017-12-27&fechaFin=2017-12-27",
+      dataType: "json",
+      beforeSend: self.setHeader
+    }).done(function (response) {
+      $("#span-turnosCant").text("Turnos #" + response[0].cnt);
+      $(function(){
+        $("#span-turnosCant").animate({
+          "margin-top": "4px"
+        }, "fast");
+      });
+      $(function(){
+        $("#span-turnosCant").animate({
+          "margin-left": "0px"
+        }, "fast");
+      });
+  });
+    $.ajax({
+      method: "GET",
       url: window.transporte.apiURL + "/gates/IN/ZAP/0/10000",
       dataType: "json",
       beforeSend: self.setHeader,
@@ -1395,11 +1413,11 @@ var PlayaWidget = BaseWidget.extend({
       if (response.status == "OK") {
         var turnos = response.data;
 
-        $("#span-camionesCant").text("Camiones en Playa #" + response.totalCount);
+        $("#span-camionesCant").text("Playa #" + response.totalCount);
         $(function(){
           $("#span-camionesCant").animate({
-            "margin-left": "50px"
-          }, "slow");
+            "margin-top": "4px"
+          }, "fast");
         });
         $(function(){
           $("#span-camionesCant").animate({
