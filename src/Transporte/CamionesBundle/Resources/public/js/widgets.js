@@ -628,21 +628,21 @@ var IngresoWidget = BaseWidget.extend({
           "Combinación no permitida",
           "El Movimiento Estacionamiento solo puede ser Terminal ZAP"
         );
-
-        $.SmartMessageBox({
-          "buttons": "[No][Si]"
-        }, function (r) {
-          if (r === 'Si') {
-            console.log("BORRA");
-            $.smallBox({
-              title : "Callback function",
-              content : " You pressed Yes...",
-              color : "#659265",
-              iconSmall : "fa fa-check fa-2x fadeInRight animated",
-              timeout : 4000
-          });
-          }
-        });
+        $(this).val("");
+        // $.SmartMessageBox({
+        //   "buttons": "[No][Si]"
+        // }, function (r) {
+        //   if (r === 'Si') {
+        //     console.log("BORRA");
+        //     $.smallBox({
+        //       title : "Callback function",
+        //       content : " You pressed Yes...",
+        //       color : "#659265",
+        //       iconSmall : "fa fa-check fa-2x fadeInRight animated",
+        //       timeout : 4000
+        //   });
+        //   }
+        // });
       }
 
     });
