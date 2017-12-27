@@ -628,10 +628,8 @@ var IngresoWidget = BaseWidget.extend({
           "Combinación no permitida",
           "El Movimiento Estacionamiento solo puede ser Terminal ZAP"
         );
-        
+
         $.SmartMessageBox({
-          "title": "<div style='width: 50%'><i class= 'fa fa-recycle txt-color-orangeDark'></i><span>Eliminar</span></div>",
-          "content": "<div style='width: 50%'><span>¿Desea Eliminar?</span></div>",
           "buttons": "[No][Si]"
         }, function (r) {
           if (r === 'Si') {
