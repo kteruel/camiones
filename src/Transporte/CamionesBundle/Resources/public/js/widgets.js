@@ -610,7 +610,10 @@ var IngresoWidget = BaseWidget.extend({
       valor = $(this).find(":selected").val();
       if (valor === 'CARGAGRAL') {
         $("#transporte_camionesbundle_ingreso_contenedor").val("");
+      } else if (valor === 'ESTACIONA') {
+        $("#transporte_camionesbundle_ingreso_terminal").val("ZAP");
       }
+
     });
   },
   autoCompleteContenedores: function() {
@@ -1509,7 +1512,6 @@ var PlayaWidget = BaseWidget.extend({
         var $turnoFin = $tr.find(".turno-fin");
         $turnoFin.html(self.timeFormat(new Date(turno.fin)));
 
-        console.log(turno.inicio)
     });
 
     this.getStatusAndRender();
