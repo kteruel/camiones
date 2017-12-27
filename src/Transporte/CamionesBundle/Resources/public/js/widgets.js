@@ -1410,7 +1410,7 @@ var PlayaWidget = BaseWidget.extend({
               $tr.append(
                 $("<td>" + Date.daysBetween(fechaEntrada, today) + "</td>")
               );
-              $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span><span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
+              $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>-<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
               // $tr.append(
               //   $(
               //     "<td class='turno-inicio' data-turnoinicio='" +
@@ -1494,21 +1494,22 @@ var PlayaWidget = BaseWidget.extend({
     });
   },
   init: function(args) {
-        var self = this;
-        this._super(args);
-        var socket = args.socket;
+    var self = this;
+    this._super(args);
+    var socket = args.socket;
 
-    socket.on('appointment', function (param) {
+    socket.on('appointment', function (turno) {
 
-        var $tr = $('tr[contenedor="' + param.contenedor + '"');
+        var $tr = $('tr[contenedor="' + turno.contenedor + '"');
         $tr.attr('class', 'normal');
 
         var $turnoinicio = $tr.find(".turno-inicio");
-        $turnoinicio.html(self.timeFormat(new Date(param.inicio)));
+        $turnoinicio.html(self.timeFormat(new Date(turno.inicio)));
 
         var $turnoFin = $tr.find(".turno-fin");
-        $turnoFin.html(self.timeFormat(new Date(param.fin)));
+        $turnoFin.html(self.timeFormat(new Date(turno.fin)));
 
+        console.log(turno.inicio)
     });
 
     this.getStatusAndRender();
