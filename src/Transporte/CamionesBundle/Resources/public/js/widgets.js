@@ -1380,7 +1380,7 @@ var PlayaWidget = BaseWidget.extend({
               var fechaAltaTurno = turno.alta ? new Date(turno.alta) : "";
               var contenedor = turno.contenedor || "";
 
-              $("span-camionesCant").text("Camiones en Playa #" + response.totalCount);
+              $("#span-camionesCant").text("Camiones en Playa #" + response.totalCount);
               var $tr = $(
                 "<tr contenedor= '" + contenedor + "' estado='" +
                   statusEntrada +
