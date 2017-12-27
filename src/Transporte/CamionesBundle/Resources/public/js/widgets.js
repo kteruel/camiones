@@ -616,6 +616,29 @@ var IngresoWidget = BaseWidget.extend({
 
     });
   },
+  changeComboTerminalListener: function() {
+    $('#transporte_camionesbundle_ingreso_terminal').on('change', function (value) {
+      var valor = "";
+      var valComboMov = "";
+      valor = $(this).find(":selected").val();
+      valComboMov = $('#transporte_camionesbundle_ingreso_mov').find(":selected").val();
+      if (valor !== 'ZAP' && valComboMov === 'ESTACIONA') {
+        self.alertError(
+          "Combinación no permitida",
+          "El Movimiento Estacionamiento solo puede ser Terminal ZAP"
+        );
+        $.SmartMessageBox({
+          "title": "<i class: 'fa fa-recycle txt-color-orangeDark'></i>Eliminar",
+          "buttons": "[No][Si]"
+        }, function (r) {
+          if (r === 'Si') {
+            console.log("BORRA");
+          }
+        });
+      }
+
+    });
+  },
   autoCompleteContenedores: function() {
     var self = this;
     $.ajax({
