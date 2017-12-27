@@ -1417,6 +1417,13 @@ var PlayaWidget = BaseWidget.extend({
               var contenedor = turno.contenedor || "";
 
               $("#span-camionesCant").text("Camiones en Playa #" + response.totalCount);
+              $(function(){
+                $("#span-camionesCant").animate({
+                  "margin-left": "100px"
+                }, "slow");
+              });
+
+
               var $tr = $(
                 "<tr contenedor= '" + contenedor + "' estado='" +
                   statusEntrada +
