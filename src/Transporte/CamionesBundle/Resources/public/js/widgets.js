@@ -998,6 +998,8 @@ var IngresoWidget = BaseWidget.extend({
     this.addContenedorListener();
 
     this.changeComboMovListener();
+
+    this.changeComboTerminalListener();
     
     this.buscarTurnoListener();
 
