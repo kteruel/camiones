@@ -1409,16 +1409,18 @@ var PlayaWidget = BaseWidget.extend({
               $tr.append(
                 $("<td>" + Date.daysBetween(fechaEntrada, today) + "</td>")
               );
-              $tr.append(
-                $(
-                  "<td class='turno-inicio' data-turnoinicio='" +
-                    self.timeFormat(fechaInicioTurno) +
-                    "'>" +
-                    self.timeFormat(fechaInicioTurno) +
-                    "</td>"
-                )
-              );
-              $tr.append($("<td class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</td>"));
+              $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span><span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
+              // $tr.append(
+              //   $(
+              //     "<td class='turno-inicio' data-turnoinicio='" +
+              //       self.timeFormat(fechaInicioTurno) +
+              //       "'>" +
+              //       self.timeFormat(fechaInicioTurno) +
+              //       "</td>"
+              //   )
+              // );
+              // $tr.append($("<td class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</td>"));
+
               var translateStatusEntrada = self.translateStatusEntrada(
                 statusEntrada
               );
