@@ -1387,11 +1387,11 @@ var PlayaWidget = BaseWidget.extend({
     };
     $.ajax({
       method: "GET",
-      url: window.transporte.apiURL + "/appointments/byDay?fechaInicio=2017-12-27&fechaFin=2017-12-27",
+      url: window.transporte.apiURL + "/appointments/byDay?fechaInicio=" + data.fechaInicio + "&fechaFin="+ data.fechaFin,
       dataType: "json",
       beforeSend: self.setHeader
     }).done(function (response) {
-      $("#span-turnosCant").text("Turnos #" + response[0].cnt);
+      $("#span-turnosCant").text("Turnos #" + response.data[0].cnt);
       $(function(){
         $("#span-turnosCant").animate({
           "margin-top": "4px"
@@ -1399,7 +1399,7 @@ var PlayaWidget = BaseWidget.extend({
       });
       $(function(){
         $("#span-turnosCant").animate({
-          "margin-left": "0px"
+          "margin-top": "0px"
         }, "fast");
       });
 
@@ -1422,7 +1422,7 @@ var PlayaWidget = BaseWidget.extend({
         });
         $(function(){
           $("#span-camionesCant").animate({
-            "margin-left": "0px"
+            "margin-top": "0px"
           }, "fast");
         });
 
