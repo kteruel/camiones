@@ -1402,6 +1402,7 @@ var PlayaWidget = BaseWidget.extend({
           "margin-left": "0px"
         }, "fast");
       });
+
   });
     $.ajax({
       method: "GET",
