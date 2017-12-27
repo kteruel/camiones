@@ -629,11 +629,19 @@ var IngresoWidget = BaseWidget.extend({
           "El Movimiento Estacionamiento solo puede ser Terminal ZAP"
         );
         $.SmartMessageBox({
-          "title": "<i class: 'fa fa-recycle txt-color-orangeDark'></i>Eliminar",
+          "title": "<i class: 'fa fa-recycle txt-color-orangeDark'></i><span>Eliminar</span>",
+          "content": "<span>Desea Eliminar?</span>",
           "buttons": "[No][Si]"
         }, function (r) {
           if (r === 'Si') {
             console.log("BORRA");
+            $.smallBox({
+              title : "Callback function",
+              content : " You pressed Yes...",
+              color : "#659265",
+              iconSmall : "fa fa-check fa-2x fadeInRight animated",
+              timeout : 4000
+          });
           }
         });
       }
