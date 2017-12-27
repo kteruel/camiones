@@ -1428,6 +1428,11 @@ var PlayaWidget = BaseWidget.extend({
         for (t in turnos) {
           if (turnos.hasOwnProperty(t)) {
             var turno = turnos[t];
+
+            var translateStatusEntrada = self.translateStatusEntrada(
+              statusEntrada
+            );
+
             if (!turno.gateTimestamp_out) {
               var fechaEntrada = new Date(turno.gateTimestamp);
               //var fechaEntrada = new Date('2017-11-30 20:00');
@@ -1469,28 +1474,14 @@ var PlayaWidget = BaseWidget.extend({
                   "<td>" +
                     self.dateFormat(fechaEntrada) +
                     " " +
-                    self.timeFormat(fechaEntrada) +
-                    "</td>"
+                    self.timeFormat(fechaEntrada) + " - (" + translateStatusEntrada +
+                    ")</td>"
                 )
               );
               $tr.append(
                 $("<td>" + Date.daysBetween(fechaEntrada, today) + "</td>")
               );
               $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>-<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
-              // $tr.append(
-              //   $(
-              //     "<td class='turno-inicio' data-turnoinicio='" +
-              //       self.timeFormat(fechaInicioTurno) +
-              //       "'>" +
-              //       self.timeFormat(fechaInicioTurno) +
-              //       "</td>"
-              //   )
-              // );
-              // $tr.append($("<td class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</td>"));
-
-              var translateStatusEntrada = self.translateStatusEntrada(
-                statusEntrada
-              );
               $tr.append($("<td>" + translateStatusEntrada + "</td>"));
               $tr.append(
                 $(
