@@ -606,6 +606,9 @@ var IngresoWidget = BaseWidget.extend({
       }
     });
     this.autoCompleteContenedores();
+    $("#transporte_camionesbundle_ingreso_contenedor").on('change', function(value) {
+      console.log(value)
+    });      
   },
   changeComboMovListener: function() {
     $('#transporte_camionesbundle_ingreso_mov').on('change', function (value) {
