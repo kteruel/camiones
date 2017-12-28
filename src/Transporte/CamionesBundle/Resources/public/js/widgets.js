@@ -1472,7 +1472,7 @@ var PlayaWidget = BaseWidget.extend({
                 $("<td>" + Date.daysBetween(fechaEntrada, today) + "</td>")
               );
               $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>-<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
-              $tr.append($("<td>" + Date.daysBetween(fechaEntrada, fechaInicioTurno) + "</td>"));
+              $tr.append($("<td>" + Date.daysBetween(fechaInicioTurno, new Date()) + "</td>"));
               $tr.append(
                 $(
                   "<td class='mov' data-mov='" +
