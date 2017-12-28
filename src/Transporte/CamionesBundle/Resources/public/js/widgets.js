@@ -96,6 +96,9 @@ var IngresoWidget = BaseWidget.extend({
         var chofer = data.driverId;
         var tractor = data._id;
 
+        if (!tractor) {
+          self.ajaxBuscarTractorEnHistorico(patente);
+        }
         if (chofer !== null) {
           self.mostrarDatosChofer(chofer, true);
         } else {
