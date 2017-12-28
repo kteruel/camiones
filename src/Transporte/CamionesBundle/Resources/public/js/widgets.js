@@ -1473,7 +1473,7 @@ var PlayaWidget = BaseWidget.extend({
               );
               $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>-<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
               if (fechaInicioTurno !== undefined && fechaInicioTurno !== "") {
-                $tr.append($("<td>" + Date.daysBetween(fechaInicioTurno, new Date()) + "</td>"));
+                $tr.append($("<td>" + Date.daysBetween(new Date(), fechaInicioTurno) + "</td>"));
               } else {
                 $tr.append($("<td></td>"));
               }
