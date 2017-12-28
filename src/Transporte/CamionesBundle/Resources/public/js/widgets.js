@@ -1424,7 +1424,7 @@ var PlayaWidget = BaseWidget.extend({
             "margin-top": "0px"
           }, "fast");
         });
-
+        var newDate = new Date();
         for (t in turnos) {
           if (turnos.hasOwnProperty(t)) {
             var turno = turnos[t];
@@ -1471,9 +1471,14 @@ var PlayaWidget = BaseWidget.extend({
               $tr.append(
                 $("<td>" + Date.daysBetween(fechaEntrada, today) + "</td>")
               );
-              $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>-<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
-              if (fechaInicioTurno !== undefined && fechaInicioTurno !== "") {
-                $tr.append($("<td>" + Date.daysBetween(new Date(), fechaInicioTurno) + "</td>"));
+              var guion = '';
+              if (fechaInicioTurno && fechaFinTurno) {
+                guion = '-';
+              }
+              $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>"+guion+"<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
+
+              if (fechaInicioTurno !== undefined && fechaInicioTurno !== "" && newDate < fechaInicioTurno) {
+                $tr.append($("<td>" + Date.daysBetween(newDate, fechaInicioTurno) + "</td>"));
               } else {
                 $tr.append($("<td></td>"));
               }
