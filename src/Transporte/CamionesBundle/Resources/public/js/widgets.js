@@ -766,9 +766,11 @@ var IngresoWidget = BaseWidget.extend({
       } else {
         // No encontré turnos
         self.alertError("Consulta de Turno", "No se encontró ningún Turno.");
+        $("#transporte_camionesbundle_ingreso_terminal").attr('disabled', false);
       }
     } else {
       self.alertError("Consulta de Turno", "No se encontró ningún Turno.");
+      $("#transporte_camionesbundle_ingreso_terminal").attr('disabled', false);
     }
   },
   ajaxBuscarTurnoPorTractorPatente: function(tractor_patente) {
