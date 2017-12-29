@@ -616,10 +616,12 @@ var IngresoWidget = BaseWidget.extend({
     $('#transporte_camionesbundle_ingreso_mov').on('change', function (value) {
       var valor = "";
       valor = $(this).find(":selected").val();
+      $("#transporte_camionesbundle_ingreso_terminal").attr("disabled", false);
       if (valor === 'CARGAGRAL') {
         $("#transporte_camionesbundle_ingreso_contenedor").val("");
       } else if (valor === 'ESTACIONA') {
         $("#transporte_camionesbundle_ingreso_terminal").val("ZAP");
+        $("#transporte_camionesbundle_ingreso_terminal").attr("disabled", true);
       }
 
     });
@@ -706,7 +708,7 @@ var IngresoWidget = BaseWidget.extend({
                 "\
                             <div class='radio'>\
                                 <label>\
-                                    <input type='radio' value='" +
+                                    <input id:'radio1' type='radio' value='" +
                   dateInicio.toISOString() +
                   "-" +
                   dateFin.toISOString() +
