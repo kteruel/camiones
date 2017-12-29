@@ -1406,8 +1406,10 @@ var PlayaWidget = BaseWidget.extend({
       beforeSend: self.setHeader
     }).done(function (response) {
       var turnos = '';
+      var turno;
       for (item in response.data) {
-        turnos += " " + item.terminal + ": " + item.cnt + ", ";
+        turno = response.data[item];
+        turnos += " " + turno.terminal + ": " + turno.cnt + ", ";
       }
       $("#span-turnosCant").text("Turnos #" + turnos);
       $(function(){
