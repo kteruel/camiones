@@ -622,6 +622,7 @@ var IngresoWidget = BaseWidget.extend({
       } else if (valor === 'ESTACIONA') {
         $("#transporte_camionesbundle_ingreso_terminal").val("ZAP");
         $("#transporte_camionesbundle_ingreso_terminal").attr("disabled", true);
+        $("#transporte_camionesbundle_ingreso_mov").attr("disabled", true);
       }
 
     });
@@ -757,6 +758,7 @@ var IngresoWidget = BaseWidget.extend({
           $("#transporte_camionesbundle_ingreso_alta").val(alta);
           $("#transporte_camionesbundle_ingreso_terminal").val(terminal);
           $("#transporte_camionesbundle_ingreso_terminal").attr('disabled', true);
+          $("#transporte_camionesbundle_ingreso_mov").attr("disabled", true);
         });
         // Selecciono automáticamente el turno si hay uno solo
         if ($("#turnos-radio .radio").length == 1) {
@@ -766,10 +768,12 @@ var IngresoWidget = BaseWidget.extend({
         // No encontré turnos
         self.alertError("Consulta de Turno", "No se encontró ningún Turno.");
         $("#transporte_camionesbundle_ingreso_terminal").attr('disabled', false);
+        $("#transporte_camionesbundle_ingreso_mov").attr("disabled", false);
       }
     } else {
       self.alertError("Consulta de Turno", "No se encontró ningún Turno.");
       $("#transporte_camionesbundle_ingreso_terminal").attr('disabled', false);
+      $("#transporte_camionesbundle_ingreso_mov").attr("disabled", false);
     }
   },
   ajaxBuscarTurnoPorTractorPatente: function(tractor_patente) {
