@@ -608,7 +608,6 @@ var IngresoWidget = BaseWidget.extend({
     $("#transporte_camionesbundle_ingreso_contenedor").on('change', function(value) {
       var valor = "";
       valor = $(this).find(":selected").val();
-      console.log(valor)
       $("#buscar_turno_por_contenedor").click();
     });      
     this.autoCompleteContenedores();
@@ -671,7 +670,7 @@ var IngresoWidget = BaseWidget.extend({
             var contenedor = contenedores[c];
             $("#contenedores-list").append(
               $(
-                "<option style='color:red !important' value='" + contenedor + "'>" + contenedor + "</option>"
+                "<option value='" + contenedor + "'>" + contenedor + "</option>"
               )
             );
           }
@@ -758,6 +757,7 @@ var IngresoWidget = BaseWidget.extend({
           $("#transporte_camionesbundle_ingreso_fin").val(fin);
           $("#transporte_camionesbundle_ingreso_alta").val(alta);
           $("#transporte_camionesbundle_ingreso_terminal").val(terminal);
+          $("#transporte_camionesbundle_ingreso_terminal").attr('disabled', true);
         });
         // Selecciono automáticamente el turno si hay uno solo
         if ($("#turnos-radio .radio").length == 1) {
