@@ -708,7 +708,7 @@ var IngresoWidget = BaseWidget.extend({
                 "\
                             <div class='radio'>\
                                 <label>\
-                                    <input id:'radio1' type='radio' value='" +
+                                    <input id='radio1' name='radio1' type='radio' value='" +
                   dateInicio.toISOString() +
                   "-" +
                   dateFin.toISOString() +
