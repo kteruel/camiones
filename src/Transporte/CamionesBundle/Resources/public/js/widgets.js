@@ -705,10 +705,7 @@ var IngresoWidget = BaseWidget.extend({
               typeof turno.terminal !== "undefined" ? turno.terminal : "";
             $("#turnos-radio").append(
               $(
-                "\
-                            <div class='radio'>\
-                                <label>\
-                                    <input id='radio1' name='radio1' type='radio' value='" +
+                "\<div class='radio'>\<label>\<input id='radio1' name='radio1' type='radio' value='" +
                   dateInicio.toISOString() +
                   "-" +
                   dateFin.toISOString() +
