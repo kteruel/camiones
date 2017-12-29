@@ -671,7 +671,7 @@ var IngresoWidget = BaseWidget.extend({
             var contenedor = contenedores[c];
             $("#contenedores-list").append(
               $(
-                "<option value='" + contenedor + "'>" + contenedor + "</option>"
+                "<option style='color:red !important' value='" + contenedor + "'>" + contenedor + "</option>"
               )
             );
           }
