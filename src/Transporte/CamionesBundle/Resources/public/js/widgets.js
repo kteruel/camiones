@@ -1286,6 +1286,29 @@ var PlayaWidget = BaseWidget.extend({
         console.log(response);
       });
   },
+  CamionACola: function(id, status) {
+    $.ajax({
+      method: "POST",
+      dataType: "json",
+      beforeSend: self.setHeader,
+      url: window.transporte.apiURL + "/setStatus",
+      data: {
+        id: id,
+        status: status
+      }
+    })
+      .done(function(response) {
+        if (response.status == "OK") {
+            self.alertSuccess(
+              "Camión enviado a Cola",
+              "Se Registro el envío a Cola del Camión Correctamente."
+            );
+        }
+      })
+      .fail(function(response) {
+        console.log(response);
+      });
+},
   updateGate: function(param) {
     $.ajax({
         method: "POST",
@@ -1463,7 +1486,7 @@ var PlayaWidget = BaseWidget.extend({
               );
 
               var $tr = $(
-                "<tr contenedor= '" + contenedor + "' estado='" +
+                "<tr id=" + turno.id + " contenedor= '" + contenedor + "' estado='" +
                   statusEntrada +
                   "' class='" +
                   statusEntrada +
@@ -1521,21 +1544,55 @@ var PlayaWidget = BaseWidget.extend({
                 )
               );
               var $actions = $("<td></td>");
-              var classes =
-                turno.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
+              var classes = turno.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
+              if (turnos.status) {
+                $actions.append(
+                  $(
+                    "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
+                      classes +
+                      '\'><i class="fa fa-arrow-left"></i></a>'
+                  ));
+              }
               $actions.append(
                 $(
-                  "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
+                  "<a href='javascript:void(0);' alt='Envío a Cola' class='btn btn-xs btn-default button-a-cola " +
                     classes +
-                    '\'><i class="fa fa-arrow-left"></i></a>'
-                )
-              );
+                    '\'><i class="fa fa-arrow-right"></i></a>'
+                ));
               $tr.append($actions);
               $("#tbody-camiones").append($tr);
             }
           }
         }
       }
+      $(".button-a-cola").click(function(e) {
+        var $tr = $(this).parents("tr");
+        var patente = $tr.find(".patente").attr("data-patente");
+        var mov = $tr.find(".mov").attr("data-mov");
+        var id = $tr.attr("id");
+
+        var turnoinicio = $tr
+          .find(".turno-inicio")
+          .attr("data-turnoinicio");
+
+        var carga = "";
+        if (mov === "EXPO") {
+          carga = "LL";
+        } else if (mov === "VACIODEV") {
+          carga = "VA";
+        } else {
+          carga = "NO";
+        }
+
+        var del = true;
+        if ($tr.attr("estado") !== "normal") {
+          var del = confirm("Desea enviar a colar de todas formas ?");
+        }
+        if (del) {
+            $($tr).remove();
+            self.CamionACola(id, status);
+        }
+      });
       $(".button-salida").click(function(e) {
         var $tr = $(this).parents("tr");
         var patente = $tr.find(".patente").attr("data-patente");
