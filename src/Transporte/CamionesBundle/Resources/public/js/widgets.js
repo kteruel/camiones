@@ -1410,6 +1410,106 @@ var PlayaWidget = BaseWidget.extend({
     }
     return "";
   },
+  addRowToPlayon: function (gate) {
+    var newDate = new Date();
+
+    var fechaEntrada = new Date(gate.gateTimestamp);
+    var fechaInicioTurno = gate.turnoInicio ? new Date(gate.turnoInicio) : "";
+    var fechaFinTurno = gate.turnoFin ? new Date(gate.turnoFin) : "";
+    var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
+    var fechaAltaTurno = gate.alta ? new Date(gate.alta) : "";
+    var contenedor = gate.contenedor || "";
+
+    var translateStatusEntrada = self.translateStatusEntrada(
+      statusEntrada
+    );
+
+    var $tr = $(
+      "<tr id=" + gate.id + " contenedor= '" + contenedor + "' estado='" +
+        statusEntrada +
+        "' class='" +
+        statusEntrada +
+        "'></tr>"
+    );
+    $tr.append(
+      $(
+        "<td class='patente' data-patente='" +
+        gate.patenteCamion +
+          "'><strong>" +
+          gate.patenteCamion +
+          "</strong></td>"
+      )
+    );
+    $tr.append($("<td><strong>" + contenedor + "</strong></td>"));
+    $tr.append(
+      $(
+        "<td>" +
+          self.dateFormat(fechaEntrada) +
+          " " +
+          self.timeFormat(fechaEntrada) + " - (" + translateStatusEntrada +
+          ")</td>"
+      )
+    );
+    $tr.append(
+      $("<td>" + Date.daysBetween(fechaEntrada, today) + "</td>")
+    );
+    var guion = '';
+    if (fechaInicioTurno && fechaFinTurno) {
+      guion = '-';
+    }
+    $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>"+guion+"<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
+
+    if (fechaInicioTurno !== undefined && fechaInicioTurno !== "" && newDate < fechaInicioTurno) {
+      $tr.append($("<td>" + Date.daysBetween(newDate, fechaInicioTurno) + "</td>"));
+    } else {
+      $tr.append($("<td></td>"));
+    }
+    $tr.append(
+      $(
+        "<td class='mov' data-mov='" +
+        gate.mov +
+          "'>" +
+          window.transporte.tipo_movimiento[gate.mov] +
+          "</td>"
+      )
+    );
+    $tr.append(
+      $(
+        "<td class='terminal' data-terminal='" +
+        gate.destino +
+          "'>" +
+          gate.destino +
+          "</td>"
+      )
+    );
+    var $tdActions = $("<td></td>");
+    var $divSalida = $("<div style='width: 50%'></div>");
+    var $divCola = $("<div style='width: 50%'></div>");
+    $tdActions.append($divSalida);
+    $tdActions.append($divCola);
+
+    var classes = gate.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
+
+    if (gate.status === 1) {
+      $divSalida.append(
+        $(
+          "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
+            classes +
+            '\'><i class="fa fa-arrow-left"></i></a>'
+        ));
+    } else if (gate.status !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
+      $divCola.append(
+        $(
+          "<a href='javascript:void(0);' alt='Envío a Cola' class='btn btn-xs btn-default button-a-cola " +
+            classes +
+            '\'><i class="fa fa-arrow-right"></i></a>'
+        ));
+      }
+    $tr.append($tdActions);
+
+    $("#tbody-camiones").append($tr);
+
+  },
   render: function() {
     var self = this;
     var inicio = new Date();
@@ -1422,6 +1522,8 @@ var PlayaWidget = BaseWidget.extend({
       fechaInicio: inicio.toISOString(),
       fechaFin: fin.toISOString()
     };
+    
+    //trae turnos del dia para mostra en pantalla de playon
     $.ajax({
       method: "GET",
       url: window.transporte.apiURL + "/appointments/byDay?fechaInicio=" + data.fechaInicio + "&fechaFin="+ data.fechaFin,
@@ -1445,7 +1547,8 @@ var PlayaWidget = BaseWidget.extend({
           "margin-top": "0px"
         }, "fast");
       });
-  });
+    });
+
     $.ajax({
       method: "GET",
       url: window.transporte.apiURL + "/gates/IN/ZAP/0/10000",
@@ -1454,7 +1557,7 @@ var PlayaWidget = BaseWidget.extend({
       data: {} //data
     }).done(function(response) {
       if (response.status == "OK") {
-        var turnos = response.data;
+        var gates = response.data;
 
         $("#span-camionesCant").text("Playa #" + response.totalCount);
         $(function(){
@@ -1467,100 +1570,12 @@ var PlayaWidget = BaseWidget.extend({
             "margin-top": "0px"
           }, "fast");
         });
-        var newDate = new Date();
-        for (t in turnos) {
-          if (turnos.hasOwnProperty(t)) {
-            var turno = turnos[t];
-
-            if (!turno.gateTimestamp_out) {
-
-              var fechaEntrada = new Date(turno.gateTimestamp);
-              var fechaInicioTurno = turno.turnoInicio ? new Date(turno.turnoInicio) : "";
-              var fechaFinTurno = turno.turnoFin ? new Date(turno.turnoFin) : "";
-              var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
-              var fechaAltaTurno = turno.alta ? new Date(turno.alta) : "";
-              var contenedor = turno.contenedor || "";
-
-              var translateStatusEntrada = self.translateStatusEntrada(
-                statusEntrada
-              );
-
-              var $tr = $(
-                "<tr id=" + turno.id + " contenedor= '" + contenedor + "' estado='" +
-                  statusEntrada +
-                  "' class='" +
-                  statusEntrada +
-                  "'></tr>"
-              );
-              $tr.append(
-                $(
-                  "<td class='patente' data-patente='" +
-                    turno.patenteCamion +
-                    "'><strong>" +
-                    turno.patenteCamion +
-                    "</strong></td>"
-                )
-              );
-              $tr.append($("<td><strong>" + contenedor + "</strong></td>"));
-              $tr.append(
-                $(
-                  "<td>" +
-                    self.dateFormat(fechaEntrada) +
-                    " " +
-                    self.timeFormat(fechaEntrada) + " - (" + translateStatusEntrada +
-                    ")</td>"
-                )
-              );
-              $tr.append(
-                $("<td>" + Date.daysBetween(fechaEntrada, today) + "</td>")
-              );
-              var guion = '';
-              if (fechaInicioTurno && fechaFinTurno) {
-                guion = '-';
-              }
-              $tr.append($("<td><div><span class='turno-inicio'>" + self.timeFormat(fechaInicioTurno) + "</span>"+guion+"<span class='turno-fin'>" + self.timeFormat(fechaFinTurno) + "</span></div></td>"))
-
-              if (fechaInicioTurno !== undefined && fechaInicioTurno !== "" && newDate < fechaInicioTurno) {
-                $tr.append($("<td>" + Date.daysBetween(newDate, fechaInicioTurno) + "</td>"));
-              } else {
-                $tr.append($("<td></td>"));
-              }
-              $tr.append(
-                $(
-                  "<td class='mov' data-mov='" +
-                    turno.mov +
-                    "'>" +
-                    window.transporte.tipo_movimiento[turno.mov] +
-                    "</td>"
-                )
-              );
-              $tr.append(
-                $(
-                  "<td class='terminal' data-terminal='" +
-                    turno.destino +
-                    "'>" +
-                    turno.destino +
-                    "</td>"
-                )
-              );
-              var $actions = $("<td></td>");
-              var classes = turno.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
-              if (turno.status === 1) {
-                $actions.append(
-                  $(
-                    "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
-                      classes +
-                      '\'><i class="fa fa-arrow-left"></i></a>'
-                  ));
-              }
-              $actions.append(
-                $(
-                  "<a href='javascript:void(0);' alt='Envío a Cola' class='btn btn-xs btn-default button-a-cola " +
-                    classes +
-                    '\'><i class="fa fa-arrow-right"></i></a>'
-                ));
-              $tr.append($actions);
-              $("#tbody-camiones").append($tr);
+        for (t in gates) {
+          if (gates.hasOwnProperty(t)) {
+            var gate = gates[t];
+            //Solo carga aquellos gates que todavia no salieron de la terminal
+            if (!gate.gateTimestamp_out) {
+              self.addRowToPlayon(gate);
             }
           }
         }
@@ -1641,7 +1656,9 @@ var PlayaWidget = BaseWidget.extend({
         $turnoFin.html(self.timeFormat(new Date(turno.fin)));
 
     });
-
+    socket.on('gate', function (gate) {
+      self.addRowToPlayon(gate);
+    });
     this.getStatusAndRender();
   }
 });
