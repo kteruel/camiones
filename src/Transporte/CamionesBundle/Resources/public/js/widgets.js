@@ -1411,6 +1411,7 @@ var PlayaWidget = BaseWidget.extend({
     return "";
   },
   addRowToPlayon: function (gate) {
+    var self = this;
     var newDate = new Date();
 
     var fechaEntrada = new Date(gate.gateTimestamp);
