@@ -1484,8 +1484,8 @@ var PlayaWidget = BaseWidget.extend({
       )
     );
     var $tdActions = $("<td></td>");
-    var $divSalida = $("<div style='width: 50%'></div>");
-    var $divCola = $("<div style='width: 50%'></div>");
+    var $divSalida = $("<div style='width: 50%'>&nbsp;</div>");
+    var $divCola = $("<div style='width: 50%'>&nbsp;</div>");
     $tdActions.append($divSalida);
     $tdActions.append($divCola);
 
@@ -1658,7 +1658,7 @@ var PlayaWidget = BaseWidget.extend({
 
     });
     socket.on('gate', function (gate) {
-      self.addRowToPlayon(gate);
+      self.addRowToPlayon(gate.data);
     });
     this.getStatusAndRender();
   }
