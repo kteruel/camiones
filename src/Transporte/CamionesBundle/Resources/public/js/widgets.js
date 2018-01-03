@@ -1658,7 +1658,9 @@ var PlayaWidget = BaseWidget.extend({
 
     });
     socket.on('gate', function (gate) {
-      self.addRowToPlayon(gate.data);
+      if (gate && gate.terminal === 'ZAP' && gate.tipo === 'IN') {
+        self.addRowToPlayon(gate.data);
+      }
     });
     this.getStatusAndRender();
   }
