@@ -1545,7 +1545,7 @@ var PlayaWidget = BaseWidget.extend({
               );
               var $actions = $("<td></td>");
               var classes = turno.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
-              if (turnos.status === 1) {
+              if (turno.status === 1) {
                 $actions.append(
                   $(
                     "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
