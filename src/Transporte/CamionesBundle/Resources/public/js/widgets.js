@@ -1484,9 +1484,9 @@ console.log(gate)
           "</td>"
       )
     );
-    var $tdActions = $("<td style='border:1px solid cyan'></td>");
-    var $divSalida = $("<span style='border:1px solid orange; align:left;width: 45%'>&nbsp;</span>");
-    var $divCola = $("<span style='border:1px solid blue;align:width: 45%'>&nbsp;</span>");
+    var $tdActions = $("<td></td>");
+    var $divSalida = $("<span style='align:left;width: 45%'>&nbsp;</span>");
+    var $divCola = $("<span style='align:width: 45%'>&nbsp;</span>");
     $tdActions.append($divSalida);
     $tdActions.append($divCola);
 
@@ -1504,11 +1504,11 @@ console.log(gate)
           classes +
           '\'><i class="fa fa-arrow-right"></i></a>'
         ));
-    // if (gate.status === 1) {
-    //   $divCola.css("visibility", "hidden");
-    // } else if (gate.status !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
-    //   $divSalida.css("visibility", "hidden");
-    // }
+    if (gate.status === 1) {
+      $divCola.css("visibility", "hidden");
+    } else if (gate.status !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
+      $divSalida.css("visibility", "hidden");
+    }
 
 
     $tr.append($tdActions);
