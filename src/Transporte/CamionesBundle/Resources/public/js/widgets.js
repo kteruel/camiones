@@ -1291,7 +1291,7 @@ var PlayaWidget = BaseWidget.extend({
       method: "POST",
       dataType: "json",
       beforeSend: self.setHeader,
-      url: window.transporte.apiURL + "/setStatus",
+      url: window.transporte.apiURL + "/gates/setStatus",
       data: {
         id: id,
         status: status
