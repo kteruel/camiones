@@ -1287,6 +1287,7 @@ var PlayaWidget = BaseWidget.extend({
       });
   },
   CamionACola: function(id, status) {
+    var self = this;
     $.ajax({
       method: "POST",
       dataType: "json",
