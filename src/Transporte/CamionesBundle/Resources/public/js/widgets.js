@@ -1485,8 +1485,8 @@ console.log(gate)
       )
     );
     var $tdActions = $("<td></td>");
-    var $divSalida = $("<div style='border:1px solid red;align:right; width: 50%'>&nbsp;</div>");
-    var $divCola = $("<div style='border:1px solid blue;align:left;width: 50%'>&nbsp;</div>");
+    var $divSalida = $("<div style='align:right; width: 50%'>&nbsp;</div>");
+    var $divCola = $("<div style='align:left;width: 50%'>&nbsp;</div>");
     $tdActions.append($divSalida);
     $tdActions.append($divCola);
 
