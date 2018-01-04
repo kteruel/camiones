@@ -1425,7 +1425,7 @@ var PlayaWidget = BaseWidget.extend({
     var translateStatusEntrada = self.translateStatusEntrada(
       statusEntrada
     );
-
+console.log(gate)
     var $tr = $(
       "<tr id='" + gate._id + "' contenedor= '" + contenedor + "' estado='" +
         statusEntrada +
@@ -1485,28 +1485,32 @@ var PlayaWidget = BaseWidget.extend({
       )
     );
     var $tdActions = $("<td></td>");
-    var $divSalida = $("<div style='width: 50%'>&nbsp;</div>");
-    var $divCola = $("<div style='width: 50%'>&nbsp;</div>");
+    var $divSalida = $("<div style='border:1px solid red; width: 50%'>&nbsp;</div>");
+    var $divCola = $("<div style='border:1px solid blue;width: 50%'>&nbsp;</div>");
     $tdActions.append($divSalida);
     $tdActions.append($divCola);
 
     var classes = gate.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
 
+    $divSalida.append(
+      $(
+        "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
+          classes +
+          '\'><i class="fa fa-arrow-left"></i></a>'
+      ));
+    $divCola.append(
+      $(
+        "<a href='javascript:void(0);' alt='Envío a Cola' class='btn btn-xs btn-default button-a-cola " +
+          classes +
+          '\'><i class="fa fa-arrow-right"></i></a>'
+        ));
     if (gate.status === 1) {
-      $divSalida.append(
-        $(
-          "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
-            classes +
-            '\'><i class="fa fa-arrow-left"></i></a>'
-        ));
+      $divCola.hide();
     } else if (gate.status !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
-      $divCola.append(
-        $(
-          "<a href='javascript:void(0);' alt='Envío a Cola' class='btn btn-xs btn-default button-a-cola " +
-            classes +
-            '\'><i class="fa fa-arrow-right"></i></a>'
-        ));
-      }
+      $divSalida.hide();
+    }
+
+
     $tr.append($tdActions);
 
     $("#tbody-camiones").append($tr);
