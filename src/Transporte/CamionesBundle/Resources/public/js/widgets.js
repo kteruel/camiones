@@ -1427,7 +1427,7 @@ var PlayaWidget = BaseWidget.extend({
     );
 
     var $tr = $(
-      "<tr id='" + gate.id + "' contenedor= '" + contenedor + "' estado='" +
+      "<tr id='" + gate._id + "' contenedor= '" + contenedor + "' estado='" +
         statusEntrada +
         "' class='" +
         statusEntrada +
