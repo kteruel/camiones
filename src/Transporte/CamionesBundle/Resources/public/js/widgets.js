@@ -1587,6 +1587,7 @@ var PlayaWidget = BaseWidget.extend({
         var patente = $tr.find(".patente").attr("data-patente");
         var mov = $tr.find(".mov").attr("data-mov");
         var id = $tr.attr("id");
+        var status = 1;
 
         var turnoinicio = $tr
           .find(".turno-inicio")
