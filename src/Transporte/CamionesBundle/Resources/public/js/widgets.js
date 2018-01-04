@@ -1611,7 +1611,9 @@ console.log(gate)
           var del = confirm("Desea enviar a colar de todas formas ?");
         }
         if (del) {
-            $($tr).remove();
+            $tr.find(".button-a-cola").css("visibility", "hidden");
+            $tr.find(".button-salida").css("visibility", "visible");
+      
             self.CamionACola(id, status);
         }
       });
