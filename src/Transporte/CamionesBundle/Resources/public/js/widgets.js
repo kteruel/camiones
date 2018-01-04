@@ -1485,7 +1485,7 @@ console.log(gate)
       )
     );
     var $tdActions = $("<td></td>");
-    var $divSalida = $("<span title="Salida de Camión" style='align:left;width: 45%'>&nbsp;</span>");
+    var $divSalida = $("<span style='align:left;width: 45%'>&nbsp;</span>");
     var $divCola = $("<span title="Enviar Camión a Cola" style='align:width: 45%'>&nbsp;</span>");
     $tdActions.append($divSalida);
     $tdActions.append($divCola);
@@ -1494,13 +1494,13 @@ console.log(gate)
 
     $divSalida.append(
       $(
-        "<a href='javascript:void(0);' alt='Salida Camión' class='btn btn-xs btn-default button-salida " +
+        "<a href='javascript:void(0);' title='Salida de Camión' alt='Salida de Camión' class='btn btn-xs btn-default button-salida " +
           classes +
           '\'><i class="fa fa-arrow-left"></i></a>'
       ));
     $divCola.append(
       $(
-        "<a href='javascript:void(0);' alt='Envío a Cola' class='btn btn-xs btn-default button-a-cola " +
+        "<a href='javascript:void(0);' title='Enviar Camión a Cola' alt='Enviar Camión a Cola' class='btn btn-xs btn-default button-a-cola " +
           classes +
           '\'><i class="fa fa-arrow-right"></i></a>'
         ));
