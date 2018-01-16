@@ -1091,12 +1091,11 @@ var SalidaWidget = IngresoWidget.extend({
       // QUESTION: ¿De donde saco la información comentada?
       //'mov' : $("#transporte_camionesbundle_ingreso_mov").val(),
       tipo: "OUT",
-      /*
-            'carga' : $("#transporte_camionesbundle_ingreso_carga").val(),
-            'contenedor' : $("#transporte_camionesbundle_ingreso_contenedor").val(),
-            'inicio'     : $("#transporte_camionesbundle_ingreso_inicio").val(),
-            'fin'     : $("#transporte_camionesbundle_ingreso_fin").val(),
-            */
+      /* 'carga' : $("#transporte_camionesbundle_ingreso_carga").val(),
+         'contenedor' : $("#transporte_camionesbundle_ingreso_contenedor").val(),
+         'inicio'     : $("#transporte_camionesbundle_ingreso_inicio").val(),
+         'fin'     : $("#transporte_camionesbundle_ingreso_fin").val(),
+      */
       patenteCamion: $(self.tractorInputId).val(),
       gateTimestamp: gateTimestamp
     };
