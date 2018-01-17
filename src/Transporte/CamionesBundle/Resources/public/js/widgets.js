@@ -1510,6 +1510,7 @@ console.log(gate)
     }
 
     $tr.click(function() {
+      e.preventDefault();
       $(this).toggleClass("danger");
   });
 
