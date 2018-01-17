@@ -1509,7 +1509,6 @@ console.log(gate)
       $divSalida.css("visibility", "hidden");
     }
 
-    $('.row-links').on('click', 'td:not(.special-td)', function(){
     $tr.on('click', 'td:not(.action)', (function() {
       $(this).toggleClass("danger");
     }));
