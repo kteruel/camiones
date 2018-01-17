@@ -1483,7 +1483,7 @@ console.log(gate)
           "</td>"
       )
     );
-    var $tdActions = $("<td></td>");
+    var $tdActions = $("<td class='action'></td>");
     var $divSalida = $("<span style='align:left;width: 45%'>&nbsp;</span>");
     var $divCola = $("<span title='Enviar Camión a Cola' style='align:width: 45%'>&nbsp;</span>");
     $tdActions.append($divSalida);
@@ -1509,10 +1509,10 @@ console.log(gate)
       $divSalida.css("visibility", "hidden");
     }
 
-    $tr.click(function() {
-      e.preventDefault();
+    $('.row-links').on('click', 'td:not(.special-td)', function(){
+    $tr.on('click', 'td:not(.action)', (function() {
       $(this).toggleClass("danger");
-  });
+    }));
 
     $tr.append($tdActions);
 
