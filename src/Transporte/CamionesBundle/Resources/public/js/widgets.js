@@ -1424,7 +1424,7 @@ var PlayaWidget = BaseWidget.extend({
     var translateStatusEntrada = self.translateStatusEntrada(
       statusEntrada
     );
-console.log(gate)
+
     var $tr = $(
       "<tr id='" + gate._id + "' contenedor= '" + contenedor + "' estado='" +
         statusEntrada +
@@ -1483,7 +1483,7 @@ console.log(gate)
           "</td>"
       )
     );
-    var $tdActions = $("<td class='action'></td>");
+    var $tdActions = $("<td></td>");
     var $divSalida = $("<span style='align:left;width: 45%'>&nbsp;</span>");
     var $divCola = $("<span title='Enviar Camión a Cola' style='align:width: 45%'>&nbsp;</span>");
     $tdActions.append($divSalida);
@@ -1509,11 +1509,11 @@ console.log(gate)
       $divSalida.css("visibility", "hidden");
     }
 
-    $tr.on('click', 'td:not(.action)', (function() {
-      $(this).toggleClass("danger");
-    }));
-
     $tr.append($tdActions);
+
+    $("#tbody-camiones tr").click(function() {
+      $(this).toggleClass("danger");
+    });
 
     $("#tbody-camiones").append($tr);
 
