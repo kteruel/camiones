@@ -1669,6 +1669,10 @@ console.log(gate)
         self.addRowToPlayon(gate.data);
       }
     });
+    socket.on('requestTruck', function (camion) {
+      console.log(license);
+    });
+
     this.getStatusAndRender();
   }
 });
