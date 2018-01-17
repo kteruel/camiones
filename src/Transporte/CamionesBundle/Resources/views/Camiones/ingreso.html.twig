@@ -35,22 +35,22 @@
             <div style="display:none" id="chofer-data">
                 {% include "CamionesBundle:Camiones:chofer_data.html.twig" %}
             </div>
-            <legend>Datos del Playo</legend>
+            <legend>Datos del Acoplado</legend>
             <div class="form-group" id="form-group-playo">
                 {{ form_label(form.playo_patente) }}
                 <div class="col-md-10">
                     <div class="input-group">
                         {{ form_widget(form.playo_patente, {'attr' : {'class' : 'form-control'} }) }}
                         <div class="input-group-btn">
-                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_playo">Consultar Playo</a>
+                            <a class="btn btn-primary" style="width: 150px" href="javascript:void(0);" id="buscar_playo">Consultar Acoplado</a>
                         </div>
                     </div>
                     <span style="display:none" id="playo-empty" class="help-block"><i class="fa fa-warning"></i> Debe ingresar una Patente</span>
-                    <span style="display:none" id="playo-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró el Playo. Registrar 
+                    <span style="display:none" id="playo-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontró el Acoplado. Registrar 
                         <a class="" href="javascript:void(0);" id="cargar_playo">aquí</a>
                     </span>
-                    <span style="display:none" id="playo-cnrt-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontraron datos del Playo en CNRT</span>
-                    <span style="display:none; color: green !important" id="playo-cnrt-found" class="help-block" ><i class="fa fa-warning"></i> El Permiso del Playo en CNRT ha sido encontrado</span>
+                    <span style="display:none" id="playo-cnrt-not-found" class="help-block"><i class="fa fa-warning"></i> No se encontraron datos del Acoplado en CNRT</span>
+                    <span style="display:none; color: green !important" id="playo-cnrt-found" class="help-block" ><i class="fa fa-warning"></i> El Permiso del Acoplado en CNRT ha sido encontrado</span>
                 </div>
             </div>
             <div style="display:none" id="playo-data">
