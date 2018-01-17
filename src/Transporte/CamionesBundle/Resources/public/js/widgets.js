@@ -1669,7 +1669,7 @@ console.log(gate)
         self.addRowToPlayon(gate.data);
       }
     });
-    socket.on('requestTruck', function (camion) {
+    socket.on('requestTruck', function (license) {
       console.log(license);
     });
 
