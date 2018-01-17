@@ -1509,6 +1509,9 @@ console.log(gate)
       $divSalida.css("visibility", "hidden");
     }
 
+    $tr.click(function() {
+      $(this).toggleClass("danger");
+  });
 
     $tr.append($tdActions);
 
