@@ -1512,8 +1512,8 @@ var PlayaWidget = BaseWidget.extend({
     $tr.append($tdActions);
 
     $("#tbody-camiones tr").click(function() {
-      $("#tbody-camiones tr").find('td').css("border", "")
-      $(this).find("td").css("border", "2px solid black")
+      $("#tbody-camiones tr").find('td').css("border", "");
+      $(this).find("td").css("border", "2px solid black");
       });
 
     $("#tbody-camiones").append($tr);
