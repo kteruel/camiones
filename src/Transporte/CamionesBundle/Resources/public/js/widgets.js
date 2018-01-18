@@ -34,6 +34,35 @@ Date.daysBetween = function(date1, date2) {
 
     return resultado;
 };
+
+var comboColors = function(comboId) {
+  var self = this;
+  comboId = '#' + comboId;
+  $.ajax({
+    method: "GET",
+    dataType: "json",
+    beforeSend: self.setHeader,
+    url: window.transporte.apiURL + "/zap/colors"
+  }).done(function(response) {
+    if (response.status == "OK") {
+      var marcas = response.data;
+      $(comboId).empty();
+      $(comboId).append($("<option value=''> - Seleccione - </option>"));
+      for (m in marcas) {
+        if (marcas.hasOwnProperty(m)) {
+          var marca = marcas[m];
+          if (marca.hasOwnProperty("_id")) {
+            $(comboId).append(
+              $("<option value='" + marca._id + "'>" + marca._id + "</option>")
+            );
+          }
+        }
+      }
+    }
+  });
+}
+
+
 /*
   Clase de Ingreso
 */
@@ -292,33 +321,6 @@ var IngresoWidget = BaseWidget.extend({
             var marca = marcas[m];
             if (marca.hasOwnProperty("_id")) {
               $("#modal-alta-playo-input-tipo").append(
-                $("<option value='" + marca._id + "'>" + marca._id + "</option>")
-              );
-            }
-          }
-        }
-      }
-    });
-  },
-
-  comboColors: function(comboId) {
-    var self = this;
-    comboId = '#' + comboId;
-    $.ajax({
-      method: "GET",
-      dataType: "json",
-      beforeSend: self.setHeader,
-      url: window.transporte.apiURL + "/zap/colors"
-    }).done(function(response) {
-      if (response.status == "OK") {
-        var marcas = response.data;
-        $(comboId).empty();
-        $(comboId).append($("<option value=''> - Seleccione - </option>"));
-        for (m in marcas) {
-          if (marcas.hasOwnProperty(m)) {
-            var marca = marcas[m];
-            if (marca.hasOwnProperty("_id")) {
-              $(comboId).append(
                 $("<option value='" + marca._id + "'>" + marca._id + "</option>")
               );
             }
@@ -999,11 +1001,11 @@ var IngresoWidget = BaseWidget.extend({
 
     this.comboMarcasAltaCamion();
 
-    this.comboColors('modal-alta-tractor-input-color');
+    comboColors('modal-alta-tractor-input-color');
 
     this.comboTiposAltaPlayo();
     
-    this.comboColors('modal-alta-playo-input-color');
+    comboColors('modal-alta-playo-input-color');
     
     this.renderButtonMobile();
 
