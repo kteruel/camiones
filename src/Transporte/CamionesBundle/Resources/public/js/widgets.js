@@ -1655,12 +1655,26 @@ var PlayaWidget = BaseWidget.extend({
         e.preventDefault()
         var patente = $('#'+self.selectedRow).find('.patente').attr('data-patente');
 
-        $("#modal-alta-tractor-input-axis").val("4");
-        $("#modal-alta-tractor-input-trade").val("");
-        $("#modal-alta-tractor-input-color").val("");
-        //$("#modal-alta-titulo").html("Modifica");
-        $("#alta-tractor").modal();
-
+        $.ajax({
+          method: "GET",
+          dataType: "json",
+          beforeSend: self.setHeader,
+          url: window.transporte.apiURL + "/zap/camion/" + patente
+        })
+          .done(function(response) {
+            if (response.status == "OK") {
+              var tractor = response.data;
+              $("#modal-alta-tractor-input-axis").val(tractor.axis);
+              $("#modal-alta-tractor-input-trade").val(tractor.trade);
+              $("#modal-alta-tractor-input-color").val(tractor.color);
+              $("#modal-alta-titulo").html("Modifica");
+              $("#alta-tractor").modal();
+            }
+          })
+          .fail(function(response) {
+            $("#tractor-cnrt-not-found").show();
+            $("#tractor-cnrt-found").hide();
+          });
       });
       self.dataTable = new DataTableWidget();
     });
