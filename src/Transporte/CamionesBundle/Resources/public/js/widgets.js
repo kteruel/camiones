@@ -1248,6 +1248,7 @@ var PlayaWidget = BaseWidget.extend({
   urlStatus: "",
   dataTable: null,
   statusEntrada: [],
+  selectedRow: '',
   salidaCamion: function(patente, mov, carga, conTurno) {
     var self = this;
     var now = new Date();
@@ -1308,7 +1309,7 @@ var PlayaWidget = BaseWidget.extend({
       .fail(function(response) {
         console.log(response);
       });
-},
+  },
   updateGate: function(param) {
     $.ajax({
         method: "POST",
@@ -1514,6 +1515,11 @@ var PlayaWidget = BaseWidget.extend({
     $("#tbody-camiones").append($tr);
 
   },
+  addChangeCamionDataListener: function () {
+    $('#btnChangeCamion').click(function () {
+      alert()
+    })
+  },
   render: function() {
     var self = this;
     var inicio = new Date();
@@ -1585,12 +1591,11 @@ var PlayaWidget = BaseWidget.extend({
         }
       }
       $("#tbody-camiones tr").click(function(e) {
-        console.log("PEPE");
+        self.selectedRow = $(this).attr('id');
         $("#tbody-camiones tr").find('td').css("border-top", "");
         $(this).find("td").css("border-top", "2px solid black");
         $("#tbody-camiones tr").find('td').css("border-bottom", "");
         $(this).find("td").css("border-bottom", "2px solid black");
-        //window.event.cancelBubble = "true";
       });
       $(".button-a-cola").click(function(e) {
         var $tr = $(this).parents("tr");
@@ -1651,7 +1656,9 @@ var PlayaWidget = BaseWidget.extend({
             self.salidaCamion(patente, mov, carga, turnoinicio !== "");
         }
       });
-
+      $("#btnChangeCamion").click(function (e) {
+        alert(self.selectedRow)
+      });
       self.dataTable = new DataTableWidget();
     });
   },
