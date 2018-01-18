@@ -1590,7 +1590,7 @@ var PlayaWidget = BaseWidget.extend({
         $(this).find("td").css("border-top", "2px solid black");
         $("#tbody-camiones tr").find('td').css("border-bottom", "");
         $(this).find("td").css("border-bottom", "2px solid black");
-        window.event.cancelBubble = "true";
+        //window.event.cancelBubble = "true";
       });
       $(".button-a-cola").click(function(e) {
         var $tr = $(this).parents("tr");
