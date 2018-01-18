@@ -41,7 +41,10 @@ var comboColors = function(comboId) {
   $.ajax({
     method: "GET",
     dataType: "json",
-    beforeSend: self.setHeader,
+    beforeSend: function (request) {
+      request.setRequestHeader("token", window.transporte.token);
+        }
+    ,
     url: window.transporte.apiURL + "/zap/colors"
   }).done(function(response) {
     if (response.status == "OK") {
@@ -60,8 +63,36 @@ var comboColors = function(comboId) {
       }
     }
   });
-}
+};
 
+var comboMarcasAltaCamion = function() {
+  var self = this;
+  $.ajax({
+    method: "GET",
+    dataType: "json",
+    beforeSend: function (request) {
+      request.setRequestHeader("token", window.transporte.token);
+        }
+    ,
+    url: window.transporte.apiURL + "/zap/camionesmarcas"
+  }).done(function(response) {
+    if (response.status == "OK") {
+      var marcas = response.data;
+      $("#modal-alta-tractor-input-trade").empty();
+      $("#modal-alta-tractor-input-trade").append($("<option value=''> - Seleccione - </option>"));
+      for (m in marcas) {
+        if (marcas.hasOwnProperty(m)) {
+          var marca = marcas[m];
+          if (marca.hasOwnProperty("_id")) {
+            $("#modal-alta-tractor-input-trade").append(
+              $("<option value='" + marca._id + "'>" + marca._id + "</option>")
+            );
+          }
+        }
+      }
+    }
+  });
+};
 
 /*
   Clase de Ingreso
@@ -272,32 +303,6 @@ var IngresoWidget = BaseWidget.extend({
                   "</option>"
               )
             );
-          }
-        }
-      }
-    });
-  },
-
-  comboMarcasAltaCamion: function() {
-    var self = this;
-    $.ajax({
-      method: "GET",
-      dataType: "json",
-      beforeSend: self.setHeader,
-      url: window.transporte.apiURL + "/zap/camionesmarcas"
-    }).done(function(response) {
-      if (response.status == "OK") {
-        var marcas = response.data;
-        $("#modal-alta-tractor-input-trade").empty();
-        $("#modal-alta-tractor-input-trade").append($("<option value=''> - Seleccione - </option>"));
-        for (m in marcas) {
-          if (marcas.hasOwnProperty(m)) {
-            var marca = marcas[m];
-            if (marca.hasOwnProperty("_id")) {
-              $("#modal-alta-tractor-input-trade").append(
-                $("<option value='" + marca._id + "'>" + marca._id + "</option>")
-              );
-            }
           }
         }
       }
@@ -999,7 +1004,7 @@ var IngresoWidget = BaseWidget.extend({
   init: function(args) {
     this._super(args);
 
-    this.comboMarcasAltaCamion();
+    comboMarcasAltaCamion();
 
     comboColors('modal-alta-tractor-input-color');
 
