@@ -1618,6 +1618,7 @@ var PlayaWidget = BaseWidget.extend({
       
             self.CamionACola(id, status);
         }
+        window.event.cancelBubble = "true";
       });
       $(".button-salida").click(function(e) {
         var $tr = $(this).parents("tr");
