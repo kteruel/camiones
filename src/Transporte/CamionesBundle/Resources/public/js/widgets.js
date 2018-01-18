@@ -1511,14 +1511,6 @@ var PlayaWidget = BaseWidget.extend({
 
     $tr.append($tdActions);
 
-    $("#tbody-camiones tr").click(function() {
-      console.log("PEPE");
-      $("#tbody-camiones tr").find('td').css("border-top", "");
-      $(this).find("td").css("border-top", "2px solid black");
-      $("#tbody-camiones tr").find('td').css("border-bottom", "");
-      $(this).find("td").css("border-bottom", "2px solid black");
-    });
-
     $("#tbody-camiones").append($tr);
 
   },
@@ -1592,6 +1584,14 @@ var PlayaWidget = BaseWidget.extend({
           }
         }
       }
+      $("#tbody-camiones tr").click(function() {
+        console.log("PEPE");
+        $("#tbody-camiones tr").find('td').css("border-top", "");
+        $(this).find("td").css("border-top", "2px solid black");
+        $("#tbody-camiones tr").find('td').css("border-bottom", "");
+        $(this).find("td").css("border-bottom", "2px solid black");
+        window.event.cancelBubble = "true";
+      });
       $(".button-a-cola").click(function(e) {
         var $tr = $(this).parents("tr");
         var patente = $tr.find(".patente").attr("data-patente");
