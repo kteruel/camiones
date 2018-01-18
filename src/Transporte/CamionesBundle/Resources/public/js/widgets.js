@@ -1584,7 +1584,7 @@ var PlayaWidget = BaseWidget.extend({
           }
         }
       }
-      $("#tbody-camiones tr").click(function() {
+      $("#tbody-camiones tr").click(function(e) {
         console.log("PEPE");
         $("#tbody-camiones tr").find('td').css("border-top", "");
         $(this).find("td").css("border-top", "2px solid black");
