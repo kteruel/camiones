@@ -1664,9 +1664,11 @@ var PlayaWidget = BaseWidget.extend({
           .done(function(response) {
             if (response.status == "OK") {
               var tractor = response.data;
-              $("#modal-alta-tractor-input-axis").val(tractor.axis);
-              $("#modal-alta-tractor-input-trade").val(tractor.trade);
-              $("#modal-alta-tractor-input-color").val(tractor.color);
+              if (tractor !== null) {
+                $("#modal-alta-tractor-input-axis").val(tractor.axis);
+                $("#modal-alta-tractor-input-trade").val(tractor.trade);
+                $("#modal-alta-tractor-input-color").val(tractor.color);
+              }
               $("#modal-alta-titulo").html("Modifica");
               $("#alta-tractor").modal();
             }
