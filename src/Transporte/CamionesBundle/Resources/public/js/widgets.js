@@ -1512,6 +1512,7 @@ var PlayaWidget = BaseWidget.extend({
     $tr.append($tdActions);
 
     $("#tbody-camiones tr").click(function() {
+      console.log("PEPE");
       $("#tbody-camiones tr").find('td').css("border-top", "");
       $(this).find("td").css("border-top", "2px solid black");
       $("#tbody-camiones tr").find('td').css("border-bottom", "");
