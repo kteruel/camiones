@@ -1652,13 +1652,13 @@ var PlayaWidget = BaseWidget.extend({
         }
       });
       $("#btnChangeCamion").click(function (e) {
-        e.preventDefault();
+        e.preventDefault()
         var patente = $('#'+self.selectedRow).find('.patente').attr('data-patente');
 
         $("#modal-alta-tractor-input-axis").val("4");
         $("#modal-alta-tractor-input-trade").val("");
         $("#modal-alta-tractor-input-color").val("");
-        $("#modal-alta-titulo").html("Modifica");
+        //$("#modal-alta-titulo").html("Modifica");
         $("#alta-tractor").modal();
 
       });
