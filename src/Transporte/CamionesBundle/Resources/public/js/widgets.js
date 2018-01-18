@@ -1515,11 +1515,6 @@ var PlayaWidget = BaseWidget.extend({
     $("#tbody-camiones").append($tr);
 
   },
-  addChangeCamionDataListener: function () {
-    $('#btnChangeCamion').click(function () {
-      alert()
-    })
-  },
   render: function() {
     var self = this;
     var inicio = new Date();
@@ -1657,7 +1652,14 @@ var PlayaWidget = BaseWidget.extend({
         }
       });
       $("#btnChangeCamion").click(function (e) {
-        alert(self.selectedRow)
+        var patente = $('#'+self.selectedRow).find('.patente').attr('data-patente');
+
+        $("#modal-alta-tractor-input-axis").val("4");
+        $("#modal-alta-tractor-input-trade").val("");
+        $("#modal-alta-tractor-input-color").val("");
+        $("#modal-alta-titulo").html("Modifica");
+        $("#alta-tractor").modal();
+
       });
       self.dataTable = new DataTableWidget();
     });
