@@ -1652,6 +1652,7 @@ var PlayaWidget = BaseWidget.extend({
         }
       });
       $("#btnChangeCamion").click(function (e) {
+        e.preventDefault();
         var patente = $('#'+self.selectedRow).find('.patente').attr('data-patente');
 
         $("#modal-alta-tractor-input-axis").val("4");
