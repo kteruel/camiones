@@ -1693,6 +1693,10 @@ var PlayaWidget = BaseWidget.extend({
     this._super(args);
     var socket = args.socket;
 
+    comboMarcasAltaCamion();
+
+    comboColors('modal-alta-tractor-input-color');
+
     socket.on('appointment', function (turno) {
 
         var $tr = $('tr[contenedor="' + turno.contenedor + '"');
