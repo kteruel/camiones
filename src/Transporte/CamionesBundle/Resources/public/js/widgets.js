@@ -170,7 +170,10 @@ var nuevoChoferButtonListener = function() {
       $.ajax({
         method: "POST",
         dataType: "json",
-        beforeSend: self.setHeader,
+        beforeSend: function (request) {
+          request.setRequestHeader("token", window.transporte.token);
+            }
+        ,
         url: window.transporte.apiURL + "/zap/chofer",
         data: data
       })
