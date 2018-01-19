@@ -957,10 +957,10 @@ var IngresoWidget = BaseWidget.extend({
       turnoInicio: $("#transporte_camionesbundle_ingreso_inicio").val(),
       turnoFin: $("#transporte_camionesbundle_ingreso_fin").val(),
       destino: $("#transporte_camionesbundle_ingreso_terminal").val(),
-      patenteCamion: $(
-        "#transporte_camionesbundle_ingreso_tractor_patente"
-      ).val(),
-      gateTimestamp: gateTimestamp
+      patenteCamion: $("#transporte_camionesbundle_ingreso_tractor_patente").val(),
+      patenteAcoplado: $("#transporte_camionesbundle_ingreso_playo_patente").val(),
+      gateTimestamp: gateTimestamp,
+      dni: $('#transporte_camionesbundle_ingreso_chofer_dni').val()
     };
     $.ajax({
       method: "POST",
@@ -1428,13 +1428,14 @@ var PlayaWidget = BaseWidget.extend({
     var statusEntrada = self.getStatusEntrada(fechaEntrada, fechaInicioTurno, fechaFinTurno);
     var fechaAltaTurno = gate.alta ? new Date(gate.alta) : "";
     var contenedor = gate.contenedor || "";
+    var dni = gate.dni || "";
 
     var translateStatusEntrada = self.translateStatusEntrada(
       statusEntrada
     );
 
     var $tr = $(
-      "<tr id='" + gate._id + "' contenedor= '" + contenedor + "' estado='" +
+      "<tr id='" + gate._id + "' dni='" + dni + "' contenedor= '" + contenedor + "' estado='" +
         statusEntrada +
         "' class='" +
         statusEntrada +
@@ -1696,28 +1697,28 @@ var PlayaWidget = BaseWidget.extend({
 
       $("#btnChangeChofer").click(function (e) {
         e.preventDefault()
-        var patente = $('#'+self.selectedRow).find('.chofer').attr('data-patente');
+        var dni = $('#'+self.selectedRow).attr('dni');
 
-        $("#modal-alta-tractor-input-axis").val("");
-        $("#modal-alta-tractor-input-trade").val("");
-        $("#modal-alta-tractor-input-color").val("");
+        $("#modal-alta-chofer-input-firstname").val("");
+        $("#modal-alta-chofer-input-lastname").val("");
+        $("#modal-alta-chofer-input-mobile").val("");
 
         $.ajax({
           method: "GET",
           dataType: "json",
           beforeSend: self.setHeader,
-          url: window.transporte.apiURL + "/zap/camion/" + patente
+          url: window.transporte.apiURL + "/zap/chofer/" + dni
         })
           .done(function(response) {
             if (response.status == "OK") {
-              var tractor = response.data;
-              if (tractor !== null) {
-                $("#modal-alta-tractor-input-axis").val(tractor.axis);
-                $("#modal-alta-tractor-input-trade").val(tractor.trade);
-                $("#modal-alta-tractor-input-color").val(tractor.color);
+              var chofer = response.data;
+              if (chofer !== null) {
+                $("#modal-alta-chofer-input-firstname").val(chofer.firstname);
+                $("#modal-alta-chofer-input-lastname").val(chofer.lastname);
+                $("#modal-alta-chofer-input-mobile").val(chofer.mobile);
               }
-              $("#modal-alta-titulo").html("Modifica Tractor "+patente);
-              $("#alta-tractor").modal();
+              $("#modal-alta-chofer-titulo").html("Modifica Chofer "+dni);
+              $("#alta-chofer").modal();
             }
           })
           .fail(function(response) {
