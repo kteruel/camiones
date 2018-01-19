@@ -104,13 +104,13 @@ var nuevoTractorButtonListener = function() {
   var self = this;
   $("#guardar-alta-tractor").click(function(e) {
     e.preventDefault();
-    var patente = $(
-      "#transporte_camionesbundle_ingreso_tractor_patente"
-    ).val();
+    var patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
     var axis = $("#modal-alta-tractor-input-axis").val();
     var trade = $("#modal-alta-tractor-input-trade").val();
     var color = $("#modal-alta-tractor-input-color").val();
+
     if (patente !== "") {
+
       var data = {
         _id: patente,
         trade: trade,
@@ -118,7 +118,7 @@ var nuevoTractorButtonListener = function() {
         color: color
       };
       $.ajax({
-        method: "POST",
+        method: $("#alta-tractor").attr("metodo"),
         dataType: "json",
         beforeSend: function (request) {
           request.setRequestHeader("token", window.transporte.token);
@@ -1689,9 +1689,12 @@ var PlayaWidget = BaseWidget.extend({
                   $("#modal-alta-tractor-input-axis").val(tractor.axis);
                   $("#modal-alta-tractor-input-trade").val(tractor.trade);
                   $("#modal-alta-tractor-input-color").val(tractor.color);
+                  $("#modal-alta-titulo").html("Modifica Tractor "+patente);
+                  $('#modal-alta-tractor-mensajeTractorNuevo').css('display', 'none');
+                  $("#alta-tractor").attr("metodo", "PUT");
+                } else {
+                  $("#alta-tractor").attr("metodo", "POST");
                 }
-                $("#modal-alta-titulo").html("Modifica Tractor "+patente);
-                $('#modal-alta-tractor-mensajeTractorNuevo').css('display', 'none');
                 $("#alta-tractor").modal();
               }
             })
