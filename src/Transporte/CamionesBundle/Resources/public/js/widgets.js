@@ -609,7 +609,7 @@ var IngresoWidget = BaseWidget.extend({
       }
     });
 
-    self.nuevoChoferButtonListener();
+    nuevoChoferButtonListener();
   },
   /** FIN CAMPO CHOFER */
   /** CAMPO CONTENTEDOR */
@@ -1764,6 +1764,7 @@ var PlayaWidget = BaseWidget.extend({
     comboColors('modal-alta-tractor-input-color');
 
     nuevoTractorButtonListener();
+    nuevoChoferButtonListener();
 
     socket.on('appointment', function (turno) {
 
