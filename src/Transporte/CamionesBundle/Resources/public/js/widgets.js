@@ -1694,6 +1694,7 @@ var PlayaWidget = BaseWidget.extend({
                   $('#modal-alta-tractor-mensajeTractorNuevo').css('display', 'none');
                   $("#alta-tractor").attr("metodo", "PUT");
                 } else {
+                  $("#modal-alta-titulo").html("Alta Tractor "+patente);
                   $("#alta-tractor").attr("metodo", "POST");
                 }
                 $("#alta-tractor").modal();
