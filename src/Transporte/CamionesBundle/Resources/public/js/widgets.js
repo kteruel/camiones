@@ -1666,27 +1666,32 @@ var PlayaWidget = BaseWidget.extend({
         $("#modal-alta-tractor-input-trade").val("");
         $("#modal-alta-tractor-input-color").val("");
 
-        $.ajax({
-          method: "GET",
-          dataType: "json",
-          beforeSend: self.setHeader,
-          url: window.transporte.apiURL + "/zap/camion/" + patente
-        })
-          .done(function(response) {
-            if (response.status == "OK") {
-              var tractor = response.data;
-              if (tractor !== null) {
-                $("#modal-alta-tractor-input-axis").val(tractor.axis);
-                $("#modal-alta-tractor-input-trade").val(tractor.trade);
-                $("#modal-alta-tractor-input-color").val(tractor.color);
-              }
-              $("#modal-alta-titulo").html("Modifica Tractor "+patente);
-              $('#modal-alta-tractor-mensajeTractorNuevo').css('display', 'none');
-              $("#alta-tractor").modal();
-            }
+        if (patente !== undefined) {
+          $.ajax({
+            method: "GET",
+            dataType: "json",
+            beforeSend: self.setHeader,
+            url: window.transporte.apiURL + "/zap/camion/" + patente
           })
-          .fail(function(response) {
-          });
+            .done(function(response) {
+              if (response.status == "OK") {
+                var tractor = response.data;
+                if (tractor !== null) {
+                  $("#modal-alta-tractor-input-axis").val(tractor.axis);
+                  $("#modal-alta-tractor-input-trade").val(tractor.trade);
+                  $("#modal-alta-tractor-input-color").val(tractor.color);
+                }
+                $("#modal-alta-titulo").html("Modifica Tractor "+patente);
+                $('#modal-alta-tractor-mensajeTractorNuevo').css('display', 'none');
+                $("#alta-tractor").modal();
+              }
+            })
+            .fail(function(response) {
+            });
+          } else {
+            self.alertInfor("Administración Playa", "Debe seleccionar una fila");
+            return;
+          }
       });
 
       $("#btnChangeChofer").click(function (e) {

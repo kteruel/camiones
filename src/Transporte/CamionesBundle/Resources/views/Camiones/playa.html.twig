@@ -9,8 +9,15 @@
 {% block widgetIcon %}truck{% endblock %}
 
 {% block widgetBody %}
-    <div><input id="btnChangeCamion" type="button" value="Camion"  /></div>
-    <div><input id="btnChangeChofer" type="button" value="Chofer"  /></div>
+    <div class="row">
+        <div class="col-md-6">
+            <button id="btnChangeCamion" type="button" class="btn" data-dismiss="modal">Camión</button>
+        </div>
+        <div class="col-md-6">
+            <button id="btnChangeChofer" type="button" class="btn" data-dismiss="modal">Chofer</button>
+        </div>
+    </div>
+    
     <table id="dataTable" class="table table-striped table-bordered" width="100%">
 
         <thead>
