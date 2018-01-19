@@ -150,7 +150,7 @@ var nuevoChoferButtonListener = function() {
   
   $("#guardar-alta-chofer").click(function(e) {
     e.preventDefault();
-    var dni = $("#alta-dni").attr("dni");
+    var dni = $("#alta-chofer").attr("dni");
     var firstname = $("#modal-alta-chofer-input-firstname").val();
     var lastname = $("#modal-alta-chofer-input-lastname").val();
     var mobile = $("#modal-alta-chofer-input-mobile").val();
