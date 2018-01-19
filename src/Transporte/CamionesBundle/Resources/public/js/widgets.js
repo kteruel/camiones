@@ -1662,6 +1662,10 @@ var PlayaWidget = BaseWidget.extend({
         e.preventDefault()
         var patente = $('#'+self.selectedRow).find('.patente').attr('data-patente');
 
+        $("#modal-alta-tractor-input-axis").val("");
+        $("#modal-alta-tractor-input-trade").val("");
+        $("#modal-alta-tractor-input-color").val("");
+
         $.ajax({
           method: "GET",
           dataType: "json",
@@ -1676,15 +1680,45 @@ var PlayaWidget = BaseWidget.extend({
                 $("#modal-alta-tractor-input-trade").val(tractor.trade);
                 $("#modal-alta-tractor-input-color").val(tractor.color);
               }
-              $("#modal-alta-titulo").html("Modifica");
+              $("#modal-alta-titulo").html("Modifica Tractor "+patente);
+              $('#modal-alta-tractor-mensajeTractorNuevo').css('display', 'none');
               $("#alta-tractor").modal();
             }
           })
           .fail(function(response) {
-            $("#tractor-cnrt-not-found").show();
-            $("#tractor-cnrt-found").hide();
           });
       });
+
+      $("#btnChangeChofer").click(function (e) {
+        e.preventDefault()
+        var patente = $('#'+self.selectedRow).find('.chofer').attr('data-patente');
+
+        $("#modal-alta-tractor-input-axis").val("");
+        $("#modal-alta-tractor-input-trade").val("");
+        $("#modal-alta-tractor-input-color").val("");
+
+        $.ajax({
+          method: "GET",
+          dataType: "json",
+          beforeSend: self.setHeader,
+          url: window.transporte.apiURL + "/zap/camion/" + patente
+        })
+          .done(function(response) {
+            if (response.status == "OK") {
+              var tractor = response.data;
+              if (tractor !== null) {
+                $("#modal-alta-tractor-input-axis").val(tractor.axis);
+                $("#modal-alta-tractor-input-trade").val(tractor.trade);
+                $("#modal-alta-tractor-input-color").val(tractor.color);
+              }
+              $("#modal-alta-titulo").html("Modifica Tractor "+patente);
+              $("#alta-tractor").modal();
+            }
+          })
+          .fail(function(response) {
+          });
+      });
+
       self.dataTable = new DataTableWidget();
     });
   },
