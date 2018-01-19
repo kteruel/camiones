@@ -146,6 +146,52 @@ var nuevoTractorButtonListener = function() {
   });
 };
 
+var nuevoChoferButtonListener = function() {
+  
+  $("#guardar-alta-chofer").click(function(e) {
+    e.preventDefault();
+    var dni = $("#alta-dni").attr("dni");
+    var firstname = $("#modal-alta-chofer-input-firstname").val();
+    var lastname = $("#modal-alta-chofer-input-lastname").val();
+    var mobile = $("#modal-alta-chofer-input-mobile").val();
+    if (firstname == "") $("#modal-alta-chofer-input-firstname-empty").show();
+    else $("#modal-alta-chofer-input-firstname-empty").hide();
+    if (lastname == "") $("#modal-alta-chofer-input-lastname-empty").show();
+    else $("#modal-alta-chofer-input-lastname-empty").hide();
+    if (mobile == "") $("#modal-alta-chofer-input-mobile-empty").show();
+    else $("#modal-alta-chofer-input-mobile-empty").hide();
+    if (firstname !== "" && lastname !== "" && mobile !== "") {
+      var data = {
+        _id: dni,
+        firstname: firstname,
+        lastname: lastname,
+        mobile: mobile
+      };
+      $.ajax({
+        method: "POST",
+        dataType: "json",
+        beforeSend: self.setHeader,
+        url: window.transporte.apiURL + "/zap/chofer",
+        data: data
+      })
+        .done(function(response) {
+          if (response.status == "OK") {
+            $("#chofer-nombre-input").val(firstname);
+            $("#chofer-apellido-input").val(lastname);
+            $("#chofer-mobile-input").val(mobile);
+            $("#chofer-dni-input").val(dni);
+            $("#chofer-data").show();
+            $("#chofer-not-found").hide();
+            $("#alta-chofer").modal("toggle");
+          }
+        })
+        .fail(function(response) {
+          console.log(response);
+        });
+    }
+  });
+},
+
 /*
   Clase de Ingreso
 */
@@ -514,52 +560,6 @@ var IngresoWidget = BaseWidget.extend({
           $("#chofer-cnrt-found").hide();
         });
     }
-  },
-  nuevoChoferButtonListener: function() {
-    var self = this;
-    $("#guardar-alta-chofer").click(function(e) {
-      e.preventDefault();
-      var dni = $("#transporte_camionesbundle_ingreso_chofer_dni").val();
-      var firstname = $("#modal-alta-chofer-input-firstname").val();
-      var lastname = $("#modal-alta-chofer-input-lastname").val();
-      var mobile = $("#modal-alta-chofer-input-mobile").val();
-      if (firstname == "") $("#modal-alta-chofer-input-firstname-empty").show();
-      else $("#modal-alta-chofer-input-firstname-empty").hide();
-      if (lastname == "") $("#modal-alta-chofer-input-lastname-empty").show();
-      else $("#modal-alta-chofer-input-lastname-empty").hide();
-      if (mobile == "") $("#modal-alta-chofer-input-mobile-empty").show();
-      else $("#modal-alta-chofer-input-mobile-empty").hide();
-      if (firstname !== "" && lastname !== "" && mobile !== "") {
-        var data = {
-          _id: dni,
-          firstname: firstname,
-          lastname: lastname,
-          mobile: mobile
-        };
-        $.ajax({
-          method: "POST",
-          dataType: "json",
-          beforeSend: self.setHeader,
-          url: window.transporte.apiURL + "/zap/chofer",
-          data: data
-        })
-          .done(function(response) {
-            if (response.status == "OK") {
-              $("#chofer-nombre-input").val(firstname);
-              $("#chofer-apellido-input").val(lastname);
-              $("#chofer-mobile-input").val(mobile);
-              $("#chofer-dni-input").val(dni);
-              $("#chofer-data").show();
-              $("#chofer-not-found").hide();
-              $("#alta-chofer").modal("toggle");
-              self.buscarChoferInCNRT(dni);
-            }
-          })
-          .fail(function(response) {
-            console.log(response);
-          });
-      }
-    });
   },
   mostrarDatosChofer: function(chofer, completeIdInput) {
     if (completeIdInput) {
