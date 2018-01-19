@@ -92,6 +92,55 @@ var comboMarcasAltaCamion = function() {
       }
     }
   });
+
+
+
+
+
+
+};
+
+var nuevoTractorButtonListener = function() {
+  var self = this;
+  $("#guardar-alta-tractor").click(function(e) {
+    e.preventDefault();
+    var patente = $(
+      "#transporte_camionesbundle_ingreso_tractor_patente"
+    ).val();
+    var axis = $("#modal-alta-tractor-input-axis").val();
+    var trade = $("#modal-alta-tractor-input-trade").val();
+    var color = $("#modal-alta-tractor-input-color").val();
+    if (patente !== "") {
+      var data = {
+        _id: patente,
+        trade: trade,
+        axis: axis,
+        color: color
+      };
+      $.ajax({
+        method: "POST",
+        dataType: "json",
+        beforeSend: self.setHeader,
+        url: window.transporte.apiURL + "/zap/camion",
+        data: data
+      })
+        .done(function(response) {
+          if (response.status == "OK") {
+            $("#tractor-dominio-input").val(patente);
+            $("#tractor-cantidad_ejes-input").val(axis);
+            $("#tractor-marca-input").val(trade);
+            $("#tractor-color-input").val(color);
+            $("#tractor-data").show();
+            $("#tractor-not-found").hide();
+            $("#alta-tractor").modal("toggle");
+  //          self.buscarTractorInCNRT(patente);
+          }
+        })
+        .fail(function(response) {
+          console.log(response);
+        });
+    }
+  });
 };
 
 /*
@@ -211,7 +260,8 @@ var IngresoWidget = BaseWidget.extend({
       });
 
 
-    self.nuevoTractorButtonListener();
+
+    nuevoTractorButtonListener();
     self.autoCompleteTractores();
   },
   buscarTractorInCNRT: function(patente) {
@@ -239,48 +289,7 @@ var IngresoWidget = BaseWidget.extend({
         });
     }
   },
-  nuevoTractorButtonListener: function() {
-    var self = this;
-    $("#guardar-alta-tractor").click(function(e) {
-      e.preventDefault();
-      var patente = $(
-        "#transporte_camionesbundle_ingreso_tractor_patente"
-      ).val();
-      var axis = $("#modal-alta-tractor-input-axis").val();
-      var trade = $("#modal-alta-tractor-input-trade").val();
-      var color = $("#modal-alta-tractor-input-color").val();
-      if (patente !== "") {
-        var data = {
-          _id: patente,
-          trade: trade,
-          axis: axis,
-          color: color
-        };
-        $.ajax({
-          method: "POST",
-          dataType: "json",
-          beforeSend: self.setHeader,
-          url: window.transporte.apiURL + "/zap/camion",
-          data: data
-        })
-          .done(function(response) {
-            if (response.status == "OK") {
-              $("#tractor-dominio-input").val(patente);
-              $("#tractor-cantidad_ejes-input").val(axis);
-              $("#tractor-marca-input").val(trade);
-              $("#tractor-color-input").val(color);
-              $("#tractor-data").show();
-              $("#tractor-not-found").hide();
-              $("#alta-tractor").modal("toggle");
-              self.buscarTractorInCNRT(patente);
-            }
-          })
-          .fail(function(response) {
-            console.log(response);
-          });
-      }
-    });
-  },
+  
   autoCompleteTractores: function() {
     var self = this;
     $.ajax({
@@ -903,12 +912,8 @@ var IngresoWidget = BaseWidget.extend({
   },
   ajaxIngresarCamion: function() {
     var self = this;
-    var tractor_patente = $(
-      "#transporte_camionesbundle_ingreso_tractor_patente"
-    ).val();
-    var playo_patente = $(
-      "#transporte_camionesbundle_ingreso_playo_patente"
-    ).val();
+    var tractor_patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
+    var playo_patente = $("#transporte_camionesbundle_ingreso_playo_patente").val();
     var chofer_dni = $("#transporte_camionesbundle_ingreso_chofer_dni").val();
     var data = {
       _id: tractor_patente,
@@ -1737,6 +1742,8 @@ var PlayaWidget = BaseWidget.extend({
     comboMarcasAltaCamion();
 
     comboColors('modal-alta-tractor-input-color');
+
+    nuevoTractorButtonListener();
 
     socket.on('appointment', function (turno) {
 
