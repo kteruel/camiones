@@ -1710,13 +1710,15 @@ var PlayaWidget = BaseWidget.extend({
 
       $("#btnChangeChofer").click(function (e) {
         e.preventDefault()
+        var patente = $('#'+self.selectedRow).find('.patente').attr('data-patente');
         var dni = $('#'+self.selectedRow).attr('dni');
 
         $("#modal-alta-chofer-input-firstname").val("");
         $("#modal-alta-chofer-input-lastname").val("");
         $("#modal-alta-chofer-input-mobile").val("");
 
-        $.ajax({
+        if (patente !== undefined) {
+          $.ajax({
           method: "GET",
           dataType: "json",
           beforeSend: self.setHeader,
@@ -1725,19 +1727,29 @@ var PlayaWidget = BaseWidget.extend({
           .done(function(response) {
             if (response.status == "OK") {
               var chofer = response.data;
+              $("#alta-chofer").attr("dni", dni);
               if (chofer !== null) {
                 $("#modal-alta-chofer-input-firstname").val(chofer.firstname);
                 $("#modal-alta-chofer-input-lastname").val(chofer.lastname);
                 $("#modal-alta-chofer-input-mobile").val(chofer.mobile);
+                $("#modal-alta-chofer-titulo").html("Modifica Chofer DNI "+dni);
+                $('#modal-alta-chofer-mensajeChoferNuevo').css('display', 'none');
+                $("#alta-chofer").attr("metodo", "PUT");
+              } else {
+                $("#modal-alta-chofer-titulo").html("Alta Chofer DNI "+dni);
+                $("#alta-chofer").attr("metodo", "POST");
               }
-              $("#modal-alta-chofer-titulo").html("Modifica Chofer "+dni);
-              $('#modal-alta-chofer-mensajeChoferNuevo').css('display', 'none');
+
               $("#alta-chofer").modal();
             }
           })
           .fail(function(response) {
           });
-      });
+        } else {
+          self.alertInfo("Administración Playa", "Debe seleccionar una fila");
+          return;
+        }
+    });
 
       self.dataTable = new DataTableWidget();
     });
