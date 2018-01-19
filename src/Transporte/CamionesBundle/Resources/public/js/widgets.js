@@ -1718,6 +1718,7 @@ var PlayaWidget = BaseWidget.extend({
                 $("#modal-alta-chofer-input-mobile").val(chofer.mobile);
               }
               $("#modal-alta-chofer-titulo").html("Modifica Chofer "+dni);
+              $('#modal-alta-chofer-mensajeChoferNuevo').css('display', 'none');
               $("#alta-chofer").modal();
             }
           })
