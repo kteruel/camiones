@@ -104,7 +104,7 @@ var nuevoTractorButtonListener = function() {
   var self = this;
   $("#guardar-alta-tractor").click(function(e) {
     e.preventDefault();
-    var patente = $("#transporte_camionesbundle_ingreso_tractor_patente").val();
+    var patente = $("#alta-tractor").attr("patente");
     var axis = $("#modal-alta-tractor-input-axis").val();
     var trade = $("#modal-alta-tractor-input-trade").val();
     var color = $("#modal-alta-tractor-input-color").val();
@@ -1685,6 +1685,7 @@ var PlayaWidget = BaseWidget.extend({
             .done(function(response) {
               if (response.status == "OK") {
                 var tractor = response.data;
+                $("#alta-tractor").attr("patente", patente);
                 if (tractor !== null) {
                   $("#modal-alta-tractor-input-axis").val(tractor.axis);
                   $("#modal-alta-tractor-input-trade").val(tractor.trade);
