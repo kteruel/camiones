@@ -190,7 +190,7 @@ var nuevoChoferButtonListener = function() {
         });
     }
   });
-},
+};
 
 /*
   Clase de Ingreso
