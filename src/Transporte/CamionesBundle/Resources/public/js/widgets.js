@@ -1689,7 +1689,7 @@ var PlayaWidget = BaseWidget.extend({
             .fail(function(response) {
             });
           } else {
-            self.alertInfor("Administración Playa", "Debe seleccionar una fila");
+            self.alertInfo("Administración Playa", "Debe seleccionar una fila");
             return;
           }
       });
