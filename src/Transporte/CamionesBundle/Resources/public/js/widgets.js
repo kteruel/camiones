@@ -1672,6 +1672,7 @@ var PlayaWidget = BaseWidget.extend({
               }
           });
         }
+        return false;
       });
 
       $("#btnChangeCamion").click(function (e) {
