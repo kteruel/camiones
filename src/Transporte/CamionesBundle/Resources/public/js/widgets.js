@@ -1710,7 +1710,6 @@ var PlayaWidget = BaseWidget.extend({
             return;
           }
       });
-
       $("#btnChangeChofer").click(function (e) {
         e.preventDefault()
         var patente = $('#'+self.selectedRow).find('.patente').attr('data-patente');
@@ -1752,7 +1751,35 @@ var PlayaWidget = BaseWidget.extend({
           self.alertInfo("Administración Playa", "Debe seleccionar una fila");
           return;
         }
-    });
+      });
+      $("#btnAnular").click(function(e) {
+        e.preventDefault()
+        var gateId = $('#'+self.selectedRow).attr('id');
+        if (gateId !== undefined) {
+
+          $.ajax({
+            method: "GET",
+            dataType: "json",
+            beforeSend: self.setHeader,
+            url: window.transporte.apiURL + "/gates/delete",
+            data: {
+              _id: gateId
+            }
+          })
+            .done(function(response) {
+              if (response.status == "OK") {
+                self.alertSuccess("Administración Playa", "Se anulo el Gate correctamente");
+                return;
+              }
+            })
+            .fail(function(response) {
+            });
+        } else {
+          self.alertInfo("Administración Playa", "Debe seleccionar una fila");
+          return;
+        }
+
+      });
 
       self.dataTable = new DataTableWidget();
     });
