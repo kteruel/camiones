@@ -1612,6 +1612,7 @@ var PlayaWidget = BaseWidget.extend({
         $(this).find("td").css("border-bottom", "2px solid black");
       });
       $(".button-a-cola").click(function(e) {
+        window.event.cancelBubble = "true";
         var $tr = $(this).parents("tr");
         var patente = $tr.find(".patente").attr("data-patente");
         var mov = $tr.find(".mov").attr("data-mov");
@@ -1642,7 +1643,6 @@ var PlayaWidget = BaseWidget.extend({
             }
           });
         }
-        window.event.cancelBubble = "true";
       });
       $(".button-salida").click(function(e) {
         var $tr = $(this).parents("tr");
