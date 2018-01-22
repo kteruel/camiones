@@ -1633,13 +1633,14 @@ var PlayaWidget = BaseWidget.extend({
 
         var del = true;
         if ($tr.attr("estado") !== "normal") {
-          var del = confirm("Desea enviar a colar de todas formas ?");
-        }
-        if (del) {
-            $tr.find(".button-a-cola").css("visibility", "hidden");
-            $tr.find(".button-salida").css("visibility", "visible");
-      
-            self.CamionACola(id, status);
+          self.ConfirmDialog("¿Desea enviar a colar de todas formas?", "Enviar a Cola", function (result) {
+            if (result) {
+              $tr.find(".button-a-cola").css("visibility", "hidden");
+              $tr.find(".button-salida").css("visibility", "visible");
+        
+              self.CamionACola(id, status);
+            }
+          });
         }
         window.event.cancelBubble = "true";
       });
@@ -1756,8 +1757,8 @@ var PlayaWidget = BaseWidget.extend({
         e.preventDefault()
         var gateId = $('#'+self.selectedRow).attr('id');
         if (gateId !== undefined) {
-          self.ConfirmDialog("Borrar?", function(result) {
-            if (result==='yes') {
+          self.ConfirmDialog("¿Anular el ingreso de Camión?", "Anular", function(result) {
+            if (result) {
               $.ajax({
                 method: "POST",
                 dataType: "json",

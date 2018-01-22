@@ -1,19 +1,19 @@
 var BaseWidget = Class.extend({
 
-    ConfirmDialog: function (message, callback){
+    ConfirmDialog: function (message, title, callback){
         $('<div></div>').appendTo('body')
                         .html('<div><h6>'+message+'?</h6></div>')
                         .dialog({
-                            modal: true, title: 'Delete message', zIndex: 10000, autoOpen: true,
+                            modal: true, title: title, zIndex: 10000, autoOpen: true,
                             width: 'auto', resizable: false,
                             buttons: {
-                                Yes: function () {
+                                Si: function () {
                                     $(this).dialog("close");
-                                    callback("yes");
+                                    callback(true);
                                 },
-                                No: function () {                           		                              $('body').append('<h1>Confirm Dialog Result: <i>No</i></h1>');
+                                No: function () {    
                                     $(this).dialog("close");
-                                    callback("no");
+                                    callback(false);
                                 }
                             },
                             close: function (event, ui) {
