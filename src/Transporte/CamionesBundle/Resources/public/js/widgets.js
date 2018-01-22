@@ -1831,9 +1831,7 @@ var PlayaWidget = BaseWidget.extend({
       }
     });
     socket.on('requestTruck', function (license) {
-      console.log(license);
-      $("tr[data-patente='"+license+"']").find("td").css("border-top", "2px solid black");
-
+      $("tr td[data-patente='"+license+"']").css("border", "1px solid blue");
     });
 
     this.getStatusAndRender();
