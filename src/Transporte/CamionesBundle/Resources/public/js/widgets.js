@@ -1632,7 +1632,7 @@ var PlayaWidget = BaseWidget.extend({
         }
 
         if ($tr.attr("estado") !== "normal") {
-          self.ConfirmDialog("¿Desea enviar a colar de todas formas?", "Enviar a Cola", function (result) {
+          self.ConfirmDialog("El Camión ingresó fuera de horario. <br/>¿Desea enviar a colar de todas formas?", "Enviar a Cola", function (result) {
             if (result) {
               $tr.find(".button-a-cola").css("visibility", "hidden");
               $tr.find(".button-salida").css("visibility", "visible");
@@ -1640,7 +1640,12 @@ var PlayaWidget = BaseWidget.extend({
               self.CamionACola(id, status);
             }
           });
-        }
+        } else {
+          $tr.find(".button-a-cola").css("visibility", "hidden");
+          $tr.find(".button-salida").css("visibility", "visible");
+    
+          self.CamionACola(id, status);
+    }
         return false;
         //var event = e || window.event;
     //event.stopPropagation ? event.stopPropagation() : (event.cancelBubble=true);
@@ -1665,7 +1670,7 @@ var PlayaWidget = BaseWidget.extend({
         }
 
         if ($tr.attr("estado") !== "normal") {
-          self.ConfirmDialog("El Camión esta fuera de horario.\n¿Desea dar salida de todas formas?", "Salida Camión", function(result) {
+          self.ConfirmDialog("El Camión ingresó fuera de horario.<br>/¿Desea dar salida de todas formas?", "Salida Camión", function(result) {
             if (result) {
               $($tr).remove();
               self.salidaCamion(patente, mov, carga, turnoinicio !== "");
