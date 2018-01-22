@@ -1641,7 +1641,9 @@ var PlayaWidget = BaseWidget.extend({
             }
           });
         }
-        window.event.cancelBubble = "true";
+        return false;
+        //var event = e || window.event;
+    //event.stopPropagation ? event.stopPropagation() : (event.cancelBubble=true);
 
       });
       $(".button-salida").click(function(e) {
@@ -1662,15 +1664,16 @@ var PlayaWidget = BaseWidget.extend({
           carga = "NO";
         }
 
-        var del = true;
         if ($tr.attr("estado") !== "normal") {
-          var del = confirm("Desea dar salida de todas formas ?");
-        }
-        if (del) {
-            $($tr).remove();
-            self.salidaCamion(patente, mov, carga, turnoinicio !== "");
+          self.ConfirmDialog("¿Desea dar salida de todas formas?", "Salida Camión", function(result) {
+            if (result) {
+              $($tr).remove();
+              self.salidaCamion(patente, mov, carga, turnoinicio !== "");
+              }
+          });
         }
       });
+
       $("#btnChangeCamion").click(function (e) {
         e.preventDefault()
         var patente = $('#'+self.selectedRow).find('.patente').attr('data-patente');
