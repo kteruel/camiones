@@ -1758,7 +1758,7 @@ var PlayaWidget = BaseWidget.extend({
         if (gateId !== undefined) {
 
           $.ajax({
-            method: "GET",
+            method: "POST",
             dataType: "json",
             beforeSend: self.setHeader,
             url: window.transporte.apiURL + "/gates/delete",
