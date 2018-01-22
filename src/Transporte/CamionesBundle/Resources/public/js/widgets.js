@@ -1756,25 +1756,28 @@ var PlayaWidget = BaseWidget.extend({
         e.preventDefault()
         var gateId = $('#'+self.selectedRow).attr('id');
         if (gateId !== undefined) {
-
-          $.ajax({
-            method: "POST",
-            dataType: "json",
-            beforeSend: self.setHeader,
-            url: window.transporte.apiURL + "/gates/delete",
-            data: {
-              _id: gateId
+          self.ConfirmDialog("Borrar?", function(result) {
+            if (result==='yes') {
+              $.ajax({
+                method: "POST",
+                dataType: "json",
+                beforeSend: self.setHeader,
+                url: window.transporte.apiURL + "/gates/delete",
+                data: {
+                  _id: gateId
+                }
+              })
+                .done(function(response) {
+                  if (response.status == "OK") {
+                    self.alertSuccess("Administración Playa", "Se anulo el Gate correctamente");
+                    $('#'+self.selectedRow).remove();
+                    return;
+                  }
+                })
+                .fail(function(response) {
+                });
             }
-          })
-            .done(function(response) {
-              if (response.status == "OK") {
-                self.alertSuccess("Administración Playa", "Se anulo el Gate correctamente");
-                $('#'+self.selectedRow).remove();
-                return;
-              }
-            })
-            .fail(function(response) {
-            });
+          });
         } else {
           self.alertInfo("Administración Playa", "Debe seleccionar una fila");
           return;
