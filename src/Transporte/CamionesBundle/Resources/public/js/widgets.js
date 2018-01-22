@@ -1665,12 +1665,15 @@ var PlayaWidget = BaseWidget.extend({
         }
 
         if ($tr.attr("estado") !== "normal") {
-          self.ConfirmDialog("¿Desea dar salida de todas formas?", "Salida Camión", function(result) {
+          self.ConfirmDialog("El Camión esta fuera de horario.\n¿Desea dar salida de todas formas?", "Salida Camión", function(result) {
             if (result) {
               $($tr).remove();
               self.salidaCamion(patente, mov, carga, turnoinicio !== "");
               }
           });
+        } else {
+          $($tr).remove();
+          self.salidaCamion(patente, mov, carga, turnoinicio !== "");
         }
         return false;
       });
