@@ -1769,6 +1769,7 @@ var PlayaWidget = BaseWidget.extend({
             .done(function(response) {
               if (response.status == "OK") {
                 self.alertSuccess("Administración Playa", "Se anulo el Gate correctamente");
+                $('#'+self.selectedRow).remove();
                 return;
               }
             })
