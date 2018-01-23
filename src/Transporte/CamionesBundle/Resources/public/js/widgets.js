@@ -1839,8 +1839,8 @@ var PlayaWidget = BaseWidget.extend({
       }
     });
     socket.on('requestTruck', function (req) {
-      console.log(req);
-      var td = $("tr td[data-patente='"+req.license+"']");
+
+      var td = $("tr td[data-patente='"+req.camion+"']");
       $(td).css("border", "2px solid green");
       $(td).attr("title", "Camión solicitado por " + req.terminal);
     });
