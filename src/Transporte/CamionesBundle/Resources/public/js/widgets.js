@@ -1790,8 +1790,7 @@ var PlayaWidget = BaseWidget.extend({
                 .done(function(response) {
                   if (response.status == "OK") {
                     self.alertSuccess("Administración Playa", "Se anulo el Gate correctamente");
-                    //$('#'+self.selectedRow).remove();
-                    self.deleteRow($('#'+self.selectedRow));
+                    $('#'+self.selectedRow).remove();
                     return;
                   }
                 })
@@ -1844,7 +1843,18 @@ var PlayaWidget = BaseWidget.extend({
       var tdTerminal = $(td).parents("tr").find(".terminal");
 
       $(td).css("border", "2px solid green");
-      $(td).attr("title", "Camión solicitado destino para " + tdTerminal.html());
+      $(td).attr("title", "Camión solicitado para " + tdTerminal.html());
+    });
+    socket.on('requestTrucks', function (req) {
+
+      var camiones = req.camiones;
+      for (var i = 0, len = camiones.length; i < len; i++) {
+        var td = $("tr td[data-patente='"+camiones[i]+"']");
+        var tdTerminal = $(td).parents("tr").find(".terminal");
+  
+        $(td).css("border", "2px solid green");
+        $(td).attr("title", "Camión solicitado para " + tdTerminal.html());
+      }
     });
 
     this.getStatusAndRender();
