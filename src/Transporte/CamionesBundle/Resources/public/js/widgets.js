@@ -1503,7 +1503,10 @@ var PlayaWidget = BaseWidget.extend({
           "</td>"
       )
     );
-    var $tdActions = $("<td></td>");
+
+
+
+    var $tdActions = $("<td>"+gate.mov+"</td>");
 
     var $divCola = $("<span title='Enviar Camión a Cola' style='align:width: 45%'>&nbsp;</span>");
     $tdActions.append($divCola);
