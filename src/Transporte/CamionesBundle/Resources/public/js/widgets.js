@@ -1452,12 +1452,12 @@ var PlayaWidget = BaseWidget.extend({
         statusEntrada +
         "'></tr>"
     );
-    console.log(gate.status)
+    console.log(gate.status, gate.status>10)
+    var tdPatente = $("<td class='patente' data-patente='" + gate.patenteCamion + "'><strong>" + gate.patenteCamion + "</strong></td>");
     if (gate.status > 10) {
-      $tr.append($("<td class='patente' data-patente='" + gate.patenteCamion + "' style='color:green'><strong>" + gate.patenteCamion + "</strong></td>"));
-    } else {
-      $tr.append($("<td class='patente' data-patente='" + gate.patenteCamion + "'><strong>" + gate.patenteCamion + "</strong></td>"));
+      tdPatente.css("color", "green");
     }
+    $tr.append(tdPatente);
 
     $tr.append($("<td><strong>" + contenedor + "</strong></td>"));
     $tr.append(
