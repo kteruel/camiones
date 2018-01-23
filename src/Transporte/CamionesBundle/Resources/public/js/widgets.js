@@ -1454,7 +1454,7 @@ var PlayaWidget = BaseWidget.extend({
     );
     
     if (gate.status > 10) {
-      $tr.append($("<td class='patente' data-patente='" + gate.patenteCamion + "'><strong style='color:green'>" + gate.patenteCamion + "</strong></td>"));
+      $tr.append($("<td class='patente' data-patente='" + gate.patenteCamion + "' style='color:green'><strong>" + gate.patenteCamion + "</strong></td>"));
     } else {
       $tr.append($("<td class='patente' data-patente='" + gate.patenteCamion + "'><strong>" + gate.patenteCamion + "</strong></td>"));
     }
