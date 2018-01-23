@@ -1504,10 +1504,12 @@ var PlayaWidget = BaseWidget.extend({
       )
     );
     var $tdActions = $("<td></td>");
-    var $divSalida = $("<span style='align:left;width: 45%'>&nbsp;</span>");
+
     var $divCola = $("<span title='Enviar Camión a Cola' style='align:width: 45%'>&nbsp;</span>");
-    $tdActions.append($divSalida);
     $tdActions.append($divCola);
+
+    var $divSalida = $("<span style='align:left;width: 45%'>&nbsp;</span>");
+    $tdActions.append($divSalida);
 
     var classes = gate.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
 
