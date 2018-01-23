@@ -1452,9 +1452,9 @@ var PlayaWidget = BaseWidget.extend({
         statusEntrada +
         "'></tr>"
     );
-    console.log(gate.status, gate.status>10)
+
     var tdPatente = $("<td class='patente' data-patente='" + gate.patenteCamion + "'><strong>" + gate.patenteCamion + "</strong></td>");
-    if (gate.status > 10) {
+    if (gate.status >= 10) {
       tdPatente.css("color", "green");
     }
     $tr.append(tdPatente);
