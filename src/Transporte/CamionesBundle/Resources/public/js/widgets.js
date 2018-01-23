@@ -1841,7 +1841,7 @@ var PlayaWidget = BaseWidget.extend({
     socket.on('requestTruck', function (req) {
 
       var td = $("tr td[data-patente='"+req.camion+"']");
-      var tdTerminal = $(td).parent.find(".terminal");
+      var tdTerminal = $(td).parents("tr").find(".terminal");
 
       $(td).css("border", "2px solid green");
       $(td).attr("title", "Camión solicitado destino para " + tdTerminal.html());
