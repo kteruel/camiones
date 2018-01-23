@@ -1521,7 +1521,7 @@ var PlayaWidget = BaseWidget.extend({
       $(
         "<a href='javascript:void(0);' alt='Enviar Camión a Cola' class='btn btn-xs btn-default button-a-cola " +
           classes +
-          '\'><i class="fa fa-arrow-right"></i></a>'
+          '\'><i class="ui-icon-arrowthickstop-1-n"></i></a>'
         ));
     if (gate.status === 1) {
       $divCola.css("visibility", "hidden");
