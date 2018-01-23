@@ -1842,7 +1842,7 @@ var PlayaWidget = BaseWidget.extend({
       var td = $("tr td[data-patente='"+req.camion+"']");
       var tdTerminal = $(td).parents("tr").find(".terminal");
 
-      $(td).css("border", "2px solid green");
+      $(td).css("color", "green");
       $(td).attr("title", "Camión solicitado para " + tdTerminal.html());
     });
     socket.on('requestTrucks', function (req) {
@@ -1852,7 +1852,7 @@ var PlayaWidget = BaseWidget.extend({
         var td = $("tr td[data-patente='"+camiones[i]+"']");
         var tdTerminal = $(td).parents("tr").find(".terminal");
   
-        $(td).css("border", "2px solid green");
+        $(td).css("color", "green");
         $(td).attr("title", "Camión solicitado para " + tdTerminal.html());
       }
     });
