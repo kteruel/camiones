@@ -1511,18 +1511,20 @@ var PlayaWidget = BaseWidget.extend({
 
     var classes = gate.turnoInicio === null ? "bg-color-redLight txt-color-white" : "";
 
-    $divSalida.append(
-      $(
-        "<a href='javascript:void(0);' title='Salida de Camión' alt='Salida de Camión' class='btn btn-xs btn-default button-salida " +
-          classes +
-          '\'><i class="fa fa-arrow-left"></i></a>'
-      ));
     $divCola.append(
       $(
         "<a href='javascript:void(0);' alt='Enviar Camión a Cola' class='btn btn-xs btn-default button-a-cola " +
           classes +
           '\'><i class="ui-icon ui-icon-arrowthickstop-1-n"></i></a>'
         ));
+
+    $divSalida.append(
+          $(
+            "<a href='javascript:void(0);' title='Salida de Camión' alt='Salida de Camión' class='btn btn-xs btn-default button-salida " +
+              classes +
+              '\'><i class="ui-icon ui-icon-extlink"></i></a>'
+          ));
+    
     if (gate.status === 1) {
       $divCola.css("visibility", "hidden");
     } else if (gate.status !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
