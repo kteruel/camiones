@@ -264,6 +264,16 @@ var DataTableWidget = BaseWidget.extend({
                 .search( this.value )
                 .draw();
         } );
+        // Apply the filter con select
+        $(widget.containerId + " thead th select").on( 'change', function () {
+
+            var valor = $(this).find(":selected").val();
+
+            widget.oTable
+                .column( $(this).parent().index()+':visible' )
+                .search( valor )
+                .draw();
+        } );
     },
 
     reload: function() {
