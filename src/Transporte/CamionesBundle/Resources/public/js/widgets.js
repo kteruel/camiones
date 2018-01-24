@@ -1837,23 +1837,15 @@ var PlayaWidget = BaseWidget.extend({
       }
     });
     socket.on('requestTruck', function (req) {
-
-      var td = $("tr td[data-patente='"+req.camion+"']");
-      var tdTerminal = $(td).parents("tr").find(".terminal");
-
-      $(td).css("color", "green");
-      $(td).attr("title", "Camión solicitado para " + tdTerminal.html());
-    });
-    socket.on('requestTrucks', function (req) {
-
-      var camiones = req.camiones;
-      for (var i = 0, len = camiones.length; i < len; i++) {
-        var td = $("tr td[data-patente='"+camiones[i]+"']");
+console.log(req);
+      if (req.camion !== undefined) {
+        var td = $("tr td[data-patente='"+req.camion+"']");
         var tdTerminal = $(td).parents("tr").find(".terminal");
   
         $(td).css("color", "green");
         $(td).attr("title", "Camión solicitado para " + tdTerminal.html());
       }
+
     });
 
     this.getStatusAndRender();
