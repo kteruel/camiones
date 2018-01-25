@@ -1505,7 +1505,6 @@ var PlayaWidget = BaseWidget.extend({
 
     var decena = parseInt(gate.status)/10;
     var estatus = parseInt(gate.status) - decena;
-    estatus = (estatus>=10) ? (estatus - 10) : estatus;
 
     var $tdActions = $("<td><div style='display:inline'>"+estatus+"</div></td>");
 
