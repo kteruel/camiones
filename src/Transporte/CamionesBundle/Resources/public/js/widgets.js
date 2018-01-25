@@ -1446,7 +1446,7 @@ var PlayaWidget = BaseWidget.extend({
     );
 
     var $tr = $(
-      "<tr id='" + gate._id + "' dni='" + dni + "' contenedor= '" + contenedor + "' estado='" +
+      "<tr id='" + gate._id + "' dni='" + dni + "' contenedor= '" + contenedor + "' pedido='"+gate.pedido+"' estado='" +
         statusEntrada +
         "' class='" +
         statusEntrada +
@@ -1848,12 +1848,14 @@ var PlayaWidget = BaseWidget.extend({
     });
     socket.on('requestTruck', function (req) {
 
-      if (req.camion !== undefined) {
-        var td = $("tr td[data-patente='"+req.camion+"']");
-        var tdTerminal = $(td).parents("tr").find(".terminal");
+      var td = $("tr td[data-patente='"+req.camion+"']");
+      var tdTerminal = $(td).parents("tr").find(".terminal");
+      var pedido = $(td).parents("tr").attr("pedido")
+      if (req.camion !== undefined && pedido !== '1') {
   
         $(td).css("color", "green");
         $(td).attr("title", "Camión solicitado para " + tdTerminal.html());
+        $(td).parents("tr").attr("pedido", "1");
       }
 
     });
