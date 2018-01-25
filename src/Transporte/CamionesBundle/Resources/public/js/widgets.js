@@ -1856,6 +1856,7 @@ var PlayaWidget = BaseWidget.extend({
         $(td).css("color", "green");
         $(td).attr("title", "Camión solicitado para " + tdTerminal.html());
         $(td).parents("tr").attr("pedido", "1");
+        $("#divPedidos").html(parseInt($("#divPedidos").html())+1);
       }
 
     });
