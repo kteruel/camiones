@@ -1503,10 +1503,10 @@ var PlayaWidget = BaseWidget.extend({
       )
     );
 
-    var estatus = parseInt(gate.status);
-    console.log("antes " + estatus)
+    var decena = parseInt(gate.status)/10;
+    var estatus = parseInt(gate.status) - decena;
     estatus = (estatus>=10) ? (estatus - 10) : estatus;
-    console.log("despues " + estatus)
+
     var $tdActions = $("<td><div style='display:inline'>"+estatus+"</div></td>");
 
     var $divCola = $("<span title='Enviar Camión a Cola' style='align:width: 45%'>&nbsp;</span>");
