@@ -1454,7 +1454,7 @@ var PlayaWidget = BaseWidget.extend({
     );
 
     var tdPatente = $("<td class='patente' data-patente='" + gate.patenteCamion + "'><strong>" + gate.patenteCamion + "</strong></td>");
-    if (gate.status >= 10) {
+    if (gate.pedido) {
       tdPatente.css("color", "green");
       $(tdPatente).attr("title", "Camión solicitado para " + gate.destino);
     }
@@ -1502,11 +1502,11 @@ var PlayaWidget = BaseWidget.extend({
           "</td>"
       )
     );
+    /**
+     * status: la unidad en el status es el status propiamente dicho, 0 normal, 1 en cola, 9 anulado
+     */
 
-    var decena = parseInt(parseInt(gate.status)/10) * 10;
-    var estatus = parseInt(gate.status) - decena;
-
-    var $tdActions = $("<td><div style='display:inline'>"+estatus+"</div></td>");
+    var $tdActions = $("<td><div style='display:inline'>"+gate.status+"</div></td>");
 
     var $divCola = $("<span title='Enviar Camión a Cola' style='align:width: 45%'>&nbsp;</span>");
     $tdActions.append($divCola);
@@ -1530,9 +1530,9 @@ var PlayaWidget = BaseWidget.extend({
               '\'><i class="ui-icon ui-icon-extlink"></i></a>'
           ));
     
-    if (estatus === 1) {
+    if (gate.status === 1) {
       $divCola.css("visibility", "hidden");
-    } else if (estatus !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
+    } else if (gate.status !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
       $divSalida.css("visibility", "hidden");
     }
 
