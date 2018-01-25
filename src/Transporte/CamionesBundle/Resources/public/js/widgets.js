@@ -1506,7 +1506,7 @@ var PlayaWidget = BaseWidget.extend({
      * status: la unidad en el status es el status propiamente dicho, 0 normal, 1 en cola, 9 anulado
      */
 
-    var $tdActions = $("<td><div style='display:inline'>"+gate.status+"</div></td>");
+    var $tdActions = $("<td><div style='display:none'>"+gate.status+"</div></td>");
 
     var $divCola = $("<span title='Enviar Camión a Cola' style='align:width: 45%'>&nbsp;</span>");
     $tdActions.append($divCola);
@@ -1601,6 +1601,9 @@ var PlayaWidget = BaseWidget.extend({
             "margin-top": "0px"
           }, "fast");
         });
+
+
+        var cantidadPedidos = 0;
         for (t in gates) {
           if (gates.hasOwnProperty(t)) {
             var gate = gates[t];
@@ -1608,8 +1611,14 @@ var PlayaWidget = BaseWidget.extend({
             if (!gate.gateTimestamp_out) {
               self.addRowToPlayon(gate);
             }
+            if (gate.pedido) {
+              cantidadPedidos++;
+            }
           }
         }
+
+        $('#divPedidos').html(cantidadPedidos);
+
       }
       $("#tbody-camiones tr").click(function(e) {
         self.selectedRow = $(this).attr('id');
