@@ -1504,8 +1504,8 @@ var PlayaWidget = BaseWidget.extend({
     );
 
 
-
-    var $tdActions = $("<td><div style='display:none'>"+gate.status+"</div></td>");
+    var estatus = (gate.status>=10) ? gate.status - 10 : gate.status;
+    var $tdActions = $("<td><div style='display:none'>"+estatus+"</div></td>");
 
     var $divCola = $("<span title='Enviar Camión a Cola' style='align:width: 45%'>&nbsp;</span>");
     $tdActions.append($divCola);
@@ -1529,9 +1529,9 @@ var PlayaWidget = BaseWidget.extend({
               '\'><i class="ui-icon ui-icon-extlink"></i></a>'
           ));
     
-    if (gate.status === 1) {
+    if (estatus === 1) {
       $divCola.css("visibility", "hidden");
-    } else if (gate.status !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
+    } else if (estatus !== 1) { // pongo el else por si luego hay otro tipo de status ademas del 1
       $divSalida.css("visibility", "hidden");
     }
 
@@ -1837,7 +1837,7 @@ var PlayaWidget = BaseWidget.extend({
       }
     });
     socket.on('requestTruck', function (req) {
-console.log(req);
+
       if (req.camion !== undefined) {
         var td = $("tr td[data-patente='"+req.camion+"']");
         var tdTerminal = $(td).parents("tr").find(".terminal");
