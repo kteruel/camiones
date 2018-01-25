@@ -14,8 +14,8 @@ parameters:
     app_description: Ministerior de Transporte
     files_directory: '%kernel.root_dir%/../web/uploads'
     from_email: noreply@transporte.com
-    api_url: http://190.221.146.243:8090
-    gate_api_url: http://190.221.146.243:8080/gate
+    api_url: http://190.221.146.245:8090
+    gate_api_url: http://190.221.146.245:8080/gate
     destino:
         BACTSSA: "B.A.C.T.S.S.A."
         TERMINAL4: "APM Terminals"
